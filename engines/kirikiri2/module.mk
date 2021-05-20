@@ -5,7 +5,7 @@ MODULE_OBJS := \
 	kirikiri2.o \
 	lib/std/std.o \
 	core/utils/md5.o \
-	visual/ComplexRect.o
+	core/visual/ComplexRect.o
  
 MODULE_DIRS += \
 	engines/kirikiri2
