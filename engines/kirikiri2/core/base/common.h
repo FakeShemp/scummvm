@@ -9,8 +9,8 @@
 // TVP2 common header file
 //---------------------------------------------------------------------------
 
-#ifndef __CommonH__
-#define __CommonH__
+#ifndef KIRIKIRI2_COMMON_H
+#define KIRIKIRI2_COMMON_H
 
 #include "tjsConfig.h"
 
@@ -20,16 +20,11 @@
 #include <vcl.h>
 #endif
 
-
 #include <string>
-
 
 using namespace TJS;
 
 typedef std::basic_string<tjs_char> stdstring;
 typedef std::basic_string<tjs_nchar> stdnstring;
 
-
-
 #endif
-

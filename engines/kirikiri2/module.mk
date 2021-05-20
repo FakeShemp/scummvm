@@ -2,7 +2,8 @@ MODULE := engines/kirikiri2
  
 MODULE_OBJS := \
 	metaengine.o \
-	kirikiri2.o
+	kirikiri2.o \
+	core/utils/md5.o
  
 MODULE_DIRS += \
 	engines/kirikiri2
