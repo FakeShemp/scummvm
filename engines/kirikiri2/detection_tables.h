@@ -1,3 +1,4 @@
+
 /* ScummVM - Graphic Adventure Engine
  *
  * ScummVM is the legal property of its developers, whose names
@@ -20,35 +21,13 @@
  *
  */
 
-#ifndef KIRIKIRI2_DETECTION_H
-#define KIRIKIRI2_DETECTION_H
-
-#include "engines/advancedDetector.h"
-
 namespace KiriKiri2 {
 
-struct KiriKiri2GameDescription {
-	ADGameDescription desc;
-};
+static const PlainGameDescriptor KIRIKIRI2_GAMES[] = {
+	{"kirikiri2", "KiriKiri 2 Game"},
+	{0, 0}};
+
+static const KiriKiri2GameDescription GAME_DESCRIPTIONS[] = {
+	{AD_TABLE_END_MARKER}};
 
 } // namespace KiriKiri2
-
-class KiriKiri2MetaEngineDetection : public AdvancedMetaEngineDetection {
-public:
-	KiriKiri2MetaEngineDetection();
-	~KiriKiri2MetaEngineDetection() override {}
-
-	virtual const char *getEngineId() const {
-		return "kirikiri2";
-	}
-
-	virtual const char *getName() const {
-		return "KiriKiri 2";
-	}
-
-	virtual const char *getOriginalCopyright() const {
-		return "Copyright (C) W.Dee";
-	}
-};
-
-#endif // KIRIKIRI2_DETECTION_H
