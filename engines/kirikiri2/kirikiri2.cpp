@@ -28,4 +28,8 @@ KiriKiri2Engine::~KiriKiri2Engine() {
 	// Remove all of our debug levels here
 	DebugMan.clearAllDebugChannels();
 }
+
+Common::Error KiriKiri2Engine::run() {
+	return Common::kNoError;
+}
 } // namespace KiriKiri2

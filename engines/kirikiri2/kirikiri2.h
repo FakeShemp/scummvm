@@ -21,6 +21,9 @@ class KiriKiri2Engine : public Engine {
 public:
 	KiriKiri2Engine(OSystem *syst);
 	~KiriKiri2Engine();
+
+protected:
+	virtual Common::Error run();
 };
 
 class Console : public GUI::Debugger {
