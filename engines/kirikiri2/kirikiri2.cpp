@@ -51,7 +51,7 @@ Common::Error KiriKiri2Engine::run() {
 }
 
 SaveStateList KiriKiri2Engine::listSaves() const {
-	return getMetaEngine().listSaves(_targetName.c_str());
+	return getMetaEngine()->listSaves(_targetName.c_str());
 }
 
 } // namespace KiriKiri2
