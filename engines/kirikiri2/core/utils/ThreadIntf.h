@@ -12,14 +12,17 @@
 #define ThreadIntfH
 #include "tjsNative.h"
 
-
-
 //---------------------------------------------------------------------------
 // tTVPThreadPriority
 //---------------------------------------------------------------------------
-enum tTVPThreadPriority
-{
-	ttpIdle, ttpLowest, ttpLower, ttpNormal, ttpHigher, ttpHighest, ttpTimeCritical
+enum tTVPThreadPriority {
+	ttpIdle,
+	ttpLowest,
+	ttpLower,
+	ttpNormal,
+	ttpHigher,
+	ttpHighest,
+	ttpTimeCritical
 };
 //---------------------------------------------------------------------------
 
@@ -27,8 +30,8 @@ enum tTVPThreadPriority
 
 /*[*/
 const tjs_int TVPMaxThreadNum = 8;
-typedef void (TJS_USERENTRY *TVP_THREAD_TASK_FUNC)(void *);
-typedef void * TVP_THREAD_PARAM;
+typedef void(TJS_USERENTRY *TVP_THREAD_TASK_FUNC)(void *);
+typedef void *TVP_THREAD_PARAM;
 /*]*/
 
 TJS_EXP_FUNC_DEF(tjs_int, TVPGetProcessorNum, ());

@@ -11,42 +11,38 @@
 #ifndef TimerIntfH
 #define TimerIntfH
 
-#include "tjsNative.h"
 #include "EventIntf.h"
-
+#include "tjsNative.h"
 
 // the timer has sub-milliseconds precision by fixed-point real.
 #define TVP_SUBMILLI_FRAC_BITS 16
-
 
 //---------------------------------------------------------------------------
 // global variables
 //---------------------------------------------------------------------------
 extern bool TVPLimitTimerCapacity;
-	// limit timer capacity to one
+// limit timer capacity to one
 //---------------------------------------------------------------------------
-
 
 //---------------------------------------------------------------------------
 // tTJSNI_BaseTimer
 //---------------------------------------------------------------------------
-class tTJSNI_BaseTimer : public tTJSNativeInstance
-{
+class tTJSNI_BaseTimer : public tTJSNativeInstance {
 	typedef tTJSNativeInstance inherited;
 
 protected:
 	iTJSDispatch2 *Owner;
 	tTJSVariantClosure ActionOwner; // object to send action
-	tjs_uint16 Counter; // serial number for event tag
-	tjs_int Capacity; // max queue size for this timer object
+	tjs_uint16 Counter;             // serial number for event tag
+	tjs_int Capacity;               // max queue size for this timer object
 	ttstr ActionName;
 	tTVPAsyncTriggerMode Mode; // trigger mode
 
 public:
 	tTJSNI_BaseTimer();
 	tjs_error TJS_INTF_METHOD
-		Construct(tjs_int numparams, tTJSVariant **param,
-			iTJSDispatch2 *tjs_obj);
+	Construct(tjs_int numparams, tTJSVariant **param,
+			  iTJSDispatch2 *tjs_obj);
 	void TJS_INTF_METHOD Invalidate();
 
 protected:
@@ -56,7 +52,7 @@ protected:
 
 public:
 	tTJSVariantClosure GetActionOwnerNoAddRef() const { return ActionOwner; }
-	ttstr & GetActionName() { return ActionName; }
+	ttstr &GetActionName() { return ActionName; }
 
 	tjs_int GetCapacity() const { return Capacity; }
 	void SetCapacity(tjs_int c) { Capacity = c; }
@@ -71,8 +67,7 @@ public:
 //---------------------------------------------------------------------------
 // tTJSNC_Timer : TJS Timer class
 //---------------------------------------------------------------------------
-class tTJSNC_Timer : public tTJSNativeClass
-{
+class tTJSNC_Timer : public tTJSNativeClass {
 	typedef tTJSNativeClass inherited;
 
 public:
@@ -87,15 +82,13 @@ protected:
 	*/
 };
 //---------------------------------------------------------------------------
-extern tTJSNativeClass * TVPCreateNativeClass_Timer();
-	/*
+extern tTJSNativeClass *TVPCreateNativeClass_Timer();
+/*
 		implement this in each platform.
 		this must return a proper instance of tTJSNI_Timer.
 		usually simple returns: new tTJSNC_Timer();
 	*/
 //---------------------------------------------------------------------------
-
-
 
 //---------------------------------------------------------------------------
 #endif

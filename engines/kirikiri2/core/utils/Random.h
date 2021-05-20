@@ -12,7 +12,6 @@
 #define RandomH
 //---------------------------------------------------------------------------
 
-
 TJS_EXP_FUNC_DEF(void, TVPPushEnvironNoise, (const void *buf, tjs_int bufsize));
 TJS_EXP_FUNC_DEF(void, TVPGetRandomBits128, (void *dest));
 

@@ -19,25 +19,22 @@
 
 //---------------------------------------------------------------------------
 tjs_uint8 TVPRandomSeedPool[0x1000 + 512];
-	// 512 is to avoid buffer over-run posibility in multi-threaded access 
+// 512 is to avoid buffer over-run posibility in multi-threaded access
 tjs_int TVPRandomSeedPoolPos = 0;
 tjs_uint8 TVPRandomSeedAtom; // need not to initialize
 //---------------------------------------------------------------------------
-void TVPPushEnvironNoise(const void *buf, tjs_int bufsize)
-{
+void TVPPushEnvironNoise(const void *buf, tjs_int bufsize) {
 	const tjs_uint8 *p = (const tjs_uint8 *)buf;
-	for(int i = 0; i < bufsize; i++)
-	{
-		TVPRandomSeedPool[TVPRandomSeedPoolPos ++] ^=
+	for (int i = 0; i < bufsize; i++) {
+		TVPRandomSeedPool[TVPRandomSeedPoolPos++] ^=
 			(TVPRandomSeedAtom ^= p[i]);
 		TVPRandomSeedPoolPos &= 0xfff;
 	}
-	TVPRandomSeedPoolPos += (p[0]&1);
+	TVPRandomSeedPoolPos += (p[0] & 1);
 	TVPRandomSeedPoolPos &= 0xfff;
 }
 //---------------------------------------------------------------------------
-void TVPGetRandomBits128(void *dest)
-{
+void TVPGetRandomBits128(void *dest) {
 	// retrieve random bits
 
 	// add some noise
@@ -57,4 +54,3 @@ void TVPGetRandomBits128(void *dest)
 	TVPPushEnvironNoise(buf, 16);
 }
 //---------------------------------------------------------------------------
-
