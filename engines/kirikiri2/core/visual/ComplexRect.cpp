@@ -10,63 +10,52 @@
 //---------------------------------------------------------------------------
 #include "tjsCommHead.h"
 
-#include "ComplexRect.h"
-#include <vector>
-#include <algorithm>
+#include "kirikiri2/core/visual/ComplexRect.h"
+#include "kirikiri2/lib/std/algorithm.h"
+#include "kirikiri2/lib/std/vector.h"
 
 // Some algorithms and ideas are based on implementation of Mozilla,
 // gfx/src/nsRegion.cpp.
-
-
 
 //---------------------------------------------------------------------------
 // TVPIntersectRect
 //---------------------------------------------------------------------------
 bool TVPIntersectRect(tTVPRect *dest, const tTVPRect &src1,
-	const tTVPRect &src2)
-{
-	tjs_int left =		std::max(src1.left,		src2.left);
-	tjs_int top =		std::max(src1.top,		src2.top);
-	tjs_int right =		std::min(src1.right,	src2.right);
-	tjs_int bottom =	std::min(src1.bottom,	src2.bottom);
+					  const tTVPRect &src2) {
+	tjs_int left = std::max(src1.left, src2.left);
+	tjs_int top = std::max(src1.top, src2.top);
+	tjs_int right = std::min(src1.right, src2.right);
+	tjs_int bottom = std::min(src1.bottom, src2.bottom);
 
-	if(right > left && bottom > top)
-	{
-		if(dest)
-		{
-			dest->left =	left;
-			dest->top =		top;
-			dest->right =	right;
-			dest->bottom =	bottom;
+	if (right > left && bottom > top) {
+		if (dest) {
+			dest->left = left;
+			dest->top = top;
+			dest->right = right;
+			dest->bottom = bottom;
 		}
 		return true;
 	}
 	return false;
 }
 //---------------------------------------------------------------------------
-
-
-
 
 //---------------------------------------------------------------------------
 // TVPUnionRect
 //---------------------------------------------------------------------------
-bool TVPUnionRect(tTVPRect *dest, const tTVPRect &src1, const tTVPRect &src2)
-{
-	tjs_int left =		std::min(src1.left,		src2.left);
-	tjs_int top =		std::min(src1.top,		src2.top);
-	tjs_int right =		std::max(src1.right,	src2.right);
-	tjs_int bottom =	std::max(src1.bottom,	src2.bottom);
+bool TVPUnionRect(tTVPRect *dest, const tTVPRect &src1, const tTVPRect &src2) {
+	tjs_int left = std::min(src1.left, src2.left);
+	tjs_int top = std::min(src1.top, src2.top);
+	tjs_int right = std::max(src1.right, src2.right);
+	tjs_int bottom = std::max(src1.bottom, src2.bottom);
 
-	if(right > left && bottom > top)
-	{
+	if (right > left && bottom > top) {
 
-		if(dest)
-		{
-			dest->left =	left;
-			dest->top =		top;
-			dest->right =	right;
-			dest->bottom =	bottom;
+		if (dest) {
+			dest->left = left;
+			dest->top = top;
+			dest->right = right;
+			dest->bottom = bottom;
 		}
 		return true;
 	}
@@ -74,63 +63,61 @@ bool TVPUnionRect(tTVPRect *dest, const tTVPRect &src1, const tTVPRect &src2)
 	return false;
 }
 //---------------------------------------------------------------------------
-
-
-
-
-
-
 
 //---------------------------------------------------------------------------
 // tTVPRegionRect allocation routines
 //---------------------------------------------------------------------------
 // variables
 static tjs_uint TVPRegionFreeMaxCount = 0;
-	// maximum count of free rectangles in TVPRegionFreeRects
-static std::vector<tTVPRegionRect *>  * TVPRegionFreeRects = NULL;
-#define TVP_REGIONRECT_ALLOC_UNITS   256
-	// Number of rectangles which to be allocated in a call of
-	// TVPPrepareRegionRectangle()
+// maximum count of free rectangles in TVPRegionFreeRects
+static std::vector<tTVPRegionRect *> *TVPRegionFreeRects = NULL;
+#define TVP_REGIONRECT_ALLOC_UNITS 256
+// Number of rectangles which to be allocated in a call of
+// TVPPrepareRegionRectangle()
 //---------------------------------------------------------------------------
-class tTVPRegionRectInitialHolder
-{
+class tTVPRegionRectInitialHolder {
 	// Initial rectangle holder to prevent unnecessary freeing of the vector.
 	// This holds a rectangle from program start to end.
-	tTVPRegionRect * InitialRect;
+	tTVPRegionRect *InitialRect;
+
 public:
 	tTVPRegionRectInitialHolder() { InitialRect = NULL; }
-	void Hold() { if(!InitialRect) { InitialRect = (tTVPRegionRect *)-1;
-		InitialRect = TVPAllocateRegionRect(); } }
-	~tTVPRegionRectInitialHolder() { if(InitialRect) TVPDeallocateRegionRect(InitialRect); }
+	void Hold() {
+		if (!InitialRect) {
+			InitialRect = (tTVPRegionRect *)-1;
+			InitialRect = TVPAllocateRegionRect();
+		}
+	}
+	~tTVPRegionRectInitialHolder() {
+		if (InitialRect)
+			TVPDeallocateRegionRect(InitialRect);
+	}
 };
 static tTVPRegionRectInitialHolder TVPRegionRectInitialHolder;
 //---------------------------------------------------------------------------
-static void TVPPrepareRegionRectangle()
-{
+static void TVPPrepareRegionRectangle() {
 	// Prepare rectangles and insert them into free rectangle list
-	for(tjs_int i = 0; i < TVP_REGIONRECT_ALLOC_UNITS; i++)
-	{
+	for (tjs_int i = 0; i < TVP_REGIONRECT_ALLOC_UNITS; i++) {
 		TVPRegionFreeRects->push_back(
-			(tTVPRegionRect*)(new char[sizeof (tTVPRegionRect)]));
+			(tTVPRegionRect *)(new char[sizeof(tTVPRegionRect)]));
 		TVPRegionFreeMaxCount++;
 	}
 }
 //---------------------------------------------------------------------------
-tTVPRegionRect * TVPAllocateRegionRect()
-{
+tTVPRegionRect *TVPAllocateRegionRect() {
 	// Allocate a region rectangle. Note that this function does not clear
 	// nor initialize the rectangle object.
 
 	// Create a vector of free rectangle list if it does not exists
-	if(!TVPRegionFreeRects)
+	if (!TVPRegionFreeRects)
 		TVPRegionFreeRects = new std::vector<tTVPRegionRect *>();
 
 	// Prepare free rectangles if the free list is empty
-	if(TVPRegionFreeRects->size() == 0)
+	if (TVPRegionFreeRects->size() == 0)
 		TVPPrepareRegionRectangle();
 
 	// Take a free rectangle from last of the free rectangle list
-	tTVPRegionRect * r = TVPRegionFreeRects->back();
+	tTVPRegionRect *r = TVPRegionFreeRects->back();
 	TVPRegionFreeRects->pop_back();
 
 	// Hold initial rectangle
@@ -140,21 +127,19 @@ tTVPRegionRect * TVPAllocateRegionRect()
 	return r;
 }
 //---------------------------------------------------------------------------
-void TVPDeallocateRegionRect(tTVPRegionRect * rect)
-{
+void TVPDeallocateRegionRect(tTVPRegionRect *rect) {
 	// Deallocate a region rectangle allocated in TVPAllocateRegionRect().
 
 	// Append to TVPRegionFreeRects
-//	if(!TVPRegionFreeRects) TVPThrowInternalError();  //----------------- geee
+	//	if(!TVPRegionFreeRects) TVPThrowInternalError();  //----------------- geee
 	TVPRegionFreeRects->push_back(rect);
 
 	// Full-Free check
-	if(TVPRegionFreeRects->size() == TVPRegionFreeMaxCount)
-	{
+	if (TVPRegionFreeRects->size() == TVPRegionFreeMaxCount) {
 		// Free all rectangles
-		for(std::vector<tTVPRegionRect *>::iterator i = TVPRegionFreeRects->begin();
-			i != TVPRegionFreeRects->end(); i++)
-			delete [] (char *)(*i);
+		for (std::vector<tTVPRegionRect *>::iterator i = TVPRegionFreeRects->begin();
+			 i != TVPRegionFreeRects->end(); i++)
+			delete[](char *)(*i);
 
 		// Free the vector
 		delete TVPRegionFreeRects, TVPRegionFreeRects = NULL;
@@ -163,22 +148,16 @@ void TVPDeallocateRegionRect(tTVPRegionRect * rect)
 }
 //---------------------------------------------------------------------------
 
-
-
-
-
 //---------------------------------------------------------------------------
 // tTVPComplexRect
 //---------------------------------------------------------------------------
-tTVPComplexRect::tTVPComplexRect()
-{
+tTVPComplexRect::tTVPComplexRect() {
 	// normal constructor
 	Init();
 }
 //---------------------------------------------------------------------------
-tTVPComplexRect::tTVPComplexRect(const tTVPComplexRect & ref)
-: Bound(ref.Bound)
-{
+tTVPComplexRect::tTVPComplexRect(const tTVPComplexRect &ref)
+	: Bound(ref.Bound) {
 	// copy constructor
 	Init();
 
@@ -186,48 +165,40 @@ tTVPComplexRect::tTVPComplexRect(const tTVPComplexRect & ref)
 	SetCount(ref.Count);
 
 	// copy rectangles
-	if(Count)
-	{
-		tTVPRegionRect * this_cur = Head;
-		tTVPRegionRect * ref_cur = ref.Head;
-		do
-		{
-			*(tTVPRect*)this_cur = *(tTVPRect*)ref_cur; // copy as tTVPRect
+	if (Count) {
+		tTVPRegionRect *this_cur = Head;
+		tTVPRegionRect *ref_cur = ref.Head;
+		do {
+			*(tTVPRect *)this_cur = *(tTVPRect *)ref_cur; // copy as tTVPRect
 			this_cur = this_cur->Next;
 			ref_cur = ref_cur->Next;
-		} while(ref_cur != ref.Head);
+		} while (ref_cur != ref.Head);
 	}
 }
 //---------------------------------------------------------------------------
-tTVPComplexRect::~tTVPComplexRect()
-{
+tTVPComplexRect::~tTVPComplexRect() {
 	// destructor
 	FreeAllRectangles();
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::Clear()
-{
+void tTVPComplexRect::Clear() {
 	FreeAllRectangles();
 	Init();
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::FreeAllRectangles()
-{
+void tTVPComplexRect::FreeAllRectangles() {
 	// free all rectangles
-	if(Count)
-	{
+	if (Count) {
 		tTVPRegionRect *cur = Head;
-		do
-		{
-			tTVPRegionRect *n  = cur->Next;
+		do {
+			tTVPRegionRect *n = cur->Next;
 			delete cur;
 			cur = n;
-		} while(cur != Head);
+		} while (cur != Head);
 	}
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::Init()
-{
+void tTVPComplexRect::Init() {
 	// initialize internal states
 	Head = NULL;
 	Current = NULL;
@@ -236,46 +207,38 @@ void tTVPComplexRect::Init()
 	BoundValid = false;
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::SetCount(tjs_int count)
-{
+void tTVPComplexRect::SetCount(tjs_int count) {
 	// grow or shrink rectangle storage area
-	if(count > Count)
-	{
+	if (count > Count) {
 		// grow
 		tjs_int add_count = count - Count;
-		if(!Count)
-		{
+		if (!Count) {
 			// no existent rectangle
 			Head = new tTVPRegionRect();
 			Head->Prev = Head;
 			Head->Next = Head;
-			add_count --;
+			add_count--;
 		}
 
-		tTVPRegionRect * cur = Head->Prev;
+		tTVPRegionRect *cur = Head->Prev;
 		Current = cur;
-		while(add_count--)
-		{
-			tTVPRegionRect * newrect = new tTVPRegionRect();
+		while (add_count--) {
+			tTVPRegionRect *newrect = new tTVPRegionRect();
 			newrect->LinkBefore(Head);
 		}
 		Count = count;
-	}
-	else if(count < Count)
-	{
+	} else if (count < Count) {
 		// shrink
-		if(Count)
-		{
+		if (Count) {
 			tjs_int remove_count = Count - count;
-			tTVPRegionRect * cur = Head->Prev;
-			while(remove_count--)
-			{
-				tTVPRegionRect * prev = cur->Prev;
+			tTVPRegionRect *cur = Head->Prev;
+			while (remove_count--) {
+				tTVPRegionRect *prev = cur->Prev;
 				delete cur;
 				cur = prev;
 			}
 			Count = count;
-			if(Count)
+			if (Count)
 				cur->Next = Head, Current = Head, Head->Prev = cur;
 			else
 				Head = NULL, Current = NULL;
@@ -283,16 +246,15 @@ void tTVPComplexRect::SetCount(tjs_int count)
 	}
 }
 //---------------------------------------------------------------------------
-bool tTVPComplexRect::Insert(const tTVPRect & rect)
-{
+bool tTVPComplexRect::Insert(const tTVPRect &rect) {
 	// Insert a region rectangle inplace.
 	// Note that this function does not update the bounding rectangle.
 	// This does empty check.
 
-	if(rect.is_empty()) return false;
+	if (rect.is_empty())
+		return false;
 
-	if(!Count)
-	{
+	if (!Count) {
 		// first insertion
 		Head = new tTVPRegionRect(rect);
 		Head->Prev = Head->Next = Head;
@@ -304,98 +266,75 @@ bool tTVPComplexRect::Insert(const tTVPRect & rect)
 	// Search insertion point and insert there.
 	// Link list is sorted by upper-left point of the rectangle,
 	// Search starts from "Current", which is the most recently touched rectangle.
-	if(*Current > rect)
-	{
+	if (*Current > rect) {
 		// insertion point is before Current
 		tTVPRegionRect *prev;
-		while(true)
-		{
-			if(Current == Head)
-			{
+		while (true) {
+			if (Current == Head) {
 				// insert before head
-				if(Head->top == rect.top && Head->bottom == rect.bottom &&
-					Head->Left == rect.right)
-				{
+				if (Head->top == rect.top && Head->bottom == rect.bottom &&
+					Head->Left == rect.right) {
 					Head->Left = rect.left; // unite Head
 					break;
-				}
-				else
-				{
-					tTVPRegionRect * new_rect = new tTVPRegionRect(rect);
+				} else {
+					tTVPRegionRect *new_rect = new tTVPRegionRect(rect);
 					new_rect->LinkBefore(Head);
-					Count ++;
+					Count++;
 					Head = new_rect;
 					break;
 				}
 			}
 			prev = Current->Prev;
-			if(*prev < rect)
-			{
+			if (*prev < rect) {
 
 				// insert between prev and Current
-				if(Current->top == rect.top && Current->bottom == rect.bottom &&
-					Current->left == rect.right)
-				{
+				if (Current->top == rect.top && Current->bottom == rect.bottom &&
+					Current->left == rect.right) {
 					Current->left = rect.left; // unite right
 					break;
-				}
-				else 
-				{
-					tTVPRegionRect * new_rect = new tTVPRegionRect(rect);
+				} else {
+					tTVPRegionRect *new_rect = new tTVPRegionRect(rect);
 					new_rect->LinkBefore(Current);
-					Count ++;
+					Count++;
 					break;
 				}
-
 			}
 			Current = prev;
 		}
-	}
-	else
-	{
+	} else {
 		// insertion point is after Current
 		tTVPRegionRect *next;
-		while(true)
-		{
+		while (true) {
 			next = Current->Next;
-			if(next == Head)
-			{
+			if (next == Head) {
 				// insert after last of the link list
 				// (that is, before the Head)
-				if(Current->top == rect.top && Current->bottom == rect.bottom &&
-					Current->right == rect.left)
-				{
+				if (Current->top == rect.top && Current->bottom == rect.bottom &&
+					Current->right == rect.left) {
 					Current->right = rect.right; // unite right
 					break;
-				}
-				else
-				{
-					tTVPRegionRect * new_rect = new tTVPRegionRect(rect);
+				} else {
+					tTVPRegionRect *new_rect = new tTVPRegionRect(rect);
 					new_rect->LinkBefore(Head);
-					Count ++;
+					Count++;
 					break;
 				}
 			}
-			if(*next > rect)
-			{
+			if (*next > rect) {
 				// insert between next and Current
-				if(next->top == rect.top && next->bottom == rect.bottom &&
-					next->left == rect.right)
-				{
+				if (next->top == rect.top && next->bottom == rect.bottom &&
+					next->left == rect.right) {
 					next->left = rect.left; // unite right
-					if(Current->top == rect.top && Current->bottom == rect.bottom &&
-						Current->right == rect.left)
-					{
+					if (Current->top == rect.top && Current->bottom == rect.bottom &&
+						Current->right == rect.left) {
 						next->left = Current->left; // unite left
 						Remove(Current);
 					}
 					break;
-				}
-				else
-				{
-					tTVPRegionRect * new_rect = new tTVPRegionRect(rect);
+				} else {
+					tTVPRegionRect *new_rect = new tTVPRegionRect(rect);
 					new_rect->LinkBefore(next);
-					Count ++;
+					Count++;
 					break;
 				}
 			}
@@ -403,175 +342,157 @@ bool tTVPComplexRect::Insert(const tTVPRect & rect)
 		}
 	}
 
-
 	return true;
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::Remove(tTVPRegionRect * rect)
-{
+void tTVPComplexRect::Remove(tTVPRegionRect *rect) {
 	// Remove a rectangle.
 	// Note that this function does not update the bounding rectangle.
-	if(rect == Head) Head = rect->Next;
+	if (rect == Head)
+		Head = rect->Next;
 
-	Count --;
-	if(!Count)
-	{
+	Count--;
+	if (!Count) {
 		// no more rectangles
 		Current = Head = NULL;
-	}
-	else
-	{
-		if(rect == Current) Current = rect->Prev;
+	} else {
+		if (rect == Current)
+			Current = rect->Prev;
 	}
 	rect->Unlink();
 	delete rect;
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::Merge(const tTVPComplexRect & rects)
-{
+void tTVPComplexRect::Merge(const tTVPComplexRect &rects) {
 	// Merge non-overlaped complex rectangle
 
 	// Calculate bounding rectangle
 	(const_cast<tTVPComplexRect *>(&rects))->EnsureBound();
 	EnsureBound();
-	if(Count)
-	{
-		if(rects.Count)
+	if (Count) {
+		if (rects.Count)
 			Bound.do_union(rects.Bound);
 		else
 			; // do nothing
-	}
-	else
-	{
-		if(rects.Count)
+	} else {
+		if (rects.Count)
 			Bound = rects.Bound;
 		else
 			return; // both empty; do nothing
 	}
 
 	// merge per a rectangle
-	tTVPRegionRect * ref_cur = rects.Head;
-	do
-	{
+	tTVPRegionRect *ref_cur = rects.Head;
+	do {
 		Insert(*ref_cur);
 		ref_cur = ref_cur->Next;
-	} while(ref_cur != rects.Head);
+	} while (ref_cur != rects.Head);
 }
 //---------------------------------------------------------------------------
 
-
-
 //---------------------------------------------------------------------------
-void tTVPComplexRect::Or(const tTVPRect &r)
-{
+void tTVPComplexRect::Or(const tTVPRect &r) {
 	// OR operation
 
 	// empty check
-	if(r.is_empty()) return;
+	if (r.is_empty())
+		return;
 
 	// simply insert when no rectangle exists
-	if(Count == 0)
-	{
-		if(Insert(r))
+	if (Count == 0) {
+		if (Insert(r))
 			Bound = r, BoundValid = true;
 		return;
 	}
 
 	// Check for bounding rectangle
 	EnsureBound();
-	if(!Bound.intersects_with_no_empty_check(r))
-	{
+	if (!Bound.intersects_with_no_empty_check(r)) {
 		// Out of the Bouding rectangle; Simply insert
-		if(Insert(r))
+		if (Insert(r))
 			Bound.do_union(r);
 		return;
 	}
 
 	// Check for null rectangle
-	if(r.left >= r.right || r.top >= r.bottom) return; // null rect
+	if (r.left >= r.right || r.top >= r.bottom)
+		return; // null rect
 
 	// Update bounding rectangle
 	Bound.do_union(r);
 
 	// Walk through rectangles
 	tTVPRegionRect *c = Head;
-	while(c->top < r.bottom)
-	{
+	while (c->top < r.bottom) {
 		// Check inclusion
-		if(r.included_in_no_empty_check(*c))
-		{
+		if (r.included_in_no_empty_check(*c)) {
 			// r is completely included in c
 			return; //---                         returns here
 		}
 
 		// Check intersection
 		bool next_is_head;
-		if(c->intersects_with_no_empty_check(r))
-		{
+		if (c->intersects_with_no_empty_check(r)) {
 			// Do OR operation. This may increase the rectangle count.
 			tTVPRegionRect *next = c->Next;
 			next_is_head = next == Head;
 			Current = c;
 			RectangleSub(c, &r);
 			c = next_is_head ? Head : next;
-				// Re-assign head since the "Head" may change in "RectangleSub"
-		}
-		else
-		{
+			// Re-assign head since the "Head" may change in "RectangleSub"
+		} else {
 			// Step next
 			c = c->Next;
 			next_is_head = c == Head;
 		}
 
-		if(!Head || !c || next_is_head) break;
+		if (!Head || !c || next_is_head)
+			break;
 	}
 
 	// finally insert r
 	Insert(r);
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::Or(const tTVPComplexRect &ref)
-{
+void tTVPComplexRect::Or(const tTVPComplexRect &ref) {
 	// OR operation
-	if(ref.Count == 0) return; // nothing to do
+	if (ref.Count == 0)
+		return; // nothing to do
 
 	EnsureBound();
 	(const_cast<tTVPComplexRect *>(&ref))->EnsureBound();
-	if(!Bound.intersects_with_no_empty_check(ref.Bound))
-	{
+	if (!Bound.intersects_with_no_empty_check(ref.Bound)) {
 		// Out of the Bouding rectangle; Simply marge
 		Merge(ref);
 		return;
 	}
 
 	tTVPRegionRect *c = ref.Head;
-	while(true)
-	{
+	while (true) {
 		Or(*c);
 		c = c->Next;
-		if(c == ref.Head) break;
+		if (c == ref.Head)
+			break;
 	}
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::Sub(const tTVPRect &r)
-{
+void tTVPComplexRect::Sub(const tTVPRect &r) {
 	// Subtraction operation
 
 	// Check for null rectangle
-	if(r.left >= r.right || r.top >= r.bottom) return; // null rect
+	if (r.left >= r.right || r.top >= r.bottom)
+		return; // null rect
 
 	// check bounding rectangle
 	EnsureBound();
-	if(!Bound.intersects_with_no_empty_check(r))
-	{
+	if (!Bound.intersects_with_no_empty_check(r)) {
 		// Out of the Bouding rectangle; nothing to do
 		return;
 	}
 
-	switch(GetRectangleIntersectionCode(Bound, r))
-	{
+	switch (GetRectangleIntersectionCode(Bound, r)) {
 	case 8 + 4 + 2 + 1: // r overlaps Bound
-		Clear(); // nothing remains
+		Clear();        // nothing remains
 		return;
 	case 8 + 4 + 2: // r overlaps upper of Bound
 		Bound.top = r.bottom;
@@ -589,18 +510,15 @@ void tTVPComplexRect::Sub(const tTVPRect &r)
 
 	// Walk through rectangles
 	tTVPRegionRect *c = Head;
-	while(c->top < r.bottom)
-	{
+	while (c->top < r.bottom) {
 		// Check intersection
 		bool next_is_head;
-		if(c->intersects_with_no_empty_check(r))
-		{
+		if (c->intersects_with_no_empty_check(r)) {
 			// check bounding rectangle
-			if(c->left == Bound.left ||
+			if (c->left == Bound.left ||
 				c->top == Bound.top ||
 				c->right == Bound.top ||
-				c->bottom == Bound.bottom)
-			{
+				c->bottom == Bound.bottom) {
 				// one of the rectangle edge touches bounding rectangle
 				BoundValid = false; // invalidate bounding rectangle
 			}
@@ -611,37 +529,34 @@ void tTVPComplexRect::Sub(const tTVPRect &r)
 			Current = c;
 			RectangleSub(c, &r);
 			c = next_is_head ? Head : next;
-				// Re-assign head since the "Head" may change in "RectangleSub"
-		}
-		else
-		{
+			// Re-assign head since the "Head" may change in "RectangleSub"
+		} else {
 			// Step next
 			c = c->Next;
 			next_is_head = c == Head;
 		}
 
-		if(!Head || !c || next_is_head) break;
+		if (!Head || !c || next_is_head)
+			break;
 	}
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::Sub(const tTVPComplexRect &ref)
-{
+void tTVPComplexRect::Sub(const tTVPComplexRect &ref) {
 	// Subtract operation
-	if(ref.Count == 0) return; // nothing to do
+	if (ref.Count == 0)
+		return; // nothing to do
 
 	// check bounding rectangle
 	EnsureBound();
 	(const_cast<tTVPComplexRect *>(&ref))->EnsureBound();
-	if(!Bound.intersects_with_no_empty_check(ref.Bound))
-	{
+	if (!Bound.intersects_with_no_empty_check(ref.Bound)) {
 		// Out of the Bouding rectangle; nothing to do
 		return;
 	}
 
 	tTVPRegionRect *c = ref.Head;
 	bool boundvalid = true;
-	while(true)
-	{
+	while (true) {
 		// subtract a rectangle
 		Sub(*c);
 
@@ -651,35 +566,33 @@ void tTVPComplexRect::Sub(const tTVPComplexRect &ref)
 
 		// step next
 		c = c->Next;
-		if(c == ref.Head) break;
+		if (c == ref.Head)
+			break;
 	}
 
 	BoundValid = boundvalid;
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::And(const tTVPRect &r)
-{
+void tTVPComplexRect::And(const tTVPRect &r) {
 	// Do "logical and" operation
-	if(Count == 0) return; // nothing to do
+	if (Count == 0)
+		return; // nothing to do
 
 	// Check for null rectangle
-	if(r.left >= r.right || r.top >= r.bottom)
-	{
+	if (r.left >= r.right || r.top >= r.bottom) {
 		Clear(); // null rectangle; nothing remains
 		return;
 	}
 
 	// check bounding rectangle
 	EnsureBound();
-	if(!Bound.intersects_with_no_empty_check(r))
-	{
+	if (!Bound.intersects_with_no_empty_check(r)) {
 		// Out of the Bouding rectangle; nothing remains
 		Clear();
 		return;
 	}
 
-	switch(GetRectangleIntersectionCode(Bound, r))
-	{
+	switch (GetRectangleIntersectionCode(Bound, r)) {
 	case 8 + 4 + 2 + 1: // r overlaps Bound
 		// nothing to do
 		return;
@@ -687,122 +600,105 @@ void tTVPComplexRect::And(const tTVPRect &r)
 
 	bool is_first = true;
 	bool next_is_head;
-	tTVPRegionRect * c = Head, *cc;
-	while(true)
-	{
+	tTVPRegionRect *c = Head, *cc;
+	while (true) {
 		c = (cc = c)->Next;
 		next_is_head = c == Head;
-		if(cc->clip(r)) // clip with r
+		if (cc->clip(r)) // clip with r
 		{
-			if(is_first)
+			if (is_first)
 				Bound = *cc, is_first = false;
 			else
 				Bound.do_union(*cc);
-		}
-		else
-		{
+		} else {
 			Remove(cc);
 		}
 
-		if(next_is_head) break;
+		if (next_is_head)
+			break;
 	}
 
-	if(is_first)
+	if (is_first)
 		BoundValid = false; // Nothing remains
 	else
 		BoundValid = true;
-
 }
 //---------------------------------------------------------------------------
 void tTVPComplexRect::CopyWithOffsets(const tTVPComplexRect &ref, const tTVPRect &clip,
-	tjs_int ofsx, tjs_int ofsy)
-{
+									  tjs_int ofsx, tjs_int ofsy) {
 	// Copy "ref" to this.
 	// "ref" is to be added offsets, and is to be done logical-and with the "clip",
 	// Note that this function must be called immediately after the construction or
 	// the "Clear" function (This function never clears the rectangles).
 
 	// copy rectangles
-	if(ref.Count)
-	{
-		tTVPRegionRect * ref_cur = ref.Head;
+	if (ref.Count) {
+		tTVPRegionRect *ref_cur = ref.Head;
 		bool is_first = true;
-		do
-		{
+		do {
 			tTVPRect rect(*ref_cur);
 			rect.add_offsets(ofsx, ofsy);
-			if(TVPIntersectRect(&rect, rect, clip))
-			{
+			if (TVPIntersectRect(&rect, rect, clip)) {
 				// has intersection
 				Insert(rect);
-				if(is_first)
+				if (is_first)
 					Bound = rect, is_first = false;
 				else
 					Bound.do_union(rect);
 			}
 			ref_cur = ref_cur->Next;
-		} while(ref_cur != ref.Head);
+		} while (ref_cur != ref.Head);
 
-		if(is_first)
+		if (is_first)
 			BoundValid = false; // Nothing remains
 		else
 			BoundValid = true;
 	}
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::AddOffsets(tjs_int x, tjs_int y)
-{
+void tTVPComplexRect::AddOffsets(tjs_int x, tjs_int y) {
 	// Add offsets to rectangles
-	if(Count == 0) return; // nothing to do
+	if (Count == 0)
+		return; // nothing to do
 
 	// for bounding rectangle
 	Bound.add_offsets(x, y);
 
 	// process per a rectangle
-	tTVPRegionRect * cur = Head;
-	do
-	{
+	tTVPRegionRect *cur = Head;
+	do {
 		cur->add_offsets(x, y);
 		cur = cur->Next;
-	} while(cur != Head);
+	} while (cur != Head);
 }
 //---------------------------------------------------------------------------
-void tTVPComplexRect::CalcBound()
-{
+void tTVPComplexRect::CalcBound() {
 	// Calculate bounding rectangle
-	if(Count)
-	{
-		tTVPRegionRect * c = Head;
+	if (Count) {
+		tTVPRegionRect *c = Head;
 		Bound = *Head;
 		c = c->Next;
-		while(c != Head)
-		{
+		while (c != Head) {
 			Bound.do_union(*c);
 			c = c->Next;
 		}
-	}
-	else
-	{
+	} else {
 		// no rectangles; bounding rectangle is not valid
 		Bound.left = Bound.top = Bound.right = Bound.bottom = 0;
 	}
 }
 //---------------------------------------------------------------------------
 
-
-
 //---------------------------------------------------------------------------
-void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
-{
+void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr) {
 	// Subtract rr from r
 	tjs_int cond = GetRectangleIntersectionCode(*r, *rr);
 
 	tTVPRect nr;
-	switch(cond)
-	{
-//--------------------------------------------------
+	switch (cond) {
+		//--------------------------------------------------
 	case 0:
-/*
+		/*
      +-----------+     
 	 |     r     |
 	 +---+---+---+
@@ -812,31 +708,31 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
 	 +-----------+
 */
 		// nr2
-		nr.left    = r->left;
-		nr.top     = rr->top;
-		nr.right   = rr->left;
-		nr.bottom  = rr->bottom;
+		nr.left = r->left;
+		nr.top = rr->top;
+		nr.right = rr->left;
+		nr.bottom = rr->bottom;
 		Insert(nr);
 		// nr3
-		nr.left    = rr->right;
-		nr.top     = rr->top;
-		nr.right   = r->right;
-		nr.bottom  = rr->bottom;
+		nr.left = rr->right;
+		nr.top = rr->top;
+		nr.right = r->right;
+		nr.bottom = rr->bottom;
 		Insert(nr);
 		// nr4
-		nr.left    = r->left;
-		nr.top     = rr->bottom;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = r->left;
+		nr.top = rr->bottom;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		// r
-		r->bottom  = rr->top;
+		r->bottom = rr->top;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 8 + 4 + 2 + 1:
-/*
+		/*
 +---------------------+
 |                     |
 |                     |
@@ -851,9 +747,9 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
 */
 		Remove(r);
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 8 + 4:
-/*
+		/*
      +-----------+     
 	 |     r     |
 +----+-----------+----+
@@ -863,19 +759,19 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
      +-----------+     
 */
 		// nr2
-		nr.left    = r->left;
-		nr.top     = rr->bottom;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = r->left;
+		nr.top = rr->bottom;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		// r
-		r->bottom  = rr->top;
+		r->bottom = rr->top;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 1 + 2:
-/*
+		/*
          +---+         
          |   |         
      +---+   +---+     
@@ -889,19 +785,19 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
          +---+         
 */
 		// nr2
-		nr.left    = rr->right;
-		nr.top     = r->top;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = rr->right;
+		nr.top = r->top;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		// r
-		r->right   = rr->left;
+		r->right = rr->left;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 8 + 2:
-/*
+		/*
 +------+               
 |      |               
 |      +---------+     
@@ -913,23 +809,23 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
      +-----------+     
 */
 		// nr1
-		nr.left    = rr->right;
-		nr.top     = r->top;
-		nr.right   = r->right;
-		nr.bottom  = rr->bottom;
+		nr.left = rr->right;
+		nr.top = r->top;
+		nr.right = r->right;
+		nr.bottom = rr->bottom;
 		Insert(nr);
 		// nr2
-		nr.left    = r->left;
-		nr.top     = rr->bottom;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = r->left;
+		nr.top = rr->bottom;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		Remove(r);
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 4 + 2:
-/*
+		/*
                +------+
                |      |
      +---------+      |
@@ -941,20 +837,20 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
      +-----------+     
 */
 		// nr2
-		nr.left    = r->left;
-		nr.top     = rr->bottom;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = r->left;
+		nr.top = rr->bottom;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		// r
-		r->bottom  = rr->bottom;
-		r->right   = rr->left;
+		r->bottom = rr->bottom;
+		r->right = rr->left;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 4 + 1:
-/*
+		/*
 	 +-----------+
 	 |     r     |
 	 +---------+-+----+
@@ -966,19 +862,19 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
 			   +------+
 */
 		// nr2
-		nr.left    = r->left;
-		nr.top     = rr->top;
-		nr.right   = rr->left;
-		nr.bottom  = r->bottom;
+		nr.left = r->left;
+		nr.top = rr->top;
+		nr.right = rr->left;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		// r
-		r->bottom  = rr->top;
+		r->bottom = rr->top;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 8 + 1:
-/*
+		/*
      +-----------+     
 	 |      r    |
 +----+-+---------+     
@@ -990,19 +886,19 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
 +------+               
 */
 		// nr2
-		nr.left    = rr->right;
-		nr.top     = rr->top;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = rr->right;
+		nr.top = rr->top;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		// r
-		r->bottom  = rr->top;
+		r->bottom = rr->top;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 8 + 4 + 2:
-/*
+		/*
 +---------------------+
 |                     |
 |                     |
@@ -1014,17 +910,17 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
 	 +-----------+
 */
 		// nr
-		nr.left    = r->left;
-		nr.top     = rr->bottom;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = r->left;
+		nr.top = rr->bottom;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		Remove(r);
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 4 + 2 + 1:
-/*
+		/*
 		 +------------+
 		 |            |
 	 +---+            |
@@ -1038,12 +934,12 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
 		 +------------+
 */
 		// r
-		r->right   = rr->left;
+		r->right = rr->left;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 8 + 4 + 1:
-/*
+		/*
 	 +-----------+
 	 |     r     |
 +----+-----------+----+
@@ -1055,12 +951,12 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
 +---------------------+
 */
 		// r
-		r->bottom  = rr->top;
+		r->bottom = rr->top;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 8 + 2 + 1:
-/*
+		/*
 +------------+         
 |            |         
 |            +---+     
@@ -1074,17 +970,17 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
 +------------+         
 */
 		// nr
-		nr.left    = rr->right;
-		nr.top     = r->top;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = rr->right;
+		nr.top = r->top;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		Remove(r);
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 8:
-/*
+		/*
      +-----------+     
 	 |      r    |
 +----+-+---------+     
@@ -1094,24 +990,24 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
      +-----------+     
 */
 		// nr2
-		nr.left    = rr->right;
-		nr.top     = rr->top;
-		nr.right   = r->right;
-		nr.bottom  = rr->bottom;
+		nr.left = rr->right;
+		nr.top = rr->top;
+		nr.right = r->right;
+		nr.bottom = rr->bottom;
 		Insert(nr);
 		// nr3
-		nr.left    = r->left;
-		nr.top     = rr->bottom;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = r->left;
+		nr.top = rr->bottom;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 		// r
-		r->bottom  = rr->top;
+		r->bottom = rr->top;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 4:
-/*
+		/*
      +-----------+     
 	 |    r      |
 	 +---------+-+----+
@@ -1121,25 +1017,25 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
      +-----------+     
 */
 		// nr2
-		nr.left    = r->left;
-		nr.top     = rr->top;
-		nr.right   = rr->left;
-		nr.bottom  = rr->bottom;
+		nr.left = r->left;
+		nr.top = rr->top;
+		nr.right = rr->left;
+		nr.bottom = rr->bottom;
 		Insert(nr);
 		// nr3
-		nr.left    = r->left;
-		nr.top     = rr->bottom;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = r->left;
+		nr.top = rr->bottom;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		// r
-		r->bottom  = rr->top;
+		r->bottom = rr->top;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 2:
-/*
+		/*
          +---+         
          |   |         
      +---+ rr+---+     
@@ -1151,26 +1047,26 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
      +-----------+     
 */
 		// nr2
-		nr.left    = rr->right;
-		nr.top     = r->top;
-		nr.right   = r->right;
-		nr.bottom  = rr->bottom;
+		nr.left = rr->right;
+		nr.top = r->top;
+		nr.right = r->right;
+		nr.bottom = rr->bottom;
 		Insert(nr);
 		// nr3
-		nr.left    = r->left;
-		nr.top     = rr->bottom;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = r->left;
+		nr.top = rr->bottom;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		// r
-		r->right   = rr->left;
-		r->bottom  = rr->bottom;
+		r->right = rr->left;
+		r->bottom = rr->bottom;
 
 		break;
-//--------------------------------------------------
+		//--------------------------------------------------
 	case 1:
-/*
+		/*
      +-----------+     
      |           |     
 	 |     r     |
@@ -1182,37 +1078,34 @@ void tTVPComplexRect::RectangleSub(tTVPRegionRect *r, const tTVPRect *rr)
          +---+         
 */
 		// nr2
-		nr.left    = r->left;
-		nr.top     = rr->top;
-		nr.right   = rr->left;
-		nr.bottom  = r->bottom;
+		nr.left = r->left;
+		nr.top = rr->top;
+		nr.right = rr->left;
+		nr.bottom = r->bottom;
 		Insert(nr);
 		// nr3
-		nr.left    = rr->right;
-		nr.top     = rr->top;
-		nr.right   = r->right;
-		nr.bottom  = r->bottom;
+		nr.left = rr->right;
+		nr.top = rr->top;
+		nr.right = r->right;
+		nr.bottom = r->bottom;
 		Insert(nr);
 
 		// r
-		r->bottom  = rr->top;
+		r->bottom = rr->top;
 
 		break;
 
 	default:
-		return  ;
+		return;
 	}
-
 }
 //---------------------------------------------------------------------------
 
-
 //---------------------------------------------------------------------------
-void tTVPComplexRect::DumpChain()
-{
+void tTVPComplexRect::DumpChain() {
 	AnsiString str;
 	tIterator it = GetIterator();
-	while(it.Step()) {
+	while (it.Step()) {
 		char tmp[200];
 		sprintf(tmp, "%p (%p) %p : ", it.Get().Prev, &(it.Get()), it.Get().Next);
 		str += tmp;
@@ -1220,4 +1113,3 @@ void tTVPComplexRect::DumpChain()
 	OutputDebugString(str.c_str());
 }
 //---------------------------------------------------------------------------
-
