@@ -8,25 +8,23 @@
 //---------------------------------------------------------------------------
 // TJS2 lexical analyzer
 //---------------------------------------------------------------------------
-#ifndef tjsLexH
-#define tjsLexH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_LEX_H
+#define KIRIKIRI2_CORE_TJS2_TJS_LEX_H
 
-#include "tjsConfig.h"
-#include "tjsVariant.h"
-#include <vector>
+#include "kirikiri2/core/tjs2/tjsConfig.h"
+#include "kirikiri2/core/tjs2/tjsVariant.h"
+#include "kirikiri2/lib/std/vector.h"
 #include <deque>
-
 
 extern bool tjsEnableDicFuncQuickHack;
 // Defining this enables quick-hack, avoiding the dictionary/array parser
 // memory overflow.
 // This is done with replacing %[ ... ] to function { return %[ ... ]; }()
 // and replacing [ ... ] to function { return [ ... ]; }().
-// These replacing is applied for expression which starts with "%[" or "[", 
+// These replacing is applied for expression which starts with "%[" or "[",
 // may cause some sideeffects....
 
-namespace TJS
-{
+namespace TJS {
 //---------------------------------------------------------------------------
 extern tjs_int TJSHexNum(tjs_char ch) throw();
 extern tjs_int TJSOctNum(tjs_char ch) throw();
@@ -37,15 +35,15 @@ bool TJSParseString(tTJSVariant &val, const tjs_char **ptr);
 bool TJSParseNumber(tTJSVariant &val, const tjs_char **ptr);
 void TJSReservedWordsHashAddRef();
 void TJSReservedWordsHashRelease();
-enum tTJSSkipCommentResult
-{ scrContinue, scrEnded, scrNotComment };
+enum tTJSSkipCommentResult { scrContinue,
+							 scrEnded,
+							 scrNotComment };
 //---------------------------------------------------------------------------
 class tTJSScriptBlock;
-class tTJSLexicalAnalyzer
-{
+class tTJSLexicalAnalyzer {
 public:
 	tTJSLexicalAnalyzer(tTJSScriptBlock *block, const tjs_char *script,
-		bool exprmode, bool resneeded);
+						bool exprmode, bool resneeded);
 	~tTJSLexicalAnalyzer();
 
 private:
@@ -59,13 +57,11 @@ private:
 
 	bool DicFunc; //----- dicfunc quick-hack
 
-	struct tTokenPair
-	{
+	struct tTokenPair {
 		tjs_int token;
 		tjs_int value;
 
-		tTokenPair(tjs_int token, tjs_int value)
-		{
+		tTokenPair(tjs_int token, tjs_int value) {
 			this->token = token;
 			this->value = value;
 		}
@@ -73,16 +69,16 @@ private:
 
 	std::deque<tTokenPair> RetValDeque;
 
-//	bool BlockBrace;
+	//	bool BlockBrace;
 
 	bool RegularExpression;
 	bool BareWord;
 
-	enum tEmbeddableExpressionState
-	{	evsStart, evsNextIsStringLiteral, evsNextIsExpression };
+	enum tEmbeddableExpressionState { evsStart,
+									  evsNextIsStringLiteral,
+									  evsNextIsExpression };
 
-	struct tEmbeddableExpressionData
-	{
+	struct tEmbeddableExpressionData {
 		tEmbeddableExpressionState State;
 		tjs_int WaitingNestLevel;
 		tjs_int WaitingToken;
@@ -91,7 +87,6 @@ private:
 	};
 
 	std::vector<tEmbeddableExpressionData> EmbeddableExpressionDataStack;
-
 
 	tTJSScriptBlock *Block;
 
@@ -103,7 +98,7 @@ private:
 	tjs_int GetToken(tjs_int &value);
 
 	tjs_int32 ParsePPExpression(const tjs_char *start,
-		tjs_int n);
+								tjs_int n);
 
 	void PreProcess(void);
 
@@ -111,22 +106,19 @@ private:
 
 	tjs_int PutValue(const tTJSVariant &val);
 
-
 	tjs_int IfLevel; // @if nesting level
 
 public:
-	const tTJSVariant & GetValue(tjs_int idx) const
-	{
+	const tTJSVariant &GetValue(tjs_int idx) const {
 		return *Values[idx];
 	}
-	const tjs_char * GetString(tjs_int idx) const
-	{
+	const tjs_char *GetString(tjs_int idx) const {
 		return Values[idx]->GetString();
 	}
 
 	void Free(void);
 
-//	void NextBraceIsBlockBrace();
+	//	void NextBraceIsBlockBrace();
 
 	tjs_int GetCurrentPosition();
 
@@ -134,7 +126,6 @@ public:
 
 	void SetStartOfRegExp(void);
 	void SetNextIsBareWord();
-
 };
 //---------------------------------------------------------------------------
 

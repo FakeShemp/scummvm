@@ -9,19 +9,17 @@
 // "tTJS" script language API class implementation
 //---------------------------------------------------------------------------
 
-#ifndef tjsH
-#define tjsH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_H
+#define KIRIKIRI2_CORE_TJS2_TJS_H
 
-#include <vector>
-#include "tjsConfig.h"
-#include "tjsVariant.h"
-#include "tjsInterface.h"
-#include "tjsString.h"
-#include "tjsMessage.h"
+#include "kirikiri2/core/tjs2/tjsConfig.h"
+#include "kirikiri2/core/tjs2/tjsInterface.h"
+#include "kirikiri2/core/tjs2/tjsMessage.h"
+#include "kirikiri2/core/tjs2/tjsString.h"
+#include "kirikiri2/core/tjs2/tjsVariant.h"
+#include "kirikiri2/lib/std/vector.h"
 
-
-namespace TJS
-{
+namespace TJS {
 
 //---------------------------------------------------------------------------
 // TJS version
@@ -34,52 +32,45 @@ extern const tjs_int TJSVersionHex;
 extern tjs_char TJSCompiledDate[];
 //---------------------------------------------------------------------------
 
-
 //---------------------------------------------------------------------------
 // Console output callback interface
 //---------------------------------------------------------------------------
-class iTJSConsoleOutput
-{
+class iTJSConsoleOutput {
 public:
 	virtual void ExceptionPrint(const tjs_char *msg) = 0;
 	virtual void Print(const tjs_char *msg) = 0;
 };
 //---------------------------------------------------------------------------
 
-
-
 //---------------------------------------------------------------------------
 // Object Hash Size Limit ( must be larger than or equal to 0 )
 //---------------------------------------------------------------------------
 extern tjs_int TJSObjectHashBitsLimit;
 
-
-
 //---------------------------------------------------------------------------
 // global options
 //---------------------------------------------------------------------------
 extern bool TJSEvalOperatorIsOnGlobal;
-	// Post-! operator (evaluate expression) is to be executed on "this" context
-	// since TJS2 2.4.1.
-	// Turn this switch true makes post-! operator running on global context,
-	// like TJS2 before 2.4.1.
+// Post-! operator (evaluate expression) is to be executed on "this" context
+// since TJS2 2.4.1.
+// Turn this switch true makes post-! operator running on global context,
+// like TJS2 before 2.4.1.
 extern bool TJSWarnOnNonGlobalEvalOperator;
-	// Output warning against non-local post-! operator.
-	// (For checking where the post-! operators are used)
+// Output warning against non-local post-! operator.
+// (For checking where the post-! operators are used)
 extern bool TJSEnableDebugMode;
-	// Enable TJS2 Debugging support. Enabling this may make the
-	// program somewhat slower and using more memory.
-	// Do not use this mode unless you want to debug the program.
+// Enable TJS2 Debugging support. Enabling this may make the
+// program somewhat slower and using more memory.
+// Do not use this mode unless you want to debug the program.
 extern bool TJSWarnOnExecutionOnDeletingObject;
-	// Output warning against running code on context of
-	// deleting-in-progress object. This is available only the Debug mode is
-	// enabled.
+// Output warning against running code on context of
+// deleting-in-progress object. This is available only the Debug mode is
+// enabled.
 extern bool TJSUnaryAsteriskIgnoresPropAccess;
-	// Unary '*' operator means accessing property object directly without
-	// normal property access, if this options is set true.
-	// This is replaced with '&' operator since TJS2 2.4.15. Turn true for
-	// gaining old compatibility.
-
+// Unary '*' operator means accessing property object directly without
+// normal property access, if this options is set true.
+// This is replaced with '&' operator since TJS2 2.4.15. Turn true for
+// gaining old compatibility.
 
 //---------------------------------------------------------------------------
 // tTJS class - "tTJS" TJS API Class
@@ -88,9 +79,9 @@ class tTJSScriptBlock;
 class tTJSPPMap;
 class tTJSCustomObject;
 class tTJSScriptCache;
-class tTJS
-{
+class tTJS {
 	friend class tTJSScriptBlock;
+
 private:
 	tjs_uint RefCount; // reference count
 
@@ -109,19 +100,19 @@ public:
 	void Shutdown();
 
 private:
-	tTJSPPMap * PPValues;
+	tTJSPPMap *PPValues;
 
-	std::vector<tTJSScriptBlock*> ScriptBlocks;
+	KiriKiri2::std::vector<tTJSScriptBlock *> ScriptBlocks;
 
 	iTJSConsoleOutput *ConsoleOutput;
 
-	tTJSCustomObject * Global;
+	tTJSCustomObject *Global;
 
-	tTJSScriptCache * Cache;
+	tTJSScriptCache *Cache;
 
 public:
-	iTJSDispatch2 * GetGlobal();
-	iTJSDispatch2 * GetGlobalNoAddRef() const;
+	iTJSDispatch2 *GetGlobal();
+	iTJSDispatch2 *GetGlobalNoAddRef() const;
 
 private:
 	void AddScriptBlock(tTJSScriptBlock *block);
@@ -129,7 +120,7 @@ private:
 
 public:
 	void SetConsoleOutput(iTJSConsoleOutput *console);
-	iTJSConsoleOutput * GetConsoleOutput() const { return ConsoleOutput; };
+	iTJSConsoleOutput *GetConsoleOutput() const { return ConsoleOutput; };
 	void OutputToConsole(const tjs_char *msg) const;
 	void OutputExceptionToConsole(const tjs_char *msg) const;
 	void OutputToConsoleWithCentering(const tjs_char *msg, tjs_uint width) const;
@@ -138,20 +129,20 @@ public:
 	void Dump(tjs_uint width = 80) const; // dumps all existing script block
 
 	void ExecScript(const tjs_char *script, tTJSVariant *result = NULL,
-		iTJSDispatch2 *context = NULL,
-		const tjs_char *name = NULL, tjs_int lineofs = 0);
+					iTJSDispatch2 *context = NULL,
+					const tjs_char *name = NULL, tjs_int lineofs = 0);
 
 	void ExecScript(const ttstr &script, tTJSVariant *result = NULL,
-		iTJSDispatch2 *context = NULL,
-		const ttstr *name = NULL, tjs_int lineofs = 0);
+					iTJSDispatch2 *context = NULL,
+					const ttstr *name = NULL, tjs_int lineofs = 0);
 
 	void EvalExpression(const tjs_char *expression, tTJSVariant *result,
-		iTJSDispatch2 *context = NULL,
-		const tjs_char *name = NULL, tjs_int lineofs = 0);
+						iTJSDispatch2 *context = NULL,
+						const tjs_char *name = NULL, tjs_int lineofs = 0);
 
 	void EvalExpression(const ttstr &expression, tTJSVariant *result,
-		iTJSDispatch2 *context = NULL,
-		const ttstr *name = NULL, tjs_int lineofs = 0);
+						iTJSDispatch2 *context = NULL,
+						const ttstr *name = NULL, tjs_int lineofs = 0);
 
 	void SetPPValue(const tjs_char *name, const tjs_int32 value);
 	tjs_int32 GetPPValue(const tjs_char *name);
@@ -159,48 +150,42 @@ public:
 	void DoGarbageCollection();
 
 	// for Bytecode
-	void LoadByteCode( const tjs_uint8* buff, size_t len, tTJSVariant *result = NULL,
-		iTJSDispatch2 *context = NULL, const tjs_char *name = NULL);
+	void LoadByteCode(const tjs_uint8 *buff, size_t len, tTJSVariant *result = NULL,
+					  iTJSDispatch2 *context = NULL, const tjs_char *name = NULL);
 
-	bool LoadByteCode( class tTJSBinaryStream* stream, tTJSVariant *result = NULL,
-		iTJSDispatch2 *context = NULL, const tjs_char *name = NULL);
+	bool LoadByteCode(class tTJSBinaryStream *stream, tTJSVariant *result = NULL,
+					  iTJSDispatch2 *context = NULL, const tjs_char *name = NULL);
 
-	void CompileScript( const tjs_char *script, class tTJSBinaryStream* output, bool isresultneeded = false, bool outputdebug = false, bool isexpression = false, const tjs_char *name = NULL, tjs_int lineofs = 0 );
+	void CompileScript(const tjs_char *script, class tTJSBinaryStream *output, bool isresultneeded = false, bool outputdebug = false, bool isexpression = false, const tjs_char *name = NULL, tjs_int lineofs = 0);
 };
 //---------------------------------------------------------------------------
-
 
 /*[*/
 //---------------------------------------------------------------------------
 // iTJSTextStream - used by Array.save/load Dictionaty.save/load
 //---------------------------------------------------------------------------
 class tTJSString;
-class iTJSTextReadStream
-{
+class iTJSTextReadStream {
 public:
-	virtual tjs_uint TJS_INTF_METHOD Read(tTJSString & targ, tjs_uint size) = 0;
+	virtual tjs_uint TJS_INTF_METHOD Read(tTJSString &targ, tjs_uint size) = 0;
 	virtual void TJS_INTF_METHOD Destruct() = 0; // must delete itself
 };
 //---------------------------------------------------------------------------
-class iTJSTextWriteStream
-{
+class iTJSTextWriteStream {
 public:
-	virtual void TJS_INTF_METHOD Write(const tTJSString & targ) = 0;
+	virtual void TJS_INTF_METHOD Write(const tTJSString &targ) = 0;
 	virtual void TJS_INTF_METHOD Destruct() = 0; // must delete itself
 };
 //---------------------------------------------------------------------------
-extern iTJSTextReadStream * (*TJSCreateTextStreamForRead)(const tTJSString &name,
-	const tTJSString &modestr);
-extern iTJSTextWriteStream * (*TJSCreateTextStreamForWrite)(const tTJSString &name,
-	const tTJSString &modestr);
-extern class tTJSBinaryStream * (*TJSCreateBinaryStreamForRead)(const tTJSString &name,
-	const tTJSString &modestr);
-extern class tTJSBinaryStream * (*TJSCreateBinaryStreamForWrite)(const tTJSString &name,
-	const tTJSString &modestr);
+extern iTJSTextReadStream *(*TJSCreateTextStreamForRead)(const tTJSString &name,
+														 const tTJSString &modestr);
+extern iTJSTextWriteStream *(*TJSCreateTextStreamForWrite)(const tTJSString &name,
+														   const tTJSString &modestr);
+extern class tTJSBinaryStream *(*TJSCreateBinaryStreamForRead)(const tTJSString &name,
+															   const tTJSString &modestr);
+extern class tTJSBinaryStream *(*TJSCreateBinaryStreamForWrite)(const tTJSString &name,
+																const tTJSString &modestr);
 //---------------------------------------------------------------------------
-
-
-
 
 /*]*/
 /*[*/
@@ -219,40 +204,33 @@ extern class tTJSBinaryStream * (*TJSCreateBinaryStreamForWrite)(const tTJSStrin
 #define TJS_BS_SEEK_END 2
 //---------------------------------------------------------------------------
 
-
-
-
 /*]*/
-
-
-
 
 //---------------------------------------------------------------------------
 // tTJSBinaryStream base stream class
 //---------------------------------------------------------------------------
-class tTJSBinaryStream
-{
+class tTJSBinaryStream {
 private:
 public:
 	//-- must implement
 	virtual tjs_uint64 TJS_INTF_METHOD Seek(tjs_int64 offset, tjs_int whence) = 0;
-		/* if error, position is not changed */
+	/* if error, position is not changed */
 
 	//-- optionally to implement
 	virtual tjs_uint TJS_INTF_METHOD Read(void *buffer, tjs_uint read_size) = 0;
-		/* returns actually read size */
+	/* returns actually read size */
 
 	virtual tjs_uint TJS_INTF_METHOD Write(const void *buffer, tjs_uint write_size) = 0;
-		/* returns actually written size */
+	/* returns actually written size */
 
 	virtual void TJS_INTF_METHOD SetEndOfStorage();
-		// the default behavior is raising a exception
-		/* if error, raises exception */
+	// the default behavior is raising a exception
+	/* if error, raises exception */
 
 	//-- should re-implement for higher performance
 	virtual tjs_uint64 TJS_INTF_METHOD GetSize() = 0;
 
-	virtual ~tTJSBinaryStream() {;}
+	virtual ~tTJSBinaryStream() { ; }
 
 	tjs_uint64 GetPosition();
 
@@ -267,11 +245,7 @@ public:
 };
 //---------------------------------------------------------------------------
 
-
-
 //---------------------------------------------------------------------------
 
-}
+} // namespace TJS
 #endif
-
-

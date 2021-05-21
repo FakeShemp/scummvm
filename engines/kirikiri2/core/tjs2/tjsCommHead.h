@@ -9,12 +9,11 @@
 // tjs common header
 //---------------------------------------------------------------------------
 
-
 /*
 	Add headers that would not be frequently changed.
 */
-#ifndef tjsCommHeadH
-#define tjsCommHeadH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_COMM_HEAD_H
+#define KIRIKIRI2_CORE_TJS2_TJS_COMM_HEAD_H
 
 #ifdef TJS_SUPPORT_VCL
 #include <vcl.h>
@@ -24,33 +23,30 @@
 #include <windows.h>
 #endif
 
-
 #include <string.h>
 #ifndef __USE_UNIX98
 #define __USE_UNIX98
 #endif
-#include <wchar.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <malloc.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <wchar.h>
 
-#include <vector>
-#include <string>
+#include "kirikiri2/lib/std/vector.h"
 #include <stdexcept>
+#include <string>
 
-#include "tjsConfig.h"
+#include "kirikiri2/core/tjs2/tjsConfig.h"
 
-#include "tjs.h"
+#include "kirikiri2/core/tjs2/tjs.h"
 
 typedef std::basic_string<TJS::tjs_char> stdstring;
 typedef std::basic_string<TJS::tjs_nchar> stdnstring;
 
 #ifdef TJS_SUPPORT_VCL
-	#pragma intrinsic strcpy
-	#pragma intrinsic strcmp  // why these are needed?
+#pragma intrinsic strcpy
+#pragma intrinsic strcmp // why these are needed?
 #endif
 
 //---------------------------------------------------------------------------
 #endif
-
-

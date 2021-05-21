@@ -9,42 +9,35 @@
 // Script block caching
 //---------------------------------------------------------------------------
 
-#ifndef tjsScriptCacheH
-#define tjsScriptCacheH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_SCRIPT_CACHE_H
+#define KIRIKIRI2_CORE_TJS2_TJS_SCRIPT_CACHE_H
 
-#include "tjsConfig.h"
-#include "tjsHashSearch.h"
-#include "tjsUtils.h"
+#include "kirikiri2/core/tjs2/tjsConfig.h"
+#include "kirikiri2/core/tjs2/tjsHashSearch.h"
+#include "kirikiri2/core/tjs2/tjsUtils.h"
 
-
-namespace TJS
-{
+namespace TJS {
 
 //---------------------------------------------------------------------------
 // tTJSScriptCache - a class to cache script blocks
 //---------------------------------------------------------------------------
 class tTJS;
-class tTJSScriptCache
-{
+class tTJSScriptCache {
 private:
-	struct tScriptCacheData
-	{
+	struct tScriptCacheData {
 		ttstr Script;
 		bool ExpressionMode;
 		bool MustReturnResult;
 
-		bool operator ==(const tScriptCacheData &rhs) const
-		{
+		bool operator==(const tScriptCacheData &rhs) const {
 			return Script == rhs.Script && ExpressionMode == rhs.ExpressionMode &&
-				MustReturnResult == rhs.MustReturnResult;
+				   MustReturnResult == rhs.MustReturnResult;
 		}
 	};
 
-	class tScriptCacheHashFunc
-	{
+	class tScriptCacheHashFunc {
 	public:
-		static tjs_uint32 Make(const tScriptCacheData &val)
-		{
+		static tjs_uint32 Make(const tScriptCacheData &val) {
 			tjs_uint32 v = tTJSHashFunc<ttstr>::Make(val.Script);
 			v ^= val.ExpressionMode;
 			v ^= val.MustReturnResult;
@@ -65,34 +58,29 @@ public:
 	tTJSScriptCache(tTJS *owner);
 	virtual ~tTJSScriptCache();
 
-
 public:
 	void ExecScript(const tjs_char *script, tTJSVariant *result,
-		iTJSDispatch2 * context,
-		const tjs_char *name, tjs_int lineofs);
+					iTJSDispatch2 *context,
+					const tjs_char *name, tjs_int lineofs);
 
 	void ExecScript(const ttstr &script, tTJSVariant *result,
-		iTJSDispatch2 * context,
-		const ttstr *name, tjs_int lineofs);
-
+					iTJSDispatch2 *context,
+					const ttstr *name, tjs_int lineofs);
 
 public:
-
 	void EvalExpression(const tjs_char *expression, tTJSVariant *result,
-		iTJSDispatch2 * context,
-		const tjs_char *name, tjs_int lineofs);
+						iTJSDispatch2 *context,
+						const tjs_char *name, tjs_int lineofs);
 
 	void EvalExpression(const ttstr &expression, tTJSVariant *result,
-		iTJSDispatch2 * context,
-		const ttstr *name, tjs_int lineofs);
+						iTJSDispatch2 *context,
+						const ttstr *name, tjs_int lineofs);
 
 	// for Bytecode
-	void LoadByteCode( const tjs_uint8* buff, size_t len, tTJSVariant *result,
-		iTJSDispatch2 *context, const tjs_char *name );
+	void LoadByteCode(const tjs_uint8 *buff, size_t len, tTJSVariant *result,
+					  iTJSDispatch2 *context, const tjs_char *name);
 };
 //---------------------------------------------------------------------------
 
-}
+} // namespace TJS
 #endif
-
-

@@ -8,19 +8,18 @@
 //---------------------------------------------------------------------------
 // TJS Global String Map
 //---------------------------------------------------------------------------
-#ifndef tjsGlobalStringMapH
-#define tjsGlobalStringMapH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_GLOBAL_STRING_MAP_H
+#define KIRIKIRI2_CORE_TJS2_TJS_GLOBAL_STRING_MAP_H
 
-#include "tjsString.h"
+#include "kirikiri2/core/tjs2/tjsString.h"
 
-namespace TJS
-{
+namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSGlobalStringMap - hash map to keep constant strings shared
 //---------------------------------------------------------------------------
 extern void TJSAddRefGlobalStringMap();
 extern void TJSReleaseGlobalStringMap();
-TJS_EXP_FUNC_DEF(ttstr, TJSMapGlobalStringMap, (const ttstr & string));
+TJS_EXP_FUNC_DEF(ttstr, TJSMapGlobalStringMap, (const ttstr &string));
 //---------------------------------------------------------------------------
 } // namespace TJS
 

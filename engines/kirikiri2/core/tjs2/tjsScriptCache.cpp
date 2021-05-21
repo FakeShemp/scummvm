@@ -9,68 +9,57 @@
 // Script block caching
 //---------------------------------------------------------------------------
 
-#include "tjsCommHead.h"
+#include "kirikiri2/core/tjs2/tjsCommHead.h"
 
-#include "tjs.h"
-#include "tjsScriptCache.h"
-#include "tjsScriptBlock.h"
-#include "tjsByteCodeLoader.h"
+#include "kirikiri2/core/tjs2/tjs.h"
+#include "kirikiri2/core/tjs2/tjsByteCodeLoader.h"
+#include "kirikiri2/core/tjs2/tjsScriptBlock.h"
+#include "kirikiri2/core/tjs2/tjsScriptCache.h"
 
 #define TJS_SCRIPT_CACHE_MAX 64
 
-
 // currently this object holds only anonymous, single-context expression.
 
-namespace TJS
-{
+namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSScriptCache - a class to cache script blocks
 //---------------------------------------------------------------------------
 tTJSScriptCache::tTJSScriptCache(tTJS *owner)
-	: Cache(TJS_SCRIPT_CACHE_MAX)
-{
+	: Cache(TJS_SCRIPT_CACHE_MAX) {
 	Owner = owner;
 }
 //---------------------------------------------------------------------------
-tTJSScriptCache::~tTJSScriptCache()
-{
+tTJSScriptCache::~tTJSScriptCache() {
 }
 //---------------------------------------------------------------------------
 void tTJSScriptCache::ExecScript(const tjs_char *script, tTJSVariant *result,
-		iTJSDispatch2 * context,
-		const tjs_char *name, tjs_int lineofs)
-{
+								 iTJSDispatch2 *context,
+								 const tjs_char *name, tjs_int lineofs) {
 	// currently this does nothing with normal script blocks.
 	tTJSScriptBlock *blk = new tTJSScriptBlock(Owner);
 
-	try
-	{
-		if(name) blk->SetName(name, lineofs);
+	try {
+		if (name)
+			blk->SetName(name, lineofs);
 		blk->SetText(result, script, context, false);
-	}
-	catch(...)
-	{
+	} catch (...) {
 		blk->Release();
 		throw;
 	}
 
 	blk->Release();
-
 }
 //---------------------------------------------------------------------------
 void tTJSScriptCache::ExecScript(const ttstr &script, tTJSVariant *result,
-		iTJSDispatch2 * context,
-		const ttstr *name, tjs_int lineofs)
-{
+								 iTJSDispatch2 *context,
+								 const ttstr *name, tjs_int lineofs) {
 	tTJSScriptBlock *blk = new tTJSScriptBlock(Owner);
 
-	try
-	{
-		if(name) blk->SetName(name->c_str(), lineofs);
+	try {
+		if (name)
+			blk->SetName(name->c_str(), lineofs);
 		blk->SetText(result, script.c_str(), context, false);
-	}
-	catch(...)
-	{
+	} catch (...) {
 		blk->Release();
 		throw;
 	}
@@ -79,21 +68,16 @@ void tTJSScriptCache::ExecScript(const ttstr &script, tTJSVariant *result,
 }
 //---------------------------------------------------------------------------
 void tTJSScriptCache::EvalExpression(const tjs_char *expression,
-	tTJSVariant *result, iTJSDispatch2 * context,
-	const tjs_char *name, tjs_int lineofs)
-{
+									 tTJSVariant *result, iTJSDispatch2 *context,
+									 const tjs_char *name, tjs_int lineofs) {
 	// currently this works only with anonymous script blocks.
-	if(name)
-	{
+	if (name) {
 		tTJSScriptBlock *blk = new tTJSScriptBlock(Owner);
 
-		try
-		{
+		try {
 			blk->SetName(name, lineofs);
 			blk->SetText(result, expression, context, true);
-		}
-		catch(...)
-		{
+		} catch (...) {
 			blk->Release();
 			throw;
 		}
@@ -112,8 +96,7 @@ void tTJSScriptCache::EvalExpression(const tjs_char *expression,
 
 	tScriptBlockHolder *holder = Cache.FindAndTouchWithHash(data, hash);
 
-	if(holder)
-	{
+	if (holder) {
 		// found in cache
 
 		// execute script block in cache
@@ -124,19 +107,15 @@ void tTJSScriptCache::EvalExpression(const tjs_char *expression,
 	// not found in cache
 	tTJSScriptBlock *blk = new tTJSScriptBlock(Owner);
 
-	try
-	{
+	try {
 		blk->SetText(result, expression, context, true);
-	}
-	catch(...)
-	{
+	} catch (...) {
 		blk->Release();
 		throw;
 	}
 
 	// add to cache
-	if(blk->IsReusable())
-	{
+	if (blk->IsReusable()) {
 		// currently only single-context script block is cached
 		tScriptBlockHolder newholder(blk);
 		Cache.AddWithHash(data, hash, newholder);
@@ -147,24 +126,19 @@ void tTJSScriptCache::EvalExpression(const tjs_char *expression,
 }
 //---------------------------------------------------------------------------
 void tTJSScriptCache::EvalExpression(const ttstr &expression, tTJSVariant *result,
-		iTJSDispatch2 * context,
-		const ttstr *name, tjs_int lineofs)
-{
+									 iTJSDispatch2 *context,
+									 const ttstr *name, tjs_int lineofs) {
 	// currently this works only with anonymous script blocks.
 
 	// note that this function is basically the same as function above.
 
-	if(name && !name->IsEmpty())
-	{
+	if (name && !name->IsEmpty()) {
 		tTJSScriptBlock *blk = new tTJSScriptBlock(Owner);
 
-		try
-		{
+		try {
 			blk->SetName(name->c_str(), lineofs);
 			blk->SetText(result, expression.c_str(), context, true);
-		}
-		catch(...)
-		{
+		} catch (...) {
 			blk->Release();
 			throw;
 		}
@@ -183,8 +157,7 @@ void tTJSScriptCache::EvalExpression(const ttstr &expression, tTJSVariant *resul
 
 	tScriptBlockHolder *holder = Cache.FindAndTouchWithHash(data, hash);
 
-	if(holder)
-	{
+	if (holder) {
 		// found in cache
 
 		// execute script block in cache
@@ -195,19 +168,15 @@ void tTJSScriptCache::EvalExpression(const ttstr &expression, tTJSVariant *resul
 	// not found in cache
 	tTJSScriptBlock *blk = new tTJSScriptBlock(Owner);
 
-	try
-	{
+	try {
 		blk->SetText(result, expression.c_str(), context, true);
-	}
-	catch(...)
-	{
+	} catch (...) {
 		blk->Release();
 		throw;
 	}
 
 	// add to cache
-	if(blk->IsReusable())
-	{
+	if (blk->IsReusable()) {
 		// currently only single-context script block is cached
 		tScriptBlockHolder newholder(blk);
 		Cache.AddWithHash(data, hash, newholder);
@@ -218,25 +187,26 @@ void tTJSScriptCache::EvalExpression(const ttstr &expression, tTJSVariant *resul
 }
 //---------------------------------------------------------------------------
 // for Bytecode
-void tTJSScriptCache::LoadByteCode( const tjs_uint8* buff, size_t len, tTJSVariant *result,
-		iTJSDispatch2 *context, const tjs_char *name )
-{
-	tTJSByteCodeLoader* loader = new tTJSByteCodeLoader();
-	tTJSScriptBlock* blk = NULL;
+void tTJSScriptCache::LoadByteCode(const tjs_uint8 *buff, size_t len, tTJSVariant *result,
+								   iTJSDispatch2 *context, const tjs_char *name) {
+	tTJSByteCodeLoader *loader = new tTJSByteCodeLoader();
+	tTJSScriptBlock *blk = NULL;
 	try {
-		blk = loader->ReadByteCode( Owner, name, buff, len );
-		if( blk != NULL ) {
+		blk = loader->ReadByteCode(Owner, name, buff, len);
+		if (blk != NULL) {
 			// blk->Dump();
-			blk->ExecuteTopLevel( result, context );
+			blk->ExecuteTopLevel(result, context);
 		} else {
-			TJS_eTJSScriptError( TJSByteCodeBroken, blk, 0 );
+			TJS_eTJSScriptError(TJSByteCodeBroken, blk, 0);
 		}
-	} catch(...) {
-		if( blk ) blk->Release();
+	} catch (...) {
+		if (blk)
+			blk->Release();
 		delete loader;
 		throw;
 	}
-	if( blk ) blk->Release();
+	if (blk)
+		blk->Release();
 	delete loader;
 }
 //---------------------------------------------------------------------------

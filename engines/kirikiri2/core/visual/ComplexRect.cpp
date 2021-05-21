@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------
 // Complex Rectangle Class
 //---------------------------------------------------------------------------
-#include "tjsCommHead.h"
+#include "kirikiri2/core/tjs2/tjsCommHead.h"
 
 #include "kirikiri2/core/visual/ComplexRect.h"
 #include "kirikiri2/lib/std/algorithm.h"

@@ -7,20 +7,19 @@
 */
 //---------------------------------------------------------------------------
 
-#ifndef tjsConstArrayDataH
-#define tjsConstArrayDataH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_CONST_ARRAY_DATA_H
+#define KIRIKIRI2_CORE_TJS2_TJS_CONST_ARRAY_DATA_H
 
-#include "tjsTypes.h"
-#include <vector>
-#include "tjsVariant.h"
-#include "tjsScriptBlock.h"
-#include <map>
+#include "kirikiri2/core/tjs2/tjsScriptBlock.h"
+#include "kirikiri2/core/tjs2/tjsTypes.h"
+#include "kirikiri2/core/tjs2/tjsVariant.h"
+#include "kirikiri2/lib/std/map.h"
+#include "kirikiri2/lib/std/vector.h"
 #include <string>
 
-namespace TJS
-{
+namespace TJS {
 /**
- * TJS2 ƒoƒCƒgƒR[ƒh‘‚«o‚µ‚Å Variant Œ^‚ğ•ª—£‚µAŒÅ—LŒ^‚Å•Û‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX
+ * TJS2 ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰æ›¸ãå‡ºã—ã§ Variant å‹ã‚’åˆ†é›¢ã—ã€å›ºæœ‰å‹ã§ä¿æŒã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
  */
 class tjsConstArrayData {
 private:
@@ -30,16 +29,16 @@ private:
 	std::vector<tjs_int64> Long;
 	std::vector<double> Double;
 	std::vector<std::wstring> String;
-	std::vector<std::vector<tjs_uint8>* > ByteBuffer;
+	std::vector<std::vector<tjs_uint8> *> ByteBuffer;
 
-	// •Û‚µ‚½‚©‚Ç‚¤‚©”»’è‚·‚é‚½‚ß‚ÌƒnƒbƒVƒ…
-	std::map<tjs_int8,int> ByteHash;
-	std::map<tjs_int16,int> ShortHash;
-	std::map<tjs_int32,int> IntegerHash;
-	std::map<tjs_int64,int> LongHash;
-	std::map<double,int> DoubleHash;
-	std::map<std::wstring,int> StringHash;
-	// ƒIƒNƒeƒbƒgŒ^‚Ì‚ÍƒnƒbƒVƒ…‚ğg‚Á‚Ä‚¢‚È‚¢
+	// ä¿æŒã—ãŸã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ãŸã‚ã®ãƒãƒƒã‚·ãƒ¥
+	std::map<tjs_int8, int> ByteHash;
+	std::map<tjs_int16, int> ShortHash;
+	std::map<tjs_int32, int> IntegerHash;
+	std::map<tjs_int64, int> LongHash;
+	std::map<double, int> DoubleHash;
+	std::map<std::wstring, int> StringHash;
+	// ã‚ªã‚¯ãƒ†ãƒƒãƒˆå‹ã®æ™‚ã¯ãƒãƒƒã‚·ãƒ¥ã‚’ä½¿ã£ã¦ã„ãªã„
 
 	static const tjs_uint8 TYPE_VOID = 0;
 	static const tjs_uint8 TYPE_OBJECT = 1;
@@ -54,80 +53,80 @@ private:
 	static const tjs_uint8 TYPE_UNKNOWN = -1;
 
 	/**
-	 * ƒIƒNƒeƒbƒgŒ^‚Ì’l‚ğŠi”[‚·‚é
+	 * ã‚ªã‚¯ãƒ†ãƒƒãƒˆå‹ã®å€¤ã‚’æ ¼ç´ã™ã‚‹
 	 */
-	int PutByteBuffer( tTJSVariantOctet* val );
+	int PutByteBuffer(tTJSVariantOctet *val);
 
 	/**
-	 * 1ƒoƒCƒg‚Ì’l‚ğŠi”[‚·‚é
+	 * 1ãƒã‚¤ãƒˆã®å€¤ã‚’æ ¼ç´ã™ã‚‹
 	 */
-	int PutByte( tjs_int8 b );
-	
-	/**
-	 * 2ƒoƒCƒg‚Ì’l‚ğŠi”[‚·‚é
-	 */
-	int PutShort( tjs_int16 b );
-	
-	/**
-	 * 4ƒoƒCƒg‚Ì’l‚ğŠi”[‚·‚é
-	 */
-	int PutInteger( tjs_int32 b );
-	
-	/**
-	 * 8ƒoƒCƒg‚Ì’l‚ğŠi”[‚·‚é
-	 */
-	int PutLong( tjs_int64 b );
-	
-	/**
-	 * •‚“®¬”“_’l‚ğŠi”[‚·‚é
-	 */
-	int PutDouble( double b );
+	int PutByte(tjs_int8 b);
 
-	static inline void Add8ByteToVector( std::vector<tjs_uint8>* array, tjs_int64 value ) {
-		array->push_back( (tjs_uint8)((value>>0)&0xff) );
-		array->push_back( (tjs_uint8)((value>>8)&0xff) );
-		array->push_back( (tjs_uint8)((value>>16)&0xff) );
-		array->push_back( (tjs_uint8)((value>>24)&0xff) );
-		array->push_back( (tjs_uint8)((value>>32)&0xff) );
-		array->push_back( (tjs_uint8)((value>>40)&0xff) );
-		array->push_back( (tjs_uint8)((value>>48)&0xff) );
-		array->push_back( (tjs_uint8)((value>>56)&0xff) );
+	/**
+	 * 2ãƒã‚¤ãƒˆã®å€¤ã‚’æ ¼ç´ã™ã‚‹
+	 */
+	int PutShort(tjs_int16 b);
+
+	/**
+	 * 4ãƒã‚¤ãƒˆã®å€¤ã‚’æ ¼ç´ã™ã‚‹
+	 */
+	int PutInteger(tjs_int32 b);
+
+	/**
+	 * 8ãƒã‚¤ãƒˆã®å€¤ã‚’æ ¼ç´ã™ã‚‹
+	 */
+	int PutLong(tjs_int64 b);
+
+	/**
+	 * æµ®å‹•å°æ•°ç‚¹å€¤ã‚’æ ¼ç´ã™ã‚‹
+	 */
+	int PutDouble(double b);
+
+	static inline void Add8ByteToVector(std::vector<tjs_uint8> *array, tjs_int64 value) {
+		array->push_back((tjs_uint8)((value >> 0) & 0xff));
+		array->push_back((tjs_uint8)((value >> 8) & 0xff));
+		array->push_back((tjs_uint8)((value >> 16) & 0xff));
+		array->push_back((tjs_uint8)((value >> 24) & 0xff));
+		array->push_back((tjs_uint8)((value >> 32) & 0xff));
+		array->push_back((tjs_uint8)((value >> 40) & 0xff));
+		array->push_back((tjs_uint8)((value >> 48) & 0xff));
+		array->push_back((tjs_uint8)((value >> 56) & 0xff));
 	}
-	static inline void Add4ByteToVector( std::vector<tjs_uint8>* array, int value ) {
-		array->push_back( (tjs_uint8)((value>>0)&0xff) );
-		array->push_back( (tjs_uint8)((value>>8)&0xff) );
-		array->push_back( (tjs_uint8)((value>>16)&0xff) );
-		array->push_back( (tjs_uint8)((value>>24)&0xff) );
+	static inline void Add4ByteToVector(std::vector<tjs_uint8> *array, int value) {
+		array->push_back((tjs_uint8)((value >> 0) & 0xff));
+		array->push_back((tjs_uint8)((value >> 8) & 0xff));
+		array->push_back((tjs_uint8)((value >> 16) & 0xff));
+		array->push_back((tjs_uint8)((value >> 24) & 0xff));
 	}
-	static inline void Add2ByteToVector( std::vector<tjs_uint8>* array, tjs_int16 value ) {
-		array->push_back( (tjs_uint8)((value>>0)&0xff) );
-		array->push_back( (tjs_uint8)((value>>8)&0xff) );
+	static inline void Add2ByteToVector(std::vector<tjs_uint8> *array, tjs_int16 value) {
+		array->push_back((tjs_uint8)((value >> 0) & 0xff));
+		array->push_back((tjs_uint8)((value >> 8) & 0xff));
 	}
+
 public:
 	tjsConstArrayData() {}
 	~tjsConstArrayData();
 
 	/**
-	 * •¶š—ñ‚ğŠi”[‚·‚é
+	 * æ–‡å­—åˆ—ã‚’æ ¼ç´ã™ã‚‹
 	 */
-	int PutString( const tjs_char* val );
+	int PutString(const tjs_char *val);
 
 	/**
-	 * ƒoƒCƒAƒ“ƒgŒ^‚ªŠi”[‚µ‚Ä‚¢‚éŒ^‚ğ“¾‚é
+	 * ãƒã‚¤ã‚¢ãƒ³ãƒˆå‹ãŒæ ¼ç´ã—ã¦ã„ã‚‹å‹ã‚’å¾—ã‚‹
 	 */
-	int GetType( tTJSVariant& v, tTJSScriptBlock* block );
+	int GetType(tTJSVariant &v, tTJSScriptBlock *block);
 
 	/**
-	 * ƒoƒCƒAƒ“ƒg’l‚ğŠi”[‚·‚é
+	 * ãƒã‚¤ã‚¢ãƒ³ãƒˆå€¤ã‚’æ ¼ç´ã™ã‚‹
 	 */
-	int PutVariant( tTJSVariant& v, tTJSScriptBlock* block );
+	int PutVariant(tTJSVariant &v, tTJSScriptBlock *block);
 
 	/**
-	 * •Û‚³‚ê‚Ä‚¢‚é’l‚ğƒoƒCƒg—ñ‚É‚µ‚Äæ‚èo‚·
+	 * ä¿æŒã•ã‚Œã¦ã„ã‚‹å€¤ã‚’ãƒã‚¤ãƒˆåˆ—ã«ã—ã¦å–ã‚Šå‡ºã™
 	 */
-	std::vector<tjs_uint8>* ExportBuffer();
+	std::vector<tjs_uint8> *ExportBuffer();
 };
 
-} // namespace
+} // namespace TJS
 #endif // tjsConstArrayDataH
-

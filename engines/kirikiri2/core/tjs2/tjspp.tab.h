@@ -33,65 +33,55 @@ namespace TJS {
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-
 /* Tokens.  */
 #ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
+#define YYTOKENTYPE
+/* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
-   enum yytokentype {
-     PT_LPARENTHESIS = 258,
-     PT_RPARENTHESIS = 259,
-     PT_ERROR = 260,
-     PT_COMMA = 261,
-     PT_EQUAL = 262,
-     PT_NOTEQUAL = 263,
-     PT_EQUALEQUAL = 264,
-     PT_LOGICALOR = 265,
-     PT_LOGICALAND = 266,
-     PT_VERTLINE = 267,
-     PT_CHEVRON = 268,
-     PT_AMPERSAND = 269,
-     PT_LT = 270,
-     PT_GT = 271,
-     PT_LTOREQUAL = 272,
-     PT_GTOREQUAL = 273,
-     PT_PLUS = 274,
-     PT_MINUS = 275,
-     PT_ASTERISK = 276,
-     PT_SLASH = 277,
-     PT_PERCENT = 278,
-     PT_EXCLAMATION = 279,
-     PT_UN = 280,
-     PT_SYMBOL = 281,
-     PT_NUM = 282
-   };
+enum yytokentype {
+	PT_LPARENTHESIS = 258,
+	PT_RPARENTHESIS = 259,
+	PT_ERROR = 260,
+	PT_COMMA = 261,
+	PT_EQUAL = 262,
+	PT_NOTEQUAL = 263,
+	PT_EQUALEQUAL = 264,
+	PT_LOGICALOR = 265,
+	PT_LOGICALAND = 266,
+	PT_VERTLINE = 267,
+	PT_CHEVRON = 268,
+	PT_AMPERSAND = 269,
+	PT_LT = 270,
+	PT_GT = 271,
+	PT_LTOREQUAL = 272,
+	PT_GTOREQUAL = 273,
+	PT_PLUS = 274,
+	PT_MINUS = 275,
+	PT_ASTERISK = 276,
+	PT_SLASH = 277,
+	PT_PERCENT = 278,
+	PT_EXCLAMATION = 279,
+	PT_UN = 280,
+	PT_SYMBOL = 281,
+	PT_NUM = 282
+};
 #endif
 
-
-
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE
-{
+#if !defined YYSTYPE && !defined YYSTYPE_IS_DECLARED
+typedef union YYSTYPE {
 
 /* Line 1676 of yacc.c  */
 #line 49 "tjspp.y"
 
-	tjs_int32		val;
-	tjs_int			nv;
-
-
+	tjs_int32 val;
+	tjs_int nv;
 
 /* Line 1676 of yacc.c  */
 #line 86 "tjspp.tab.h"
 } YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
-# define YYSTYPE_IS_DECLARED 1
+#define YYSTYPE_IS_TRIVIAL 1
+#define yystype YYSTYPE /* obsolescent; will be withdrawn */
+#define YYSTYPE_IS_DECLARED 1
 #endif
 
-
-
-
-
-}
+} // namespace TJS

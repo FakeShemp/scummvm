@@ -9,37 +9,34 @@
 // Math.RandomGenerator implementation
 //---------------------------------------------------------------------------
 
-#ifndef tjsRandomGeneratorH
-#define tjsRandomGeneratorH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_RANDOM_GENERATOR_H
+#define KIRIKIRI2_CORE_TJS2_TJS_RANDOM_GENERATOR_H
 
+#include "kirikiri2/core/tjs2/tjsMT19937ar-cok.h"
+#include "kirikiri2/core/tjs2/tjsNative.h"
 #include <time.h>
-#include "tjsNative.h"
-#include "tjsMT19937ar-cok.h"
 
-namespace TJS
-{
+namespace TJS {
 //---------------------------------------------------------------------------
 extern void (*TJSGetRandomBits128)(void *dest);
-    // retrives 128-bits (16bytes) random bits for random seed.
-    // this can be override application-specified routine, otherwise
-    // TJS2 uses current time as a random seed.
+// retrives 128-bits (16bytes) random bits for random seed.
+// this can be override application-specified routine, otherwise
+// TJS2 uses current time as a random seed.
 //---------------------------------------------------------------------------
 
-
-
 //---------------------------------------------------------------------------
-class tTJSNI_RandomGenerator : public tTJSNativeInstance
-{
+class tTJSNI_RandomGenerator : public tTJSNativeInstance {
 public:
 	tTJSNI_RandomGenerator();
-    ~tTJSNI_RandomGenerator();
+	~tTJSNI_RandomGenerator();
+
 private:
 	tTJSMersenneTwister *Generator;
 
 public:
-	iTJSDispatch2 * Serialize();
+	iTJSDispatch2 *Serialize();
 
-	void Randomize(tTJSVariant ** param, tjs_int numparams);
+	void Randomize(tTJSVariant **param, tjs_int numparams);
 	double Random();
 	tjs_uint32 Random32();
 	tjs_int64 Random63();
@@ -47,12 +44,8 @@ public:
 };
 //---------------------------------------------------------------------------
 
-
-
-
 //---------------------------------------------------------------------------
-class tTJSNC_RandomGenerator : public tTJSNativeClass
-{
+class tTJSNC_RandomGenerator : public tTJSNativeClass {
 public:
 	tTJSNC_RandomGenerator();
 

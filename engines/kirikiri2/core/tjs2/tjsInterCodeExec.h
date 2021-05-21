@@ -9,19 +9,16 @@
 // Intermediate Code Execution
 //---------------------------------------------------------------------------
 
-#ifndef tjsInterCodeExecH
-#define tjsInterCodeExecH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_INTER_CODE_EXEC_H
+#define KIRIKIRI2_CORE_TJS2_TJS_INTER_CODE_EXEC_H
 
-
-namespace TJS
-{
+namespace TJS {
 //---------------------------------------------------------------------------
 extern void TJSVariantArrayStackAddRef();
 extern void TJSVariantArrayStackRelease();
 extern void TJSVariantArrayStackCompact();
 extern void TJSVariantArrayStackCompactNow();
 //---------------------------------------------------------------------------
-}
-
+} // namespace TJS
 
 #endif

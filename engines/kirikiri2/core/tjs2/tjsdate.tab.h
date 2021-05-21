@@ -33,45 +33,35 @@ namespace TJS {
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-
 /* Tokens.  */
 #ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
+#define YYTOKENTYPE
+/* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
-   enum yytokentype {
-     DP_AM = 258,
-     DP_PM = 259,
-     DP_NUMBER = 260,
-     DP_MONTH = 261,
-     DP_WDAY = 262,
-     DP_TZ = 263
-   };
+enum yytokentype {
+	DP_AM = 258,
+	DP_PM = 259,
+	DP_NUMBER = 260,
+	DP_MONTH = 261,
+	DP_WDAY = 262,
+	DP_TZ = 263
+};
 #endif
 
-
-
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE
-{
+#if !defined YYSTYPE && !defined YYSTYPE_IS_DECLARED
+typedef union YYSTYPE {
 
 /* Line 1676 of yacc.c  */
 #line 45 "tjsdate.y"
 
-	tjs_int32					val;
-
-
+	tjs_int32 val;
 
 /* Line 1676 of yacc.c  */
 #line 66 "tjsdate.tab.h"
 } YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
-# define YYSTYPE_IS_DECLARED 1
+#define YYSTYPE_IS_TRIVIAL 1
+#define yystype YYSTYPE /* obsolescent; will be withdrawn */
+#define YYSTYPE_IS_DECLARED 1
 #endif
 
-
-
-
-
-}
+} // namespace TJS

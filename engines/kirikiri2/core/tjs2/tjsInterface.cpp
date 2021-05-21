@@ -9,16 +9,12 @@
 // iTJSDispatch2 interface definition
 //---------------------------------------------------------------------------
 
-#include "tjsCommHead.h"
+#include "kirikiri2/core/tjs2/tjsCommHead.h"
 
-#include "tjsInterface.h"
+#include "kirikiri2/core/tjs2/tjsInterface.h"
 
-namespace TJS
-{
+namespace TJS {
 //---------------------------------------------------------------------------
-
 
 //---------------------------------------------------------------------------
 } // namespace TJS
-
-

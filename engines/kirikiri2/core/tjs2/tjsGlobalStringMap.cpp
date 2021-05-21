@@ -8,10 +8,10 @@
 //---------------------------------------------------------------------------
 // TJS Global String Map
 //---------------------------------------------------------------------------
-#include "tjsCommHead.h"
+#include "kirikiri2/core/tjs2/tjsCommHead.h"
 
-#include "tjsGlobalStringMap.h"
-#include "tjsHashSearch.h"
+#include "kirikiri2/core/tjs2/tjsGlobalStringMap.h"
+#include "kirikiri2/core/tjs2/tjsHashSearch.h"
 
 /*
 	Global String Map is a large string hash table, to share the string
@@ -23,107 +23,94 @@
 
 #define TJS_GLOBAL_STRING_MAP_SIZE 5000
 
-
-
-namespace TJS
-{
+namespace TJS {
 
 //---------------------------------------------------------------------------
 // tTJSGlobalStringMap - hash map to keep constant strings shared
 //---------------------------------------------------------------------------
 class tTJSGlobalStringMap;
-static tTJSGlobalStringMap * TJSGlobalStringMap = NULL;
+static tTJSGlobalStringMap *TJSGlobalStringMap = NULL;
 struct tTJSEmptyClass {};
-class tTJSGlobalStringMap
-{
+class tTJSGlobalStringMap {
 	tTJSHashCache<tTJSString, tTJSEmptyClass, tTJSHashFunc<ttstr>, 1024> Hash;
 
 	tjs_int RefCount;
 
 public:
-	tTJSGlobalStringMap()  : Hash (TJS_GLOBAL_STRING_MAP_SIZE)
-	{
+	tTJSGlobalStringMap() : Hash(TJS_GLOBAL_STRING_MAP_SIZE) {
 		RefCount = 1;
 		TJSGlobalStringMap = this;
 	}
 
 protected:
-	~tTJSGlobalStringMap()
-	{
+	~tTJSGlobalStringMap() {
 		TJSGlobalStringMap = NULL;
 	}
 
 public:
-	tTJSString _Map(const tTJSString & string)
-	{
+	tTJSString _Map(const tTJSString &string) {
 		// Search Hash, and return the string which to be shared
 
-		const tTJSString * key;
-		tTJSEmptyClass * v;
+		const tTJSString *key;
+		tTJSEmptyClass *v;
 
 		tjs_uint32 hash = tTJSHashFunc<ttstr>::Make(string);
 
-		if(Hash.FindAndTouchWithHash(string, hash, key, v))
-		{
+		if (Hash.FindAndTouchWithHash(string, hash, key, v)) {
 			ttstr ret(*key);
-			if(ret.GetHint()) *(ret.GetHint()) = hash;
+			if (ret.GetHint())
+				*(ret.GetHint()) = hash;
 			return ret;
-		}
-		else
-		{
+		} else {
 			Hash.AddWithHash(string, hash, tTJSEmptyClass());
 			ttstr ret(string);
-			if(ret.GetHint()) *(ret.GetHint()) = hash;
+			if (ret.GetHint())
+				*(ret.GetHint()) = hash;
 			return ret;
 		}
 	}
 
 protected:
-	void _AddRef() { RefCount ++; }
-	void _Release() { if(RefCount == 1) delete this; else RefCount --; }
+	void _AddRef() { RefCount++; }
+	void _Release() {
+		if (RefCount == 1)
+			delete this;
+		else
+			RefCount--;
+	}
 
 public:
-	static void AddRef()
-	{
-		if(TJSGlobalStringMap)
+	static void AddRef() {
+		if (TJSGlobalStringMap)
 			TJSGlobalStringMap->_AddRef();
 		else
 			new tTJSGlobalStringMap();
 	}
 
-	static void Release()
-	{
-		if(TJSGlobalStringMap)
+	static void Release() {
+		if (TJSGlobalStringMap)
 			TJSGlobalStringMap->_Release();
 	}
 
-	static ttstr Map(const ttstr & string)
-	{
-		if(TJSGlobalStringMap)
+	static ttstr Map(const ttstr &string) {
+		if (TJSGlobalStringMap)
 			return TJSGlobalStringMap->_Map(string);
 		else
 			return string;
 	}
 };
 //---------------------------------------------------------------------------
-void TJSAddRefGlobalStringMap()
-{
+void TJSAddRefGlobalStringMap() {
 	tTJSGlobalStringMap::AddRef();
 }
 //---------------------------------------------------------------------------
-void TJSReleaseGlobalStringMap()
-{
+void TJSReleaseGlobalStringMap() {
 	tTJSGlobalStringMap::Release();
 }
 //---------------------------------------------------------------------------
-ttstr TJSMapGlobalStringMap(const ttstr & string)
-{
+ttstr TJSMapGlobalStringMap(const ttstr &string) {
 	return tTJSGlobalStringMap::Map(string);
 }
 //---------------------------------------------------------------------------
 
-
-
-
 } // namespace TJS
-

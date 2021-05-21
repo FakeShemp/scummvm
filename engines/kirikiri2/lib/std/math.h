@@ -20,10 +20,21 @@
  *
  */
 
-// Dummy include of STD mockup headers so they'll appear in the Visual Studio project
+#ifndef KIRIKIRI2_STD_MATH_H
+#define KIRIKIRI2_STD_MATH_H
 
-#include "kirikiri2/lib/std/algorithm.h"
-#include "kirikiri2/lib/std/list.h"
-#include "kirikiri2/lib/std/map.h"
+#include "common/hashmap.h"
 #include "kirikiri2/lib/std/utility.h"
-#include "kirikiri2/lib/std/vector.h"
+
+namespace KiriKiri2 {
+namespace std {
+
+#define FLOAT_UNASSIGNED (float)999999.0
+
+template<class T>
+inline bool isUndefined(T val) { return val == FLOAT_UNASSIGNED; }
+
+} // namespace std
+} // namespace KiriKiri2
+
+#endif

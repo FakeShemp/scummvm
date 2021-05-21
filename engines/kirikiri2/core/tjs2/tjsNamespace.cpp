@@ -8,68 +8,58 @@
 //---------------------------------------------------------------------------
 // Name Space Processing
 //---------------------------------------------------------------------------
-#include "tjsCommHead.h"
+#include "kirikiri2/core/tjs2/tjsCommHead.h"
 
-#include "tjsInterface.h"
-#include "tjsNamespace.h"
-namespace TJS
-{
+#include "kirikiri2/core/tjs2/tjsInterface.h"
+#include "kirikiri2/core/tjs2/tjsNamespace.h"
+namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSLocalSymbolList
 //---------------------------------------------------------------------------
 /*
 	symbol list class for compile-time local variables look-up
 */
-tTJSLocalSymbolList::tTJSLocalSymbolList(tjs_int LocalCountStart)
-{
-	this->LocalCountStart=LocalCountStart;
+tTJSLocalSymbolList::tTJSLocalSymbolList(tjs_int LocalCountStart) {
+	this->LocalCountStart = LocalCountStart;
 	StartWriteAddr = NULL;
 	CountWriteAddr = NULL;
 }
 //---------------------------------------------------------------------------
-tTJSLocalSymbolList::~tTJSLocalSymbolList(void)
-{
-	if(StartWriteAddr)
-	{
-//		TJSMessageObserver(AnsiString("Start : ") + AnsiString(FLocalCountStart));
+tTJSLocalSymbolList::~tTJSLocalSymbolList(void) {
+	if (StartWriteAddr) {
+		//		TJSMessageObserver(AnsiString("Start : ") + AnsiString(FLocalCountStart));
 		*StartWriteAddr = LocalCountStart;
 	}
 
-	if(CountWriteAddr)
-	{
+	if (CountWriteAddr) {
 		tjs_int num = GetCount();
-//		TJSMessageObserver(AnsiString("Count : ") + AnsiString(num));
+		//		TJSMessageObserver(AnsiString("Count : ") + AnsiString(num));
 		*CountWriteAddr = num;
 	}
 
 	size_t i;
-	for(i=0;i<List.size();i++)
-	{
-		if(List[i]) delete [] List[i]->Name;
+	for (i = 0; i < List.size(); i++) {
+		if (List[i])
+			delete[] List[i]->Name;
 		delete List[i];
 	}
 }
 //---------------------------------------------------------------------------
-void tTJSLocalSymbolList::SetWriteAddr(tjs_int *StartWriteAddr, tjs_int *CountWriteAddr)
-{
+void tTJSLocalSymbolList::SetWriteAddr(tjs_int *StartWriteAddr, tjs_int *CountWriteAddr) {
 	this->StartWriteAddr = StartWriteAddr;
 	this->CountWriteAddr = CountWriteAddr;
 }
 //---------------------------------------------------------------------------
-void tTJSLocalSymbolList::Add(const tjs_char * name)
-{
-	if(Find(name)==-1)
-	{
-		tTJSLocalSymbol *newsym=new tTJSLocalSymbol;
-		newsym->Name=new tjs_char[wcslen(name)+1];
-		wcscpy(newsym->Name,name);
+void tTJSLocalSymbolList::Add(const tjs_char *name) {
+	if (Find(name) == -1) {
+		tTJSLocalSymbol *newsym = new tTJSLocalSymbol;
+		newsym->Name = new tjs_char[wcslen(name) + 1];
+		wcscpy(newsym->Name, name);
 		size_t i;
-		for(i=0;i<List.size();i++)
-		{
-			tTJSLocalSymbol *sym=List[i];
-			if(sym==NULL)
-			{
-				List[i]=newsym;
+		for (i = 0; i < List.size(); i++) {
+			tTJSLocalSymbol *sym = List[i];
+			if (sym == NULL) {
+				List[i] = newsym;
 				return;
 			}
 		}
@@ -77,37 +67,32 @@ void tTJSLocalSymbolList::Add(const tjs_char * name)
 	}
 }
 //---------------------------------------------------------------------------
-tjs_int tTJSLocalSymbolList::Find(const tjs_char *name)
-{
+tjs_int tTJSLocalSymbolList::Find(const tjs_char *name) {
 	size_t i;
-	for(i=0;i<List.size();i++)
-	{
-		tTJSLocalSymbol *sym=List[i];
-		if(sym)
-		{
-			if(!wcscmp(sym->Name,name))
+	for (i = 0; i < List.size(); i++) {
+		tTJSLocalSymbol *sym = List[i];
+		if (sym) {
+			if (!wcscmp(sym->Name, name))
 				return i;
 		}
 	}
 	return -1;
 }
 //---------------------------------------------------------------------------
-void tTJSLocalSymbolList::Remove(const tjs_char *name)
-{
-	tjs_int idx=Find(name);
-	if(idx!=-1)
-	{
-		tTJSLocalSymbol *sym=List[idx];
-		delete [] sym->Name;
+void tTJSLocalSymbolList::Remove(const tjs_char *name) {
+	tjs_int idx = Find(name);
+	if (idx != -1) {
+		tTJSLocalSymbol *sym = List[idx];
+		delete[] sym->Name;
 		delete sym;
-		List[idx]=NULL;  // un-used
+		List[idx] = NULL; // un-used
 	}
 }
 //---------------------------------------------------------------------------
 // tTJSLocalNamespace
 //---------------------------------------------------------------------------
 /*
-@a class for compile-time local variables look-up
+ï¿½@a class for compile-time local variables look-up
 */
 #ifdef TJS_DEBUG_PROFILE_TIME
 tjs_uint time_ns_Push = 0;
@@ -119,78 +104,67 @@ tjs_uint time_ns_Commit = 0;
 #endif
 
 //---------------------------------------------------------------------------
-tTJSLocalNamespace::tTJSLocalNamespace(void)
-{
-	MaxCount=0;
-	CurrentCount=0;
+tTJSLocalNamespace::tTJSLocalNamespace(void) {
+	MaxCount = 0;
+	CurrentCount = 0;
 	MaxCountWriteAddr = NULL;
 }
 //---------------------------------------------------------------------------
-tTJSLocalNamespace::~tTJSLocalNamespace(void)
-{
-	if(MaxCountWriteAddr)
-	{
-//		TJSMessageObserver(AnsiString("Max count : ")+AnsiString(FMaxCount));
+tTJSLocalNamespace::~tTJSLocalNamespace(void) {
+	if (MaxCountWriteAddr) {
+		//		TJSMessageObserver(AnsiString("Max count : ")+AnsiString(FMaxCount));
 		*MaxCountWriteAddr = MaxCount;
 	}
 }
 //---------------------------------------------------------------------------
-void tTJSLocalNamespace::SetMaxCountWriteAddr(tjs_int * MaxCountWriteAddr)
-{
+void tTJSLocalNamespace::SetMaxCountWriteAddr(tjs_int *MaxCountWriteAddr) {
 	this->MaxCountWriteAddr = MaxCountWriteAddr;
 }
 //---------------------------------------------------------------------------
-tjs_int tTJSLocalNamespace::GetCount(void)
-{
-	tjs_int count=0;
+tjs_int tTJSLocalNamespace::GetCount(void) {
+	tjs_int count = 0;
 	size_t i;
-	for(i=0;i<Levels.size();i++)
-	{
-		tTJSLocalSymbolList * list= Levels[i];
-		count+= list->GetCount();
+	for (i = 0; i < Levels.size(); i++) {
+		tTJSLocalSymbolList *list = Levels[i];
+		count += list->GetCount();
 	}
 	return count;
 }
 //---------------------------------------------------------------------------
-void tTJSLocalNamespace::Push()
-{
+void tTJSLocalNamespace::Push() {
 #ifdef TJS_DEBUG_PROFILE_TIME
 	tTJSTimeProfiler prof(time_ns_Push);
 #endif
-	CurrentCount=GetCount();
-	tTJSLocalSymbolList * list=new tTJSLocalSymbolList(CurrentCount);
+	CurrentCount = GetCount();
+	tTJSLocalSymbolList *list = new tTJSLocalSymbolList(CurrentCount);
 	Levels.push_back(list);
 }
 //---------------------------------------------------------------------------
-void tTJSLocalNamespace::Pop(void)
-{
+void tTJSLocalNamespace::Pop(void) {
 #ifdef TJS_DEBUG_PROFILE_TIME
 	tTJSTimeProfiler prof(time_ns_Pop);
 #endif
-	tTJSLocalSymbolList * list= Levels[Levels.size()-1];
+	tTJSLocalSymbolList *list = Levels[Levels.size() - 1];
 
 	Commit();
 
-	CurrentCount= list->GetLocalCountStart();
+	CurrentCount = list->GetLocalCountStart();
 
 	Levels.pop_back();
 
 	delete list;
 }
 //---------------------------------------------------------------------------
-tjs_int tTJSLocalNamespace::Find(const tjs_char *name)
-{
+tjs_int tTJSLocalNamespace::Find(const tjs_char *name) {
 #ifdef TJS_DEBUG_PROFILE_TIME
 	tTJSTimeProfiler prof(time_ns_Find);
 #endif
 	// search "name"
-	tjs_int i;  /* signed */
-	for(i=Levels.size()-1; i>=0; i--)
-	{
-		tTJSLocalSymbolList* list = Levels[i];
+	tjs_int i; /* signed */
+	for (i = Levels.size() - 1; i >= 0; i--) {
+		tTJSLocalSymbolList *list = Levels[i];
 		tjs_int lidx = list->Find(name);
-		if(lidx!=-1)
-		{
+		if (lidx != -1) {
 			lidx += list->GetLocalCountStart();
 			return lidx;
 		}
@@ -198,70 +172,64 @@ tjs_int tTJSLocalNamespace::Find(const tjs_char *name)
 	return -1;
 }
 //---------------------------------------------------------------------------
-tjs_int tTJSLocalNamespace::GetLevel(void)
-{
+tjs_int tTJSLocalNamespace::GetLevel(void) {
 	// gets current namespace depth
 	return Levels.size();
 }
 //---------------------------------------------------------------------------
-void tTJSLocalNamespace::Add(const tjs_char * name)
-{
+void tTJSLocalNamespace::Add(const tjs_char *name) {
 #ifdef TJS_DEBUG_PROFILE_TIME
 	tTJSTimeProfiler prof(time_ns_Add);
 #endif
 	// adds "name" to namespace
-	tTJSLocalSymbolList * top = GetTopSymbolList();
-	if(!top) return; // this is global
+	tTJSLocalSymbolList *top = GetTopSymbolList();
+	if (!top)
+		return; // this is global
 	top->Add(name);
 }
 //---------------------------------------------------------------------------
-void tTJSLocalNamespace::Remove(const tjs_char *name)
-{
+void tTJSLocalNamespace::Remove(const tjs_char *name) {
 #ifdef TJS_DEBUG_PROFILE_TIME
 	tTJSTimeProfiler prof(time_ns_Remove);
 #endif
 	tjs_int i;
-	for(i=Levels.size()-1; i>=0; i--)
-	{
-		tTJSLocalSymbolList* list = Levels[i];
+	for (i = Levels.size() - 1; i >= 0; i--) {
+		tTJSLocalSymbolList *list = Levels[i];
 		tjs_int lidx = list->Find(name);
-		if(lidx!=-1)
-		{
+		if (lidx != -1) {
 			list->Remove(name);
 			return;
 		}
 	}
 }
 //---------------------------------------------------------------------------
-void tTJSLocalNamespace::Commit(void)
-{
+void tTJSLocalNamespace::Commit(void) {
 #ifdef TJS_DEBUG_PROFILE_TIME
 	tTJSTimeProfiler prof(time_ns_Commit);
 #endif
 	// compute MaxCount
 	tjs_int i;
 	tjs_int count = 0;
-	for(i=Levels.size()-1; i>=0; i--)
-	{
-		tTJSLocalSymbolList* list = Levels[i];
+	for (i = Levels.size() - 1; i >= 0; i--) {
+		tTJSLocalSymbolList *list = Levels[i];
 		count += list->GetCount();
 	}
-	if(MaxCount < count) MaxCount = count;
+	if (MaxCount < count)
+		MaxCount = count;
 }
 //---------------------------------------------------------------------------
-tTJSLocalSymbolList * tTJSLocalNamespace::GetTopSymbolList()
-{
+tTJSLocalSymbolList *tTJSLocalNamespace::GetTopSymbolList() {
 	// returns top symbol list
-	if(Levels.size() == 0) return NULL;
-	return (tTJSLocalSymbolList *)(Levels[Levels.size()-1]);
+	if (Levels.size() == 0)
+		return NULL;
+	return (tTJSLocalSymbolList *)(Levels[Levels.size() - 1]);
 }
 //---------------------------------------------------------------------------
-void tTJSLocalNamespace::Clear(void)
-{
+void tTJSLocalNamespace::Clear(void) {
 	// all clear
-	while(Levels.size()) Pop();
+	while (Levels.size())
+		Pop();
 }
 //---------------------------------------------------------------------------
 
 } // namespace TJS
-

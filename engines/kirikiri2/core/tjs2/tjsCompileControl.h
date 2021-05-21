@@ -9,41 +9,38 @@
 // Conditional Compile Control
 //---------------------------------------------------------------------------
 
-#ifndef tjsCompileControlH
-#define tjsCompileControlH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_COMPILE_CONTROL_H
+#define KIRIKIRI2_CORE_TJS2_TJS_COMPILE_CONTROL_H
 
-#include "tjsString.h"
+#include "kirikiri2/core/tjs2/tjsString.h"
 
-namespace TJS
-{
+namespace TJS {
 //---------------------------------------------------------------------------
 class tTJS;
-class tTJSPPExprParser
-{
+class tTJSPPExprParser {
 public:
 	tTJSPPExprParser(tTJS *tjs, const tjs_char *script);
 	~tTJSPPExprParser();
 
 	tjs_int32 Parse();
 
-	tTJS * TJS;
-	tjs_int GetNext (tjs_int &value);
+	tTJS *TJS;
+	tjs_int GetNext(tjs_int &value);
 
-	tTJS * GetTJS() { return TJS; }
+	tTJS *GetTJS() { return TJS; }
 
-	const tjs_char * GetString(tjs_int idx) const ;
+	const tjs_char *GetString(tjs_int idx) const;
 
 	tjs_int32 Result;
 
 private:
-	std::vector<ttstr > IDs;
+	std::vector<ttstr> IDs;
 
 	const tjs_char *Script;
 	const tjs_char *Current;
-
 };
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-}
+} // namespace TJS
 
 #endif

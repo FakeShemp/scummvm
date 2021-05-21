@@ -7,23 +7,22 @@
 */
 //---------------------------------------------------------------------------
 
-#ifndef tjsBinarySerializerH
-#define tjsBinarySerializerH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_BINARY_SERIALIZER_H
+#define KIRIKIRI2_CORE_TJS2_TJS_BINARY_SERIALIZER_H
 
-#include "tjsTypes.h"
-#include "tjsVariant.h"
-#include "tjsError.h"
-#include <vector>
-#include <limits.h>
+#include "kirikiri2/core/tjs2/tjsError.h"
+#include "kirikiri2/core/tjs2/tjsTypes.h"
+#include "kirikiri2/core/tjs2/tjsVariant.h"
+#include "kirikiri2/lib/std/limits.h"
+#include "kirikiri2/lib/std/vector.h"
 
-namespace TJS
-{
+namespace TJS {
 /**
- * ƒoƒCƒiƒŠŒ`®‚Åƒf[ƒ^‚ğƒXƒgƒŠ[ƒ€‘‚«o‚µ‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX
- * Œ`®‚ÍAMessagePack ‚É‹ß‚¢‚à‚Ì‚Å×•”TJS2—p‚É’²®‚µ‚Ä‚¢‚é
- * •¶š—ñ‚ÍAUTF-16‚Ì‚Ü‚ÜŠi”[
- * ƒGƒ“ƒfƒBƒAƒ“‚ÍƒŠƒgƒ‹ƒGƒ“ƒfƒBƒAƒ“‚É‚È‚Á‚Ä‚¢‚é
- * ƒwƒbƒ_[‚à’Ç‰Á‚³‚ê‚é
+ * ãƒã‚¤ãƒŠãƒªå½¢å¼ã§ãƒ‡ãƒ¼ã‚¿ã‚’ã‚¹ãƒˆãƒªãƒ¼ãƒ æ›¸ãå‡ºã—ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
+ * å½¢å¼ã¯ã€MessagePack ã«è¿‘ã„ã‚‚ã®ã§ç´°éƒ¨TJS2ç”¨ã«èª¿æ•´ã—ã¦ã„ã‚‹
+ * æ–‡å­—åˆ—ã¯ã€UTF-16ã®ã¾ã¾æ ¼ç´
+ * ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³ã¯ãƒªãƒˆãƒ«ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³ã«ãªã£ã¦ã„ã‚‹
+ * ãƒ˜ãƒƒãƒ€ãƒ¼ã‚‚è¿½åŠ ã•ã‚Œã‚‹
  */
 class tTJSBinarySerializer {
 public:
@@ -36,7 +35,7 @@ public:
 		TYPE_VOID = 0xC1,
 		TYPE_TRUE = 0xC2,
 		TYPE_FALSE = 0xC3,
-		
+
 		TYPE_STRING8 = 0xC4,
 		TYPE_STRING16 = 0xC5,
 		TYPE_STRING32 = 0xC6,
@@ -52,10 +51,10 @@ public:
 		TYPE_INT16 = 0xD1,
 		TYPE_INT32 = 0xD2,
 		TYPE_INT64 = 0xD3,
-		
+
 		TYPE_FIX_RAW_MIN = 0xD4,
 		TYPE_FIX_RAW_MAX = 0xD9,
-		TYPE_FIX_RAW_LEN = TYPE_FIX_RAW_MAX - TYPE_FIX_RAW_MIN, // 5byte‚Ü‚Å‚¾‚©‚çŒø‰Ê­‚È‚¢‚ªA•¶š‚Ì•û‚ª•p“x‚‚¢‚Ì‚Å•¶š‚ÉRAWƒGƒŠƒA‚ğŠ„‚è“–‚Ä‚é
+		TYPE_FIX_RAW_LEN = TYPE_FIX_RAW_MAX - TYPE_FIX_RAW_MIN, // 5byteã¾ã§ã ã‹ã‚‰åŠ¹æœå°‘ãªã„ãŒã€æ–‡å­—ã®æ–¹ãŒé »åº¦é«˜ã„ã®ã§æ–‡å­—ã«RAWã‚¨ãƒªã‚¢ã‚’å‰²ã‚Šå½“ã¦ã‚‹
 
 		TYPE_RAW16 = 0xDA,
 		TYPE_RAW32 = 0xDB,
@@ -76,340 +75,338 @@ public:
 	};
 	static const tjs_int HEADER_LENGTH = 8;
 	static const tjs_uint8 HEADER[HEADER_LENGTH];
-	static bool IsBinary( const tjs_uint8 header[HEADER_LENGTH] );
+	static bool IsBinary(const tjs_uint8 header[HEADER_LENGTH]);
 
-	static inline void PutInteger( tTJSBinaryStream* stream, tjs_int64 b ) {
-		if( b < 0 ) {
-			if( b >= TYPE_NEGATIVE_FIX_NUM_MIN ) {
+	static inline void PutInteger(tTJSBinaryStream *stream, tjs_int64 b) {
+		if (b < 0) {
+			if (b >= TYPE_NEGATIVE_FIX_NUM_MIN) {
 				tjs_uint8 tmp[1];
 				tmp[0] = (tjs_uint8)b;
-				stream->Write( tmp, sizeof(tmp) );
-			} else if( b >= SCHAR_MIN ) {
+				stream->Write(tmp, sizeof(tmp));
+			} else if (b >= SCHAR_MIN) {
 				tjs_uint8 tmp[2];
 				tmp[0] = TYPE_INT8;
 				tmp[1] = (tjs_uint8)b;
-				stream->Write( tmp, sizeof(tmp) );
-			} else if( b >= SHRT_MIN ) {
+				stream->Write(tmp, sizeof(tmp));
+			} else if (b >= SHRT_MIN) {
 				tjs_int16 v = (tjs_int16)b;
 				tjs_uint8 tmp[3];
 				tmp[0] = TYPE_INT16;
-				tmp[1] = (tjs_uint8)( v&0xff );
-				tmp[2] = (tjs_uint8)( (v>>8)&0xff );
-				stream->Write( tmp, sizeof(tmp) );
-			} else if( b >= LONG_MIN ) {
+				tmp[1] = (tjs_uint8)(v & 0xff);
+				tmp[2] = (tjs_uint8)((v >> 8) & 0xff);
+				stream->Write(tmp, sizeof(tmp));
+			} else if (b >= LONG_MIN) {
 				tjs_int32 v = (tjs_int32)b;
 				tjs_uint8 tmp[5];
 				tmp[0] = TYPE_INT32;
-				tmp[1] = (tjs_uint8)( v&0xff );
-				tmp[2] = (tjs_uint8)( (v>>8)&0xff );
-				tmp[3] = (tjs_uint8)( (v>>16)&0xff );
-				tmp[4] = (tjs_uint8)( (v>>24)&0xff );
-				stream->Write( tmp, sizeof(tmp) );
+				tmp[1] = (tjs_uint8)(v & 0xff);
+				tmp[2] = (tjs_uint8)((v >> 8) & 0xff);
+				tmp[3] = (tjs_uint8)((v >> 16) & 0xff);
+				tmp[4] = (tjs_uint8)((v >> 24) & 0xff);
+				stream->Write(tmp, sizeof(tmp));
 			} else {
 				tjs_int64 v = b;
 				tjs_uint8 tmp[9];
 				tmp[0] = TYPE_INT64;
-				tmp[1] = (tjs_uint8)( v&0xff );
-				tmp[2] = (tjs_uint8)( (v>>8)&0xff );
-				tmp[3] = (tjs_uint8)( (v>>16)&0xff );
-				tmp[4] = (tjs_uint8)( (v>>24)&0xff );
-				tmp[5] = (tjs_uint8)( (v>>32)&0xff );
-				tmp[6] = (tjs_uint8)( (v>>40)&0xff );
-				tmp[7] = (tjs_uint8)( (v>>48)&0xff );
-				tmp[8] = (tjs_uint8)( (v>>56)&0xff );
-				stream->Write( tmp, sizeof(tmp) );
+				tmp[1] = (tjs_uint8)(v & 0xff);
+				tmp[2] = (tjs_uint8)((v >> 8) & 0xff);
+				tmp[3] = (tjs_uint8)((v >> 16) & 0xff);
+				tmp[4] = (tjs_uint8)((v >> 24) & 0xff);
+				tmp[5] = (tjs_uint8)((v >> 32) & 0xff);
+				tmp[6] = (tjs_uint8)((v >> 40) & 0xff);
+				tmp[7] = (tjs_uint8)((v >> 48) & 0xff);
+				tmp[8] = (tjs_uint8)((v >> 56) & 0xff);
+				stream->Write(tmp, sizeof(tmp));
 			}
 		} else {
-			if( b <= TYPE_POSITIVE_FIX_NUM_MAX ) {
+			if (b <= TYPE_POSITIVE_FIX_NUM_MAX) {
 				tjs_uint8 tmp[1];
-				tmp[0] = (tjs_uint8)( b );
-				stream->Write( tmp, sizeof(tmp) );
-			} else if( b <= UCHAR_MAX ) {
+				tmp[0] = (tjs_uint8)(b);
+				stream->Write(tmp, sizeof(tmp));
+			} else if (b <= UCHAR_MAX) {
 				tjs_uint8 tmp[2];
 				tmp[0] = TYPE_UINT8;
-				tmp[1] = (tjs_uint8)( b );
-				stream->Write( tmp, sizeof(tmp) );
-			} else if( b <= USHRT_MAX ) {
+				tmp[1] = (tjs_uint8)(b);
+				stream->Write(tmp, sizeof(tmp));
+			} else if (b <= USHRT_MAX) {
 				tjs_uint16 v = (tjs_uint16)b;
 				tjs_uint8 tmp[3];
 				tmp[0] = TYPE_UINT16;
-				tmp[1] = (tjs_uint8)( v&0xff );
-				tmp[2] = (tjs_uint8)( (v>>8)&0xff );
-				stream->Write( tmp, sizeof(tmp) );
-			} else if( b <= UINT_MAX ) {
+				tmp[1] = (tjs_uint8)(v & 0xff);
+				tmp[2] = (tjs_uint8)((v >> 8) & 0xff);
+				stream->Write(tmp, sizeof(tmp));
+			} else if (b <= UINT_MAX) {
 				tjs_uint32 v = (tjs_uint32)b;
 				tjs_uint8 tmp[5];
 				tmp[0] = TYPE_UINT32;
-				tmp[1] = (tjs_uint8)( v&0xff );
-				tmp[2] = (tjs_uint8)( (v>>8)&0xff );
-				tmp[3] = (tjs_uint8)( (v>>16)&0xff );
-				tmp[4] = (tjs_uint8)( (v>>24)&0xff );
-				stream->Write( tmp, sizeof(tmp) );
+				tmp[1] = (tjs_uint8)(v & 0xff);
+				tmp[2] = (tjs_uint8)((v >> 8) & 0xff);
+				tmp[3] = (tjs_uint8)((v >> 16) & 0xff);
+				tmp[4] = (tjs_uint8)((v >> 24) & 0xff);
+				stream->Write(tmp, sizeof(tmp));
 			} else {
 				tjs_uint64 v = b;
 				tjs_uint8 tmp[9];
 				tmp[0] = TYPE_UINT64;
-				tmp[1] = (tjs_uint8)( v&0xff );
-				tmp[2] = (tjs_uint8)( (v>>8)&0xff );
-				tmp[3] = (tjs_uint8)( (v>>16)&0xff );
-				tmp[4] = (tjs_uint8)( (v>>24)&0xff );
-				tmp[5] = (tjs_uint8)( (v>>32)&0xff );
-				tmp[6] = (tjs_uint8)( (v>>40)&0xff );
-				tmp[7] = (tjs_uint8)( (v>>48)&0xff );
-				tmp[8] = (tjs_uint8)( (v>>56)&0xff );
-				stream->Write( tmp, sizeof(tmp) );
+				tmp[1] = (tjs_uint8)(v & 0xff);
+				tmp[2] = (tjs_uint8)((v >> 8) & 0xff);
+				tmp[3] = (tjs_uint8)((v >> 16) & 0xff);
+				tmp[4] = (tjs_uint8)((v >> 24) & 0xff);
+				tmp[5] = (tjs_uint8)((v >> 32) & 0xff);
+				tmp[6] = (tjs_uint8)((v >> 40) & 0xff);
+				tmp[7] = (tjs_uint8)((v >> 48) & 0xff);
+				tmp[8] = (tjs_uint8)((v >> 56) & 0xff);
+				stream->Write(tmp, sizeof(tmp));
 			}
 		}
 	}
-	static inline void PutString( tTJSBinaryStream* stream, const tjs_char* val, tjs_uint len ) {
-		if( len <= TYPE_FIX_STRING_LEN ) {
+	static inline void PutString(tTJSBinaryStream *stream, const tjs_char *val, tjs_uint len) {
+		if (len <= TYPE_FIX_STRING_LEN) {
 			tjs_uint8 tmp[1];
-			tmp[0] = TYPE_FIX_STRING_MIN+len;
-			stream->Write( tmp, sizeof(tmp) );
-		} else if( len <= UCHAR_MAX ) {
+			tmp[0] = TYPE_FIX_STRING_MIN + len;
+			stream->Write(tmp, sizeof(tmp));
+		} else if (len <= UCHAR_MAX) {
 			tjs_uint8 tmp[2];
 			tmp[0] = TYPE_STRING8;
 			tmp[1] = len;
-			stream->Write( tmp, sizeof(tmp) );
-		} else if( len <= USHRT_MAX ) {
+			stream->Write(tmp, sizeof(tmp));
+		} else if (len <= USHRT_MAX) {
 			tjs_uint16 v = len;
 			tjs_uint8 tmp[3];
 			tmp[0] = TYPE_STRING16;
-			tmp[1] = v&0xff;
-			tmp[2] = (v>>8)&0xff;
-			stream->Write( tmp, sizeof(tmp) );
-		} else if( len <= ULONG_MAX ) {
+			tmp[1] = v & 0xff;
+			tmp[2] = (v >> 8) & 0xff;
+			stream->Write(tmp, sizeof(tmp));
+		} else if (len <= ULONG_MAX) {
 			tjs_uint32 v = len;
 			tjs_uint8 tmp[5];
 			tmp[0] = TYPE_STRING32;
-			tmp[1] = v&0xff;
-			tmp[2] = (v>>8)&0xff;
-			tmp[3] = (v>>16)&0xff;
-			tmp[4] = (v>>24)&0xff;
-			stream->Write( tmp, sizeof(tmp) );
+			tmp[1] = v & 0xff;
+			tmp[2] = (v >> 8) & 0xff;
+			tmp[3] = (v >> 16) & 0xff;
+			tmp[4] = (v >> 24) & 0xff;
+			stream->Write(tmp, sizeof(tmp));
 		} else {
 			TJS_eTJSError(TJSWriteError);
 		}
 #if TJS_HOST_IS_LITTLE_ENDIAN
-		if( len ) {
-			stream->Write( val, sizeof(tjs_char)*len );
+		if (len) {
+			stream->Write(val, sizeof(tjs_char) * len);
 		}
 #else
-		if( len ) {
+		if (len) {
 			std::vector<tjs_uint8> tmp;
-			tmp.reserve( sizeof(tjs_char)*len );
-			for( tjs_uint i = 0; i < len; i++ ) {
+			tmp.reserve(sizeof(tjs_char) * len);
+			for (tjs_uint i = 0; i < len; i++) {
 				tjs_char c = val[i];
-				tmp.push_back( c&0xff );
-				tmp.push_back( (c>>8)&0xff );
+				tmp.push_back(c & 0xff);
+				tmp.push_back((c >> 8) & 0xff);
 			}
-			stream->Write( &(tmp[0]), sizeof(tjs_char)*len );
+			stream->Write(&(tmp[0]), sizeof(tjs_char) * len);
 		}
 #endif
 	}
 	/**
-	 * •‚“®¬”“_’l‚ğŠi”[‚·‚é
+	 * æµ®å‹•å°æ•°ç‚¹å€¤ã‚’æ ¼ç´ã™ã‚‹
 	 */
-	static inline void PutDouble( tTJSBinaryStream* stream, double b ) {
-		tjs_uint64 v = *(tjs_uint64*)&b;
+	static inline void PutDouble(tTJSBinaryStream *stream, double b) {
+		tjs_uint64 v = *(tjs_uint64 *)&b;
 		tjs_uint8 tmp[9];
 		tmp[0] = TYPE_DOUBLE;
-		tmp[1] = v&0xff;
-		tmp[2] = (v>>8)&0xff;
-		tmp[3] = (v>>16)&0xff;
-		tmp[4] = (v>>24)&0xff;
-		tmp[5] = (v>>32)&0xff;
-		tmp[6] = (v>>40)&0xff;
-		tmp[7] = (v>>48)&0xff;
-		tmp[8] = (v>>56)&0xff;
-		stream->Write( tmp, sizeof(tmp) );
+		tmp[1] = v & 0xff;
+		tmp[2] = (v >> 8) & 0xff;
+		tmp[3] = (v >> 16) & 0xff;
+		tmp[4] = (v >> 24) & 0xff;
+		tmp[5] = (v >> 32) & 0xff;
+		tmp[6] = (v >> 40) & 0xff;
+		tmp[7] = (v >> 48) & 0xff;
+		tmp[8] = (v >> 56) & 0xff;
+		stream->Write(tmp, sizeof(tmp));
 	}
-	static inline void PutBytes( tTJSBinaryStream* stream, const tjs_uint8* val, tjs_uint len ) {
-		if( len <= TYPE_FIX_RAW_LEN ) {
+	static inline void PutBytes(tTJSBinaryStream *stream, const tjs_uint8 *val, tjs_uint len) {
+		if (len <= TYPE_FIX_RAW_LEN) {
 			tjs_uint8 tmp[1];
 			tmp[0] = TYPE_FIX_RAW_MIN + len;
-			stream->Write( tmp, sizeof(tmp) );
-		} else if( len <= USHRT_MAX ) {
+			stream->Write(tmp, sizeof(tmp));
+		} else if (len <= USHRT_MAX) {
 			tjs_uint16 v = len;
 			tjs_uint8 tmp[3];
 			tmp[0] = TYPE_RAW16;
-			tmp[1] = v&0xff;
-			tmp[2] = (v>>8)&0xff;
-			stream->Write( tmp, sizeof(tmp) );
-		} else if( len <= ULONG_MAX ) {
+			tmp[1] = v & 0xff;
+			tmp[2] = (v >> 8) & 0xff;
+			stream->Write(tmp, sizeof(tmp));
+		} else if (len <= ULONG_MAX) {
 			tjs_uint32 v = len;
 			tjs_uint8 tmp[5];
 			tmp[0] = TYPE_RAW32;
-			tmp[1] = v&0xff;
-			tmp[2] = (v>>8)&0xff;
-			tmp[3] = (v>>16)&0xff;
-			tmp[4] = (v>>24)&0xff;
-			stream->Write( tmp, sizeof(tmp) );
+			tmp[1] = v & 0xff;
+			tmp[2] = (v >> 8) & 0xff;
+			tmp[3] = (v >> 16) & 0xff;
+			tmp[4] = (v >> 24) & 0xff;
+			stream->Write(tmp, sizeof(tmp));
 		} else {
 			TJS_eTJSError(TJSWriteError);
 		}
-		stream->Write( val, len );
+		stream->Write(val, len);
 	}
 	/**
-	 * ƒIƒNƒeƒbƒgŒ^‚Ì’l‚ğŠi”[‚·‚é
+	 * ã‚ªã‚¯ãƒ†ãƒƒãƒˆå‹ã®å€¤ã‚’æ ¼ç´ã™ã‚‹
 	 */
-	static inline void PutOctet( tTJSBinaryStream* stream, tTJSVariantOctet* val ) {
+	static inline void PutOctet(tTJSBinaryStream *stream, tTJSVariantOctet *val) {
 		tjs_uint len = 0;
-		const tjs_uint8* data = NULL;
-		if( val ) {
+		const tjs_uint8 *data = NULL;
+		if (val) {
 			len = val->GetLength();
-			data =  val->GetData();
+			data = val->GetData();
 		}
-		PutBytes( stream, data, len );
+		PutBytes(stream, data, len);
 	}
 
 	/**
-	 * •¶š—ñ‚ğŠi”[‚·‚é
+	 * æ–‡å­—åˆ—ã‚’æ ¼ç´ã™ã‚‹
 	 */
-	static inline void PutString( tTJSBinaryStream* stream, const tTJSVariantString* val ) {
-		const tjs_char* data = NULL;
+	static inline void PutString(tTJSBinaryStream *stream, const tTJSVariantString *val) {
+		const tjs_char *data = NULL;
 		tjs_int len = 0;
-		if( val ) {
+		if (val) {
 			len = val->GetLength();
-			if( val->LongString ) {
+			if (val->LongString) {
 				data = val->LongString;
 			} else {
 				data = val->ShortString;
 			}
 		}
-		PutString( stream, data, len );
+		PutString(stream, data, len);
 	}
-	static inline void PutStartMap( tTJSBinaryStream* stream, tjs_uint count ) {
-		if( count <= TYPE_FIX_MAP_LEN ) {
+	static inline void PutStartMap(tTJSBinaryStream *stream, tjs_uint count) {
+		if (count <= TYPE_FIX_MAP_LEN) {
 			tjs_uint8 tmp[1];
 			tmp[0] = TYPE_FIX_MAP_MIN + count;
-			stream->Write( tmp, sizeof(tmp) );
-		} else if( count <= USHRT_MAX ) {
+			stream->Write(tmp, sizeof(tmp));
+		} else if (count <= USHRT_MAX) {
 			tjs_uint16 v = count;
 			tjs_uint8 tmp[3];
 			tmp[0] = TYPE_MAP16;
-			tmp[1] = v&0xff;
-			tmp[2] = (v>>8)&0xff;
-			stream->Write( tmp, sizeof(tmp) );
-		} else if( count <= ULONG_MAX ) {
+			tmp[1] = v & 0xff;
+			tmp[2] = (v >> 8) & 0xff;
+			stream->Write(tmp, sizeof(tmp));
+		} else if (count <= ULONG_MAX) {
 			tjs_uint32 v = count;
 			tjs_uint8 tmp[5];
 			tmp[0] = TYPE_MAP32;
-			tmp[1] = v&0xff;
-			tmp[2] = (v>>8)&0xff;
-			tmp[3] = (v>>16)&0xff;
-			tmp[4] = (v>>24)&0xff;
-			stream->Write( tmp, sizeof(tmp) );
+			tmp[1] = v & 0xff;
+			tmp[2] = (v >> 8) & 0xff;
+			tmp[3] = (v >> 16) & 0xff;
+			tmp[4] = (v >> 24) & 0xff;
+			stream->Write(tmp, sizeof(tmp));
 		} else {
 			TJS_eTJSError(TJSWriteError);
 		}
 	}
-	static inline void PutStartArray( tTJSBinaryStream* stream, tjs_uint count ) {
-		if( count <= TYPE_FIX_ARRAY_LEN ) {
+	static inline void PutStartArray(tTJSBinaryStream *stream, tjs_uint count) {
+		if (count <= TYPE_FIX_ARRAY_LEN) {
 			tjs_uint8 tmp[1];
 			tmp[0] = TYPE_FIX_ARRAY_MIN + count;
-			stream->Write( tmp, sizeof(tmp) );
-		} else if( count <= USHRT_MAX ) {
+			stream->Write(tmp, sizeof(tmp));
+		} else if (count <= USHRT_MAX) {
 			tjs_uint16 v = count;
 			tjs_uint8 tmp[3];
 			tmp[0] = TYPE_ARRAY16;
-			tmp[1] = v&0xff;
-			tmp[2] = (v>>8)&0xff;
-			stream->Write( tmp, sizeof(tmp) );
-		} else if( count <= ULONG_MAX ) {
+			tmp[1] = v & 0xff;
+			tmp[2] = (v >> 8) & 0xff;
+			stream->Write(tmp, sizeof(tmp));
+		} else if (count <= ULONG_MAX) {
 			tjs_uint32 v = count;
 			tjs_uint8 tmp[5];
 			tmp[0] = TYPE_ARRAY32;
-			tmp[1] = v&0xff;
-			tmp[2] = (v>>8)&0xff;
-			tmp[3] = (v>>16)&0xff;
-			tmp[4] = (v>>24)&0xff;
-			stream->Write( tmp, sizeof(tmp) );
+			tmp[1] = v & 0xff;
+			tmp[2] = (v >> 8) & 0xff;
+			tmp[3] = (v >> 16) & 0xff;
+			tmp[4] = (v >> 24) & 0xff;
+			stream->Write(tmp, sizeof(tmp));
 		} else {
 			TJS_eTJSError(TJSWriteError);
 		}
 	}
-	static inline void PutNull( tTJSBinaryStream* stream ) {
+	static inline void PutNull(tTJSBinaryStream *stream) {
 		tjs_uint8 tmp[1];
 		tmp[0] = TYPE_NIL;
-		stream->Write( tmp, sizeof(tmp) );
+		stream->Write(tmp, sizeof(tmp));
 	}
 
-	
-	static inline tjs_uint16 Read16( const tjs_uint8* buff, tjs_uint& index ) {
-		tjs_uint16 ret = buff[index] | (buff[index+1]<<8);
-		index+=sizeof(tjs_uint16);
+	static inline tjs_uint16 Read16(const tjs_uint8 *buff, tjs_uint &index) {
+		tjs_uint16 ret = buff[index] | (buff[index + 1] << 8);
+		index += sizeof(tjs_uint16);
 		return ret;
 	}
-	static inline tjs_uint32 Read32( const tjs_uint8* buff, tjs_uint& index ) {
-		tjs_uint32 ret = buff[index] | (buff[index+1]<<8) | (buff[index+2]<<16) | (buff[index+3]<<24);
-		index+=sizeof(tjs_uint32);
+	static inline tjs_uint32 Read32(const tjs_uint8 *buff, tjs_uint &index) {
+		tjs_uint32 ret = buff[index] | (buff[index + 1] << 8) | (buff[index + 2] << 16) | (buff[index + 3] << 24);
+		index += sizeof(tjs_uint32);
 		return ret;
 	}
-	static inline tjs_uint64 Read64( const tjs_uint8* buff, tjs_uint& index ) {
-		tjs_uint64 ret = (tjs_uint64)buff[index] | ((tjs_uint64)buff[index+1]<<8) |
-			((tjs_uint64)buff[index+2]<<16) | ((tjs_uint64)buff[index+3]<<24) |
-			((tjs_uint64)buff[index+4]<<32) | ((tjs_uint64)buff[index+5]<<40) |
-			((tjs_uint64)buff[index+6]<<48) | ((tjs_uint64)buff[index+7]<<56);
-		index+=sizeof(tjs_uint64);
+	static inline tjs_uint64 Read64(const tjs_uint8 *buff, tjs_uint &index) {
+		tjs_uint64 ret = (tjs_uint64)buff[index] | ((tjs_uint64)buff[index + 1] << 8) |
+						 ((tjs_uint64)buff[index + 2] << 16) | ((tjs_uint64)buff[index + 3] << 24) |
+						 ((tjs_uint64)buff[index + 4] << 32) | ((tjs_uint64)buff[index + 5] << 40) |
+						 ((tjs_uint64)buff[index + 6] << 48) | ((tjs_uint64)buff[index + 7] << 56);
+		index += sizeof(tjs_uint64);
 		return ret;
 	}
-	static inline tTJSVariantString* ReadString( const tjs_uint8* buff, tjs_uint len, tjs_uint& index ) {
-		tTJSVariantString* ret = NULL;
-		if( len > 0 ) {
-			tjs_char* str = new tjs_char[len+1];
-			for( tjs_uint i = 0; i < len; i++ ) {
+	static inline tTJSVariantString *ReadString(const tjs_uint8 *buff, tjs_uint len, tjs_uint &index) {
+		tTJSVariantString *ret = NULL;
+		if (len > 0) {
+			tjs_char *str = new tjs_char[len + 1];
+			for (tjs_uint i = 0; i < len; i++) {
 				str[i] = buff[index];
 				index++;
 				str[i] |= buff[index] << 8;
 				index++;
 			}
 			str[len] = 0;
-			ret = TJSAllocVariantString( str, len );
+			ret = TJSAllocVariantString(str, len);
 			delete str;
 		} else {
-			ret = TJSAllocVariantString( TJS_W("") );
+			ret = TJSAllocVariantString(TJS_W(""));
 		}
 		return ret;
 	}
-	static inline tTJSVariant* ReadStringVarint( const tjs_uint8* buff, tjs_uint len, tjs_uint& index ) {
-		tTJSVariantString* ret = ReadString( buff, len, index );
-		tTJSVariant* var = new tTJSVariant();
+	static inline tTJSVariant *ReadStringVarint(const tjs_uint8 *buff, tjs_uint len, tjs_uint &index) {
+		tTJSVariantString *ret = ReadString(buff, len, index);
+		tTJSVariant *var = new tTJSVariant();
 		*var = ret;
 		return var;
 	}
-	static inline tTJSVariant* ReadOctetVarint( const tjs_uint8* buff, tjs_uint len, tjs_uint& index ) {
-		tTJSVariant* var = NULL;
-		if( len > 0 ) {
+	static inline tTJSVariant *ReadOctetVarint(const tjs_uint8 *buff, tjs_uint len, tjs_uint &index) {
+		tTJSVariant *var = NULL;
+		if (len > 0) {
 			var = new tTJSVariant(&buff[index], len);
 		} else {
-        	var = new tTJSVariant( (const tjs_uint8*)NULL, 0 );
-        }
-		index+=len;
+			var = new tTJSVariant((const tjs_uint8 *)NULL, 0);
+		}
+		index += len;
 		return var;
 	}
 
 	/**
-	 * ƒoƒCƒAƒ“ƒg’l‚ğŠi”[‚·‚é
-	 * ƒIƒuƒWƒFƒNƒgŒ^‚Í–³‹‚µ‚Ä‚¢‚é
+	 * ãƒã‚¤ã‚¢ãƒ³ãƒˆå€¤ã‚’æ ¼ç´ã™ã‚‹
+	 * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‹ã¯ç„¡è¦–ã—ã¦ã„ã‚‹
 	 */
-	static void PutVariant( tTJSBinaryStream* stream, tTJSVariant& v );
-	
+	static void PutVariant(tTJSBinaryStream *stream, tTJSVariant &v);
+
 	tTJSBinarySerializer();
 	~tTJSBinarySerializer();
-	tTJSVariant* Read( tTJSBinaryStream* stream );
+	tTJSVariant *Read(tTJSBinaryStream *stream);
 
 private:
-	iTJSDispatch2* DicClass;
-	class tTJSDictionaryObject* CreateDictionary( tjs_uint count );
-	class tTJSArrayObject* CreateArray( tjs_uint count );
-	void AddDictionary( class tTJSDictionaryObject* dic, tTJSVariantString* name, tTJSVariant* value );
-	void InsertArray( class tTJSArrayObject* array, tjs_uint index, tTJSVariant* value );
-	tTJSVariant* ReadBasicType( const tjs_uint8* buff, const tjs_uint size, tjs_uint& index );
-	tTJSVariant* ReadArray( const tjs_uint8* buff, const tjs_uint size, const tjs_uint count, tjs_uint& index );
-	tTJSVariant* ReadDictionary( const tjs_uint8* buff, const tjs_uint size, const tjs_uint count, tjs_uint& index );
+	iTJSDispatch2 *DicClass;
+	class tTJSDictionaryObject *CreateDictionary(tjs_uint count);
+	class tTJSArrayObject *CreateArray(tjs_uint count);
+	void AddDictionary(class tTJSDictionaryObject *dic, tTJSVariantString *name, tTJSVariant *value);
+	void InsertArray(class tTJSArrayObject *array, tjs_uint index, tTJSVariant *value);
+	tTJSVariant *ReadBasicType(const tjs_uint8 *buff, const tjs_uint size, tjs_uint &index);
+	tTJSVariant *ReadArray(const tjs_uint8 *buff, const tjs_uint size, const tjs_uint count, tjs_uint &index);
+	tTJSVariant *ReadDictionary(const tjs_uint8 *buff, const tjs_uint size, const tjs_uint count, tjs_uint &index);
 };
 
-} // namespace
+} // namespace TJS
 #endif // tjsBinarySerializerH
-

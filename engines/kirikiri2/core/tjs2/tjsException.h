@@ -8,10 +8,10 @@
 //---------------------------------------------------------------------------
 // TJS Exception Class
 //---------------------------------------------------------------------------
-#ifndef tjsExceptionH
-#define tjsExceptionH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_EXCEPTION_H
+#define KIRIKIRI2_CORE_TJS2_TJS_EXCEPTION_H
 
-#include "tjsNative.h"
+#include "kirikiri2/core/tjs2/tjsNative.h"
 
 namespace TJS
 {

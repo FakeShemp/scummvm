@@ -8,22 +8,18 @@
 //---------------------------------------------------------------------------
 // Date/time string parser
 //---------------------------------------------------------------------------
-#ifndef tjsDateParserH
-#define tjsDateParserH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_DATE_PARSER_H
+#define KIRIKIRI2_CORE_TJS2_TJS_DATE_PARSER_H
 
-#include "tjsTypes.h"
-#include "tjsdate.tab.h"
+#include "kirikiri2/core/tjs2/tjsTypes.h"
+#include "kirikiri2/core/tjs2/tjsdate.tab.h"
 
-
-namespace TJS
-{
-
+namespace TJS {
 
 //---------------------------------------------------------------------------
 // tTJSDateParser : A date/time parser class
 //---------------------------------------------------------------------------
-class tTJSDateParser
-{
+class tTJSDateParser {
 	bool YearSet;
 	int Year;
 
@@ -56,9 +52,8 @@ class tTJSDateParser
 
 	tjs_int64 Time; // time from 1970-01-01 00:00:00.00 GMT
 
-
 	friend int dplex(YYSTYPE *yylex, void *pm);
-	friend int dpparse (void *YYPARSE_PARAM);
+	friend int dpparse(void *YYPARSE_PARAM);
 
 public:
 	tTJSDateParser(const tjs_char *in);
@@ -80,8 +75,6 @@ private:
 	void SetAMPM(bool is_pm);
 	void SetTimeZone(int v);
 	void SetTimeZoneOffset(int v);
-
-
 };
 
 //---------------------------------------------------------------------------

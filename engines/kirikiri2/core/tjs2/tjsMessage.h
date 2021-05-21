@@ -8,14 +8,13 @@
 //---------------------------------------------------------------------------
 // message management
 //---------------------------------------------------------------------------
-#ifndef tjsMessageH
-#define tjsMessageH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_MESSAGE_H
+#define KIRIKIRI2_CORE_TJS2_TJS_MESSAGE_H
 
-#include "tjsVariant.h"
-#include "tjsString.h"
+#include "kirikiri2/core/tjs2/tjsString.h"
+#include "kirikiri2/core/tjs2/tjsVariant.h"
 
-namespace TJS
-{
+namespace TJS {
 //---------------------------------------------------------------------------
 // this class maps message and its object
 //---------------------------------------------------------------------------
@@ -29,55 +28,47 @@ extern ttstr TJSCreateMessageMapString();
 TJS_EXP_FUNC_DEF(ttstr, TJSGetMessageMapMessage, (const tjs_char *name));
 //---------------------------------------------------------------------------
 
-
 //---------------------------------------------------------------------------
 // a simple class to hold message
 // this holder should be created as a static object
 //---------------------------------------------------------------------------
-class tTJSMessageHolder
-{
+class tTJSMessageHolder {
 	const tjs_char *Name;
 	const tjs_char *DefaultMessage;
 	tjs_char *AssignedMessage;
 
 public:
-	tTJSMessageHolder(const tjs_char *name, const tjs_char *defmsg, bool regist = true)
-	{
+	tTJSMessageHolder(const tjs_char *name, const tjs_char *defmsg, bool regist = true) {
 		/* "name" and "defmsg" must point static area */
 		AssignedMessage = NULL;
 		Name = NULL;
 		DefaultMessage = defmsg;
 		TJSAddRefMessageMapper();
-		if(regist)
-		{
+		if (regist) {
 			Name = name;
 			TJSRegisterMessageMap(Name, this);
 		}
 	}
 
-	~tTJSMessageHolder()
-	{
-		if(Name) TJSUnregisterMessageMap(Name);
-		if(AssignedMessage) delete [] AssignedMessage, AssignedMessage = NULL;
+	~tTJSMessageHolder() {
+		if (Name)
+			TJSUnregisterMessageMap(Name);
+		if (AssignedMessage)
+			delete[] AssignedMessage, AssignedMessage = NULL;
 		TJSReleaseMessageMapper();
 	}
 
-	void AssignMessage(const tjs_char *msg)
-	{
-		if(AssignedMessage) delete [] AssignedMessage, AssignedMessage = NULL;
+	void AssignMessage(const tjs_char *msg) {
+		if (AssignedMessage)
+			delete[] AssignedMessage, AssignedMessage = NULL;
 		AssignedMessage = new tjs_char[TJS_strlen(msg) + 1];
 		TJS_strcpy(AssignedMessage, msg);
 	}
 
-	operator const tjs_char * ()
-		{ return AssignedMessage?AssignedMessage:DefaultMessage; }
-		/* this function may called after destruction */
+	operator const tjs_char *() { return AssignedMessage ? AssignedMessage : DefaultMessage; }
+	/* this function may called after destruction */
 };
 //---------------------------------------------------------------------------
-}
+} // namespace TJS
 
 #endif
-
-
-
-

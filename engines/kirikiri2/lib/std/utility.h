@@ -20,10 +20,29 @@
  *
  */
 
-// Dummy include of STD mockup headers so they'll appear in the Visual Studio project
+#ifndef KIRIKIRI2_STD_UTILITY_H
+#define KIRIKIRI2_STD_UTILITY_H
 
-#include "kirikiri2/lib/std/algorithm.h"
-#include "kirikiri2/lib/std/list.h"
-#include "kirikiri2/lib/std/map.h"
-#include "kirikiri2/lib/std/utility.h"
-#include "kirikiri2/lib/std/vector.h"
+namespace KiriKiri2 {
+namespace std {
+
+template<class T1, class T2>
+struct pair {
+	T1 first;
+	T2 second;
+
+	pair() {
+	}
+	pair(T1 first_, T2 second_) : first(first_), second(second_) {
+	}
+};
+
+template<class T1, class T2>
+pair<T1, T2> make_pair(T1 first, T2 second) {
+	return pair<T1, T2>(first, second);
+}
+
+} // namespace std
+} // namespace KiriKiri2
+
+#endif

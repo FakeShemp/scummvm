@@ -8,27 +8,24 @@
 //---------------------------------------------------------------------------
 // Name Space Processing
 //---------------------------------------------------------------------------
-#ifndef tjsNamespaceH
-#define tjsNamespaceH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_NAMESPACE_H
+#define KIRIKIRI2_CORE_TJS2_TJS_NAMESPACE_H
 
-#include "tjsVariant.h"
-#include <vector>
-using namespace std;
+#include "kirikiri2/core/tjs2/tjsVariant.h"
+#include "kirikiri2/lib/std/vector.h"
+using namespace KiriKiri2::std;
 
-namespace TJS
-{
+namespace TJS {
 //---------------------------------------------------------------------------
 class iTJSDispatch;
 //---------------------------------------------------------------------------
 // tTJSLocalSymbolList
 //---------------------------------------------------------------------------
-struct tTJSLocalSymbol
-{
+struct tTJSLocalSymbol {
 	tjs_char *Name;
 };
 //---------------------------------------------------------------------------
-class tTJSLocalSymbolList
-{
+class tTJSLocalSymbolList {
 	vector<tTJSLocalSymbol *> List;
 	tjs_int LocalCountStart;
 	tjs_int *StartWriteAddr;
@@ -40,26 +37,25 @@ public:
 
 	void SetWriteAddr(tjs_int *StartWriteAddr, tjs_int *CountWriteAddr);
 
-	void Add(const tjs_char * name);
-	tjs_int Find(const tjs_char * name);
-	void Remove(const tjs_char * name);
+	void Add(const tjs_char *name);
+	tjs_int Find(const tjs_char *name);
+	void Remove(const tjs_char *name);
 
-	tjs_int GetCount(void) const  { return List.size(); }
-		// this count includes variable holder that is marked as un-used
-	tjs_int GetLocalCountStart(void) const  { return LocalCountStart; }
+	tjs_int GetCount(void) const { return List.size(); }
+	// this count includes variable holder that is marked as un-used
+	tjs_int GetLocalCountStart(void) const { return LocalCountStart; }
 
-	tjs_int * GetStartWriteAddr(void) const { return StartWriteAddr; }
-	tjs_int * GetCountWriteAddr(void) const { return CountWriteAddr; }
+	tjs_int *GetStartWriteAddr(void) const { return StartWriteAddr; }
+	tjs_int *GetCountWriteAddr(void) const { return CountWriteAddr; }
 };
 //---------------------------------------------------------------------------
 // tTJSLocalNamespace
 //---------------------------------------------------------------------------
-class tTJSLocalNamespace
-{
+class tTJSLocalNamespace {
 	vector<tTJSLocalSymbolList *> Levels;
-	tjs_int MaxCount; // max count of local variables
+	tjs_int MaxCount;     // max count of local variables
 	tjs_int CurrentCount; // current local variable count
-	tjs_int * MaxCountWriteAddr;
+	tjs_int *MaxCountWriteAddr;
 
 public:
 	tTJSLocalNamespace(void);
@@ -69,13 +65,13 @@ public:
 
 	tjs_int GetCount(void);
 	tjs_int GetMaxCount(void) const { return MaxCount; }
-	tjs_int Find(const tjs_char * name);
+	tjs_int Find(const tjs_char *name);
 	tjs_int GetLevel(void);
-	void Add(const tjs_char * name);
+	void Add(const tjs_char *name);
 	void Remove(const tjs_char *name);
 	void Commit(void);
 
-	tTJSLocalSymbolList * GetTopSymbolList();
+	tTJSLocalSymbolList *GetTopSymbolList();
 
 	void Push(void);
 	void Pop(void);
@@ -85,51 +81,45 @@ public:
 //---------------------------------------------------------------------------
 // tTJSLocalNamespaceAutoPushPop
 //---------------------------------------------------------------------------
-class tTJSLocalNamespaceAutoPushPop
-{
+class tTJSLocalNamespaceAutoPushPop {
 	tTJSLocalNamespace *Space;
+
 public:
-	tTJSLocalNamespaceAutoPushPop(tTJSLocalNamespace *space)
-	{
+	tTJSLocalNamespaceAutoPushPop(tTJSLocalNamespace *space) {
 		Space = space;
 		Space->Push();
 	}
-	~tTJSLocalNamespaceAutoPushPop()
-	{
+	~tTJSLocalNamespaceAutoPushPop() {
 		Space->Pop();
 	}
 };
 //---------------------------------------------------------------------------
 // tTJSLocalNamespaceAutoClass
 //---------------------------------------------------------------------------
-class tTJSLocalNamespaceAutoClass
-{
+class tTJSLocalNamespaceAutoClass {
 	// create namespace if necessary
 	tTJSLocalNamespace *Space;
 	bool SpaceCreated;
+
 public:
-	tTJSLocalNamespaceAutoClass(tTJSLocalNamespace *space)
-	{
+	tTJSLocalNamespaceAutoClass(tTJSLocalNamespace *space) {
 		Space = space;
-		if(Space == NULL)
-		{
+		if (Space == NULL) {
 			Space = new tTJSLocalNamespace;
 			SpaceCreated = true;
-		}
-		else
-		{
+		} else {
 			SpaceCreated = false;
 		}
 		Space->Push();
 	}
 
-	~tTJSLocalNamespaceAutoClass()
-	{
+	~tTJSLocalNamespaceAutoClass() {
 		Space->Pop();
-		if(SpaceCreated) delete Space;
+		if (SpaceCreated)
+			delete Space;
 	}
 
-	tTJSLocalNamespace * GetNamespace(void){ return Space; }
+	tTJSLocalNamespace *GetNamespace(void) { return Space; }
 };
 //---------------------------------------------------------------------------
 

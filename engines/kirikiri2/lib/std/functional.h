@@ -20,10 +20,26 @@
  *
  */
 
-// Dummy include of STD mockup headers so they'll appear in the Visual Studio project
+#ifndef KIRIKIRI2_STD_FUNCTIONAL_H
+#define KIRIKIRI2_STD_FUNCTIONAL_H
 
-#include "kirikiri2/lib/std/algorithm.h"
-#include "kirikiri2/lib/std/list.h"
-#include "kirikiri2/lib/std/map.h"
-#include "kirikiri2/lib/std/utility.h"
-#include "kirikiri2/lib/std/vector.h"
+namespace KiriKiri2 {
+namespace std {
+
+template<class _Arg, class _Result>
+struct unary_function { // base class for unary functions
+	using argument_type = _Arg;
+	using result_type = _Result;
+};
+
+template<class _Arg1, class _Arg2, class _Result>
+struct binary_function { // base class for binary functions
+	using first_argument_type = _Arg1;
+	using second_argument_type = _Arg2;
+	using result_type = _Result;
+};
+
+} // namespace std
+} // namespace KiriKiri2
+
+#endif

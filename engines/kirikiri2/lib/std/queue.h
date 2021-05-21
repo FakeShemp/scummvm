@@ -20,10 +20,41 @@
  *
  */
 
-// Dummy include of STD mockup headers so they'll appear in the Visual Studio project
+#ifndef KIRIKIRI2_STD_QUEUE_H
+#define KIRIKIRI2_STD_QUEUE_H
 
+#include "common/queue.h"
 #include "kirikiri2/lib/std/algorithm.h"
-#include "kirikiri2/lib/std/list.h"
-#include "kirikiri2/lib/std/map.h"
-#include "kirikiri2/lib/std/utility.h"
 #include "kirikiri2/lib/std/vector.h"
+
+namespace KiriKiri2 {
+namespace std {
+
+template<class T>
+using queue = Common::Queue<T>;
+
+template<class T, class Container = vector<T>, class Comparitor = typename Common::Less<T> >
+class priority_queue {
+private:
+	Container _container;
+	Comparitor _comparitor;
+
+public:
+	priority_queue() {}
+
+	bool empty() const { return _container.empty(); }
+
+	const T &top() const { return _container.front(); }
+
+	void push(const T &item) {
+		_container.push_back(item);
+		Common::sort(_container.begin(), _container.end(), _comparitor);
+	}
+
+	void pop() { _container.remove_at(0); }
+};
+
+} // namespace std
+} // namespace KiriKiri2
+
+#endif

@@ -8,52 +8,44 @@
 //---------------------------------------------------------------------------
 // message management
 //---------------------------------------------------------------------------
-#include "tjsCommHead.h"
+#include "kirikiri2/core/tjs2/tjsCommHead.h"
 
-#include "tjsMessage.h"
-#include "tjsHashSearch.h"
+#include "kirikiri2/core/tjs2/tjsHashSearch.h"
+#include "kirikiri2/core/tjs2/tjsMessage.h"
 
-namespace TJS
-{
+namespace TJS {
 
 //---------------------------------------------------------------------------
 // tTJSMessageMapper class
 //---------------------------------------------------------------------------
-class tTJSMessageMapper
-{
-	tTJSHashTable<ttstr, tTJSMessageHolder*> Hash;
+class tTJSMessageMapper {
+	tTJSHashTable<ttstr, tTJSMessageHolder *> Hash;
 	tjs_uint RefCount;
 
 public:
-	tTJSMessageMapper() {;}
-	~tTJSMessageMapper() {;}
+	tTJSMessageMapper() { ; }
+	~tTJSMessageMapper() { ; }
 
-	void Register(const tjs_char *name, tTJSMessageHolder *holder)
-	{
+	void Register(const tjs_char *name, tTJSMessageHolder *holder) {
 		Hash.Add(ttstr(name), holder);
 	}
 
-	void Unregister(const tjs_char *name)
-	{
+	void Unregister(const tjs_char *name) {
 		Hash.Delete(ttstr(name));
 	}
 
-	bool AssignMessage(const tjs_char *name, const tjs_char *newmsg)
-	{
+	bool AssignMessage(const tjs_char *name, const tjs_char *newmsg) {
 		tTJSMessageHolder **holder = Hash.Find(ttstr(name));
-		if(holder)
-		{
+		if (holder) {
 			(*holder)->AssignMessage(newmsg);
 			return true;
 		}
 		return false;
 	}
 
-	bool Get(const tjs_char *name, ttstr &str)
-	{
+	bool Get(const tjs_char *name, ttstr &str) {
 		tTJSMessageHolder **holder = Hash.Find(ttstr(name));
-		if(holder)
-		{
+		if (holder) {
 			str = (const tjs_char *)(**holder);
 			return true;
 		}
@@ -62,15 +54,13 @@ public:
 
 	ttstr CreateMessageMapString();
 
-} static * TJSMessageMapper = NULL;
+} static *TJSMessageMapper = NULL;
 static int TJSMessageMapperRefCount = 0;
 //---------------------------------------------------------------------------
-ttstr tTJSMessageMapper::CreateMessageMapString()
-{
+ttstr tTJSMessageMapper::CreateMessageMapString() {
 	ttstr script;
-	tTJSHashTable<ttstr, tTJSMessageHolder*>::tIterator i;
-	for(i = Hash.GetLast(); !i.IsNull(); i--)
-	{
+	tTJSHashTable<ttstr, tTJSMessageHolder *>::tIterator i;
+	for (i = Hash.GetLast(); !i.IsNull(); i--) {
 		ttstr name = i.GetKey();
 		tTJSMessageHolder *holder = i.GetValue();
 		script += TJS_W("\tr(\"");
@@ -87,66 +77,56 @@ ttstr tTJSMessageMapper::CreateMessageMapString()
 }
 //---------------------------------------------------------------------------
 
-
 //---------------------------------------------------------------------------
-void TJSAddRefMessageMapper()
-{
-	if(TJSMessageMapper)
-	{
+void TJSAddRefMessageMapper() {
+	if (TJSMessageMapper) {
 		TJSMessageMapperRefCount++;
-	}
-	else
-	{
+	} else {
 		TJSMessageMapper = new tTJSMessageMapper;
 		TJSMessageMapperRefCount = 1;
 	}
 }
 //---------------------------------------------------------------------------
-void TJSReleaseMessageMapper()
-{
-	if(TJSMessageMapper)
-	{
+void TJSReleaseMessageMapper() {
+	if (TJSMessageMapper) {
 		TJSMessageMapperRefCount--;
-		if(TJSMessageMapperRefCount == 0)
-		{
+		if (TJSMessageMapperRefCount == 0) {
 			delete TJSMessageMapper;
 			TJSMessageMapper = NULL;
 		}
 	}
 }
 //---------------------------------------------------------------------------
-void TJSRegisterMessageMap(const tjs_char *name, tTJSMessageHolder *holder)
-{
-	if(TJSMessageMapper) TJSMessageMapper->Register(name, holder);
+void TJSRegisterMessageMap(const tjs_char *name, tTJSMessageHolder *holder) {
+	if (TJSMessageMapper)
+		TJSMessageMapper->Register(name, holder);
 }
 //---------------------------------------------------------------------------
-void TJSUnregisterMessageMap(const tjs_char *name)
-{
-	if(TJSMessageMapper) TJSMessageMapper->Unregister(name);
+void TJSUnregisterMessageMap(const tjs_char *name) {
+	if (TJSMessageMapper)
+		TJSMessageMapper->Unregister(name);
 }
 //---------------------------------------------------------------------------
-bool TJSAssignMessage(const tjs_char *name, const tjs_char *newmsg)
-{
-	if(TJSMessageMapper) return TJSMessageMapper->AssignMessage(name, newmsg);
+bool TJSAssignMessage(const tjs_char *name, const tjs_char *newmsg) {
+	if (TJSMessageMapper)
+		return TJSMessageMapper->AssignMessage(name, newmsg);
 	return false;
 }
 //---------------------------------------------------------------------------
-ttstr TJSCreateMessageMapString()
-{
-	if(TJSMessageMapper) return TJSMessageMapper->CreateMessageMapString();
+ttstr TJSCreateMessageMapString() {
+	if (TJSMessageMapper)
+		return TJSMessageMapper->CreateMessageMapString();
 	return TJS_W("");
 }
 //---------------------------------------------------------------------------
-ttstr TJSGetMessageMapMessage(const tjs_char *name)
-{
-	if(TJSMessageMapper)
-	{
+ttstr TJSGetMessageMapMessage(const tjs_char *name) {
+	if (TJSMessageMapper) {
 		ttstr ret;
-		if(TJSMessageMapper->Get(name, ret)) return ret;
+		if (TJSMessageMapper->Get(name, ret))
+			return ret;
 		return ttstr();
 	}
 	return ttstr();
 }
 //---------------------------------------------------------------------------
-}
-
+} // namespace TJS

@@ -8,10 +8,10 @@
 //---------------------------------------------------------------------------
 // TJS Math class implementation
 //---------------------------------------------------------------------------
-#ifndef tjsMathH
-#define tjsMathH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_MATH_H
+#define KIRIKIRI2_CORE_TJS2_TJS_MATH_H
 
-#include "tjsNative.h"
+#include "kirikiri2/core/tjs2/tjsNative.h"
 
 
 namespace TJS

@@ -9,26 +9,24 @@
 // Date class implementation
 //---------------------------------------------------------------------------
 
-#ifndef tjsDateH
-#define tjsDateH
+#ifndef KIRIKIRI2_CORE_TJS2_TJS_DATE_H
+#define KIRIKIRI2_CORE_TJS2_TJS_DATE_H
 
+#include "kirikiri2/core/tjs2/tjsNative.h"
 #include <time.h>
-#include "tjsNative.h"
 
-namespace TJS
-{
+namespace TJS {
 //---------------------------------------------------------------------------
-class tTJSNI_Date : public tTJSNativeInstance
-{
+class tTJSNI_Date : public tTJSNativeInstance {
 public:
 	tTJSNI_Date();
 	time_t DateTime;
+
 private:
 };
 
 //---------------------------------------------------------------------------
-class tTJSNC_Date : public tTJSNativeClass
-{
+class tTJSNC_Date : public tTJSNativeClass {
 public:
 	tTJSNC_Date();
 
