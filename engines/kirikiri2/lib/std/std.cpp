@@ -29,7 +29,6 @@
 #include "kirikiri2/lib/std/list.h"
 #include "kirikiri2/lib/std/map.h"
 #include "kirikiri2/lib/std/math.h"
-#include "kirikiri2/lib/std/queue.h"
 #include "kirikiri2/lib/std/stack.h"
 #include "kirikiri2/lib/std/string.h"
 #include "kirikiri2/lib/std/utility.h"

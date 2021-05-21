@@ -38,7 +38,7 @@ public:
 				return *it;
 		}
 
-		error("Invalid index");
+		// error("Invalid index");
 	}
 };
 } // namespace std
