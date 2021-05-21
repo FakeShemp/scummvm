@@ -23,6 +23,7 @@ note:
 	are not given here.
 */
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 static time_t TJSParseDateString(const tjs_char *str) {
@@ -84,7 +85,7 @@ else if (numparams >= 1) {
 }
 
 return TJS_S_OK;
-}
+} // namespace KiriKiri2
 TJS_END_NATIVE_CONSTRUCTOR_DECL(/*TJS class name*/ Date)
 //----------------------------------------------------------------------
 TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ setYear) {
@@ -331,5 +332,5 @@ tTJSNativeInstance *tTJSNC_Date::CreateNativeInstance() {
 }
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+}
 //---------------------------------------------------------------------------

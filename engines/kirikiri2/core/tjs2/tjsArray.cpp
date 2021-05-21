@@ -27,6 +27,7 @@
 #define TJS_ARRAY_BASE_HASH_BITS 3
 /* hash bits for base "Object" hash */
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 static tjs_int32 ClassID_Array;
@@ -890,7 +891,7 @@ TJS_BEGIN_NATIVE_PROP_DECL(length){
 if (result)
 	*result = (tTVInteger)(ni->Items.size());
 return TJS_S_OK;
-}
+} // namespace KiriKiri2
 TJS_END_NATIVE_PROP_GETTER
 
 TJS_BEGIN_NATIVE_PROP_SETTER {
@@ -1692,3 +1693,4 @@ tjs_int TJSCopyArrayElementTo(iTJSDispatch2 *dsp,
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

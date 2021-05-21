@@ -11,6 +11,7 @@
 #include "kirikiri2/core/tjs2/tjs.h"
 #include "kirikiri2/lib/std/limits.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 tjsConstArrayData::~tjsConstArrayData() {
@@ -322,3 +323,4 @@ std::vector<tjs_uint8> *tjsConstArrayData::ExportBuffer() {
 }
 
 } // namespace TJS
+}

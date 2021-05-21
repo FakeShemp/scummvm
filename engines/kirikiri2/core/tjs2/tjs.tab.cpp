@@ -108,6 +108,7 @@
 /* lexical analyzer */
 #define lx (sb->GetLexicalAnalyzer())
 
+namespace KiriKiri2 {
 namespace TJS {
 
 /* yylex/yyerror prototype decl */
@@ -4218,3 +4219,4 @@ yyreturn:
 #line 869 "syntax/tjs.y"
 
 } // namespace TJS
+}

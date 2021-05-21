@@ -13,6 +13,7 @@
 
 #include "kirikiri2/core/tjs2/tjsObject.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 TJS_EXP_FUNC_DEF(tjs_int32, TJSRegisterNativeClass, (const tjs_char *name));
@@ -465,5 +466,5 @@ protected:
 };
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+}
 #endif

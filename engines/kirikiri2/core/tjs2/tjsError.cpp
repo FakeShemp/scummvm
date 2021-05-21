@@ -16,6 +16,7 @@
 
 #define TJS_MAX_TRACE_TEXT_LEN 1500
 
+namespace KiriKiri2 {
 namespace TJS {
 
 //---------------------------------------------------------------------------
@@ -249,7 +250,7 @@ void TJSThrowFrom_tjs_error(tjs_error hr, const tjs_char *name) {
 ttstr TJSNonamedException = TJS_W("No-named exception");
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+} // namespace KiriKiri2
 #define TJS_DECL_MESSAGE_BODY
 #undef tjsErrorH
 #include "tjsError.h"

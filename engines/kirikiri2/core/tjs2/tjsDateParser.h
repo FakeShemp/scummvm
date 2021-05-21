@@ -14,6 +14,7 @@
 #include "kirikiri2/core/tjs2/tjsTypes.h"
 #include "kirikiri2/core/tjs2/tjsdate.tab.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 //---------------------------------------------------------------------------
@@ -79,4 +80,5 @@ private:
 
 //---------------------------------------------------------------------------
 } // namespace TJS
+} // namespace KiriKiri2
 #endif

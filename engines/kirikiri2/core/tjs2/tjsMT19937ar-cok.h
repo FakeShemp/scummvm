@@ -6,6 +6,7 @@
    C++ wrapped version by W.Dee <dee@kikyou.info>
 */
 
+namespace KiriKiri2 {
 namespace TJS {
 
 #define TJS_MT_N 624
@@ -52,5 +53,5 @@ public:
 };
 
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

@@ -14,6 +14,7 @@
 #include "kirikiri2/core/tjs2/tjsString.h"
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSCriticalSection ( implement on each platform for multi-threading support )
@@ -185,5 +186,5 @@ TJS_EXP_FUNC_DEF(void, TJSAlignedDealloc, (void *ptr));
 TJS_EXP_FUNC_DEF(tjs_uint32, TJSGetFPClass, (tjs_real r));
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

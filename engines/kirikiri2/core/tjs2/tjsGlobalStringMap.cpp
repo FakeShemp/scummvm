@@ -23,6 +23,7 @@
 
 #define TJS_GLOBAL_STRING_MAP_SIZE 5000
 
+namespace KiriKiri2 {
 namespace TJS {
 
 //---------------------------------------------------------------------------
@@ -114,3 +115,4 @@ ttstr TJSMapGlobalStringMap(const ttstr &string) {
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

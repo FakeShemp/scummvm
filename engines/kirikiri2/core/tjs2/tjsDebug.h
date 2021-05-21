@@ -18,6 +18,7 @@
 #include <string>
 #endif ENABLE_DEBUGGER
 
+namespace KiriKiri2 {
 namespace TJS {
 
 #ifdef ENABLE_DEBUGGER
@@ -131,5 +132,5 @@ extern void TJSDebuggerClearLocalVariable(const tjs_char *classname);
 #endif // ENABLE_DEBUGGER
 
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

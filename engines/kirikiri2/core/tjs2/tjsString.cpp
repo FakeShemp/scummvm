@@ -18,6 +18,7 @@
 
 #define TJS_TTSTR_SPRINTF_BUF_SIZE 8192
 
+namespace KiriKiri2 {
 namespace TJS {
 const tjs_char *TJSNullStrPtr = TJS_W("");
 //---------------------------------------------------------------------------
@@ -306,3 +307,4 @@ tTJSString TJSInt32ToHex(tjs_uint32 num, int zeropad) {
 }
 //---------------------------------------------------------------------------
 } // namespace TJS
+}

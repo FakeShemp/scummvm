@@ -17,6 +17,7 @@
 
 // note: this TJS class cannot be inherited
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSStringAppender
@@ -271,5 +272,5 @@ TJS_EXP_FUNC_DEF(tjs_int, TJSCopyArrayElementTo, (iTJSDispatch2 * dsp, tTJSVaria
 //---------------------------------------------------------------------------
 
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

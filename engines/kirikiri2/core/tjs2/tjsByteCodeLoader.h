@@ -15,6 +15,7 @@
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 #include "kirikiri2/lib/std/vector.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 /**
  * TJS2 バイトコードを読み込んで、ScriptBlock を返す
@@ -117,4 +118,5 @@ private:
 };
 
 } // namespace TJS
+} // namespace KiriKiri2
 #endif // tjsByteCodeLoaderH

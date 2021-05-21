@@ -18,6 +18,7 @@
 
 #include "kirikiri2/lib/std/list.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSScriptBlock - a class for managing the script block
@@ -151,5 +152,5 @@ public:
 };
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

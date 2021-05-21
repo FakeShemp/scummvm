@@ -12,6 +12,7 @@
 #ifndef KIRIKIRI2_CORE_TJS2_TJS_INTER_CODE_EXEC_H
 #define KIRIKIRI2_CORE_TJS2_TJS_INTER_CODE_EXEC_H
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 extern void TJSVariantArrayStackAddRef();
@@ -20,5 +21,5 @@ extern void TJSVariantArrayStackCompact();
 extern void TJSVariantArrayStackCompactNow();
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

@@ -16,6 +16,7 @@
 #include "kirikiri2/core/tjs2/tjsNative.h"
 #include "kirikiri2/core/tjs2/tjsObject.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSDictionaryClass : Dictoinary Class
@@ -179,4 +180,5 @@ TJS_EXP_FUNC_DEF(iTJSDispatch2 *, TJSCreateDictionaryObject, (iTJSDispatch2 **cl
 
 //---------------------------------------------------------------------------
 } // namespace TJS
+} // namespace KiriKiri2
 #endif

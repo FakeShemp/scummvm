@@ -16,6 +16,7 @@
 #include "kirikiri2/core/tjs2/tjsHashSearch.h"
 #include "kirikiri2/core/tjs2/tjsUtils.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 //---------------------------------------------------------------------------
@@ -83,4 +84,5 @@ public:
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+} // namespace KiriKiri2
 #endif

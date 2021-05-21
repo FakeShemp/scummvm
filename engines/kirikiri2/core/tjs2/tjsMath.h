@@ -13,21 +13,19 @@
 
 #include "kirikiri2/core/tjs2/tjsNative.h"
 
-
-namespace TJS
-{
+namespace KiriKiri2 {
+namespace TJS {
 
 //---------------------------------------------------------------------------
-class tTJSNC_Math : public tTJSNativeClass
-{
+class tTJSNC_Math : public tTJSNativeClass {
 public:
 	tTJSNC_Math();
+
 private:
 	static tjs_uint32 ClassID;
-
 };
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+} // namespace KiriKiri2
 
 #endif

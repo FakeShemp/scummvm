@@ -24,6 +24,7 @@ extern bool tjsEnableDicFuncQuickHack;
 // These replacing is applied for expression which starts with "%[" or "[",
 // may cause some sideeffects....
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 extern tjs_int TJSHexNum(tjs_char ch) throw();
@@ -130,5 +131,5 @@ public:
 //---------------------------------------------------------------------------
 
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

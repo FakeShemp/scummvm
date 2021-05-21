@@ -12,6 +12,7 @@
 
 #include "kirikiri2/core/tjs2/tjsUtils.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 iTJSDispatch2 *TJSObjectTraceTarget;
@@ -227,3 +228,4 @@ tjs_uint32 TJSGetFPClass(tjs_real r) {
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

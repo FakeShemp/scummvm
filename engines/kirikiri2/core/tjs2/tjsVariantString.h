@@ -12,9 +12,10 @@
 #define KIRIKIRI2_CORE_TJS2_TJS_VARIANT_STRING_H
 
 #include "kirikiri2/core/tjs2/tjsConfig.h"
+#include "kirikiri2/lib/std/string.h"
 #include <stdlib.h>
-#include <string.h>
 
+namespace KiriKiri2 {
 namespace TJS {
 
 // #define TJS_DEBUG_UNRELEASED_STRING
@@ -238,4 +239,5 @@ TJS_EXP_FUNC_DEF(tTJSVariantString *, TJSFormatString, (const tjs_char *format, 
 
 //---------------------------------------------------------------------------
 } // namespace TJS
+} // namespace KiriKiri2
 #endif

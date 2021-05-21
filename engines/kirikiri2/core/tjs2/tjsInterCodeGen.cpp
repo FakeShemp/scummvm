@@ -35,6 +35,7 @@
 */
 
 //---------------------------------------------------------------------------
+namespace KiriKiri2 {
 namespace TJS // following is in the namespace
 {
 //---------------------------------------------------------------------------
@@ -3761,3 +3762,4 @@ std::vector<tjs_uint8> *tTJSInterCodeContext::ExportByteCode(bool outputdebug, t
 
 //---------------------------------------------------------------------------
 } // namespace TJS
+}

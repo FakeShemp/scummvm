@@ -12,6 +12,7 @@
 #include "kirikiri2/core/tjs2/tjsGlobalStringMap.h"
 #include "kirikiri2/core/tjs2/tjsScriptBlock.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 bool tTJSByteCodeLoader::IsTJS2ByteCode(const tjs_uint8 *buff) {
@@ -717,3 +718,4 @@ void tTJSByteCodeLoader::TranslateCodeAddress(tTJSScriptBlock *block, tjs_int32 
 }
 
 } // namespace TJS
+}

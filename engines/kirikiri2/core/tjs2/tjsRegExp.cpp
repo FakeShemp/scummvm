@@ -17,6 +17,7 @@
 
 using namespace boost;
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // Flags
@@ -268,7 +269,7 @@ tTJSNC_RegExp::tTJSNC_RegExp() : tTJSNativeClass(TJS_W("RegExp")){
 } // namespace TJS
 
 return TJS_S_OK;
-}
+} // namespace KiriKiri2
 TJS_END_NATIVE_CONSTRUCTOR_DECL(/*TJS class name*/ RegExp)
 //----------------------------------------------------------------------
 TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ compile) {
@@ -733,3 +734,4 @@ iTJSDispatch2 *TJSCreateRegExpClass() {
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

@@ -18,6 +18,7 @@
 #endif
 #include "kirikiri2/core/tjs2/tjsVariantString.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 /*[*/
 //---------------------------------------------------------------------------
@@ -448,4 +449,5 @@ typedef tTJSString ttstr;
 /*]*/
 //---------------------------------------------------------------------------
 } // namespace TJS
+} // namespace KiriKiri2
 #endif

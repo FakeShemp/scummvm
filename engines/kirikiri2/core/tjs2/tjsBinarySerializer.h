@@ -16,6 +16,7 @@
 #include "kirikiri2/lib/std/limits.h"
 #include "kirikiri2/lib/std/vector.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 /**
  * バイナリ形式でデータをストリーム書き出しするためのクラス
@@ -409,4 +410,5 @@ private:
 };
 
 } // namespace TJS
+} // namespace KiriKiri2
 #endif // tjsBinarySerializerH

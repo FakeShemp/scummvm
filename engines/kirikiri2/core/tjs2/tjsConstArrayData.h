@@ -14,9 +14,10 @@
 #include "kirikiri2/core/tjs2/tjsTypes.h"
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 #include "kirikiri2/lib/std/map.h"
+#include "kirikiri2/lib/std/string.h"
 #include "kirikiri2/lib/std/vector.h"
-#include <string>
 
+namespace KiriKiri2 {
 namespace TJS {
 /**
  * TJS2 バイトコード書き出しで Variant 型を分離し、固有型で保持するためのクラス
@@ -129,4 +130,5 @@ public:
 };
 
 } // namespace TJS
+} // namespace KiriKiri2
 #endif // tjsConstArrayDataH

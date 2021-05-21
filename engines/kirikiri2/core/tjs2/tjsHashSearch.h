@@ -19,6 +19,7 @@
 
 // #define TJS_HS_DEBUG_CHAIN  // to debug chain algorithm
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSHashFunc : Hash function object
@@ -584,6 +585,7 @@ public:
 };
 //---------------------------------------------------------------------------
 } // namespace TJS
+} // namespace KiriKiri2
 //---------------------------------------------------------------------------
 
 #endif

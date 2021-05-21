@@ -16,6 +16,7 @@
 #include "kirikiri2/core/tjs2/tjsDebug.h"
 #include "kirikiri2/core/tjs2/tjsDictionary.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 static tjs_int32 ClassID_Dictionary;
@@ -694,3 +695,4 @@ iTJSDispatch2 *TJSCreateDictionaryObject(iTJSDispatch2 **classout) {
 
 //---------------------------------------------------------------------------
 } // namespace TJS
+}

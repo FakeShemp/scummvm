@@ -15,6 +15,7 @@
 #include "kirikiri2/core/tjs2/tjsGlobalStringMap.h"
 #include "kirikiri2/core/tjs2/tjsNative.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // NativeClass registration
@@ -417,3 +418,4 @@ tjs_error TJS_INTF_METHOD tTJSNativeFunction::IsInstanceOf(
 }
 //---------------------------------------------------------------------------
 } // namespace TJS
+}

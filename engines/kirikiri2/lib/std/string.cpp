@@ -20,15 +20,39 @@
  *
  */
 
-// Dummy include of STD mockup headers so they'll appear in the Visual Studio project
-
-#include "kirikiri2/lib/std/algorithm.h"
-#include "kirikiri2/lib/std/functional.h"
-#include "kirikiri2/lib/std/limits.h"
-#include "kirikiri2/lib/std/list.h"
-#include "kirikiri2/lib/std/map.h"
-#include "kirikiri2/lib/std/math.h"
-#include "kirikiri2/lib/std/queue.h"
 #include "kirikiri2/lib/std/string.h"
-#include "kirikiri2/lib/std/utility.h"
-#include "kirikiri2/lib/std/vector.h"
+#include "common/algorithm.h"
+
+namespace KiriKiri2 {
+namespace Std {
+
+const char *const endl = "\n";
+
+Common::String to_uppercase(const Common::String &s) {
+	Common::String str = s;
+	Common::String::iterator X;
+	for (X = str.begin(); X != str.end(); ++X)
+		*X = toupper(*X);
+
+	return str;
+}
+
+string::string(size_t n, char c) : Common::String() {
+	ensureCapacity(n, false);
+	for (size_t idx = 0; idx < n; ++idx)
+		(*this) += c;
+}
+
+void string::resize(size_t count) {
+	if (count == 0)
+		clear();
+	else if (count < size())
+		*this = string(_str, _str + count);
+	else {
+		while (size() < count)
+			*this += ' ';
+	}
+}
+
+} // End of namespace Std
+} // namespace KiriKiri2

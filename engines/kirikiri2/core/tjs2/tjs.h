@@ -19,6 +19,7 @@
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 #include "kirikiri2/lib/std/vector.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 //---------------------------------------------------------------------------
@@ -248,4 +249,5 @@ public:
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+} // namespace KiriKiri2
 #endif

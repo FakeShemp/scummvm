@@ -12,6 +12,7 @@
 #ifndef KIRIKIRI2_CORE_TJS2_TJS_ERROR_DEFS_H
 #define KIRIKIRI2_CORE_TJS2_TJS_ERROR_DEFS_H
 
+namespace KiriKiri2 {
 namespace TJS {
 
 // #define TJS_STRICT_ERROR_CODE_CHECK
@@ -69,5 +70,5 @@ static inline bool TJSIsObjectValid(tjs_error hr) {
 /*]*/
 
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

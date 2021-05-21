@@ -14,6 +14,7 @@
 #include "kirikiri2/core/tjs2/tjsString.h"
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // this class maps message and its object
@@ -70,5 +71,5 @@ public:
 };
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

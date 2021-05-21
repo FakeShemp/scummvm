@@ -52,7 +52,8 @@ boost / config / stdlib / libstdcpp3.hpp : insert this to the beginning of the f
 
 #endif
 
-	   namespace TJS {
+	   namespace KiriKiri2 {
+	namespace TJS {
 	typedef boost::reg_expression<tjs_char> tTJSRegEx;
 	//---------------------------------------------------------------------------
 	// tTJSNI_RegExp
@@ -105,6 +106,6 @@ boost / config / stdlib / libstdcpp3.hpp : insert this to the beginning of the f
 	extern iTJSDispatch2 *TJSCreateRegExpClass();
 	//---------------------------------------------------------------------------
 
-} // namespace TJS
-
+	} // namespace TJS
+}
 #endif

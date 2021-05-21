@@ -37,6 +37,7 @@ int _USERENTRY _matherrl(struct _exception *e) {
 #endif
 //---------------------------------------------------------------------------
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSNC_Math : TJS Native Class : Math
@@ -354,7 +355,7 @@ TJS_BEGIN_NATIVE_PROP_DECL(LOG2E){
 	TJS_BEGIN_NATIVE_PROP_GETTER{
 			*result = M_LOG2E;
 return TJS_S_OK;
-}
+} // namespace KiriKiri2
 TJS_END_NATIVE_PROP_GETTER
 
 TJS_DENY_NATIVE_PROP_SETTER
@@ -432,3 +433,4 @@ TJS_END_NATIVE_MEMBERS
 } // tTJSNC_Math::tTJSNC_Math()
 //---------------------------------------------------------------------------
 } // namespace TJS
+}

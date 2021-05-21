@@ -16,6 +16,7 @@
 #include "kirikiri2/core/tjs2/tjsUtils.h"
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSVariantOctet related
@@ -1180,3 +1181,4 @@ void tTJSVariant::Persist(tjs_uint8 *dest) {
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

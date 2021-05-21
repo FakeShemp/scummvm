@@ -12,6 +12,7 @@
 
 #include "kirikiri2/core/tjs2/tjsInterface.h"
 #include "kirikiri2/core/tjs2/tjsNamespace.h"
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSLocalSymbolList
@@ -233,3 +234,4 @@ void tTJSLocalNamespace::Clear(void) {
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

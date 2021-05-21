@@ -15,6 +15,7 @@
 #include "kirikiri2/core/tjs2/tjsInterCodeGen.h"
 #include "kirikiri2/core/tjs2/tjsScriptBlock.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 int yyparse(void *);
@@ -949,3 +950,4 @@ void tTJSScriptBlock::TranslateCodeAddress(tjs_int32 *code, const tjs_int32 code
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

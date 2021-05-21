@@ -24,6 +24,7 @@
 #include "kirikiri2/core/tjs2/tjsDebug.h"
 #endif // ENABLE_DEBUGGER
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 //
@@ -740,4 +741,5 @@ public:
 };
 //---------------------------------------------------------------------------
 } // namespace TJS
+} // namespace KiriKiri2
 #endif

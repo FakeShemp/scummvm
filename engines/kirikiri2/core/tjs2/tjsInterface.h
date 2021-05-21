@@ -14,6 +14,7 @@
 #include "kirikiri2/core/tjs2/tjsConfig.h"
 #include "kirikiri2/core/tjs2/tjsErrorDefs.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 
@@ -332,6 +333,6 @@ public:
 //---------------------------------------------------------------------------
 
 } // namespace TJS
-
-using namespace TJS;
+} // namespace KiriKiri2
+using namespace KiriKiri2::TJS;
 #endif

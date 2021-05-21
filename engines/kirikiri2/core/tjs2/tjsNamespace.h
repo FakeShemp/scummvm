@@ -15,6 +15,7 @@
 #include "kirikiri2/lib/std/vector.h"
 using namespace KiriKiri2::std;
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 class iTJSDispatch;
@@ -124,4 +125,5 @@ public:
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+} // namespace KiriKiri2
 #endif

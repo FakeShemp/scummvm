@@ -17,6 +17,7 @@
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 #include "kirikiri2/lib/std/vector.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // utility functions
@@ -580,5 +581,5 @@ TJS_EXP_FUNC_DEF(iTJSDispatch2 *, TJSCreateCustomObject, ());
 //---------------------------------------------------------------------------
 
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

@@ -53,6 +53,7 @@
 
 #include "kirikiri2/core/tjs2/tjsMT19937ar-cok.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 /* Period parameters */
@@ -293,3 +294,4 @@ void tTJSMersenneTwister::SetData(const tTJSMersenneTwisterData &rhs) {
 }
 
 } // namespace TJS
+}

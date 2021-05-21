@@ -13,6 +13,7 @@
 
 #include "kirikiri2/core/tjs2/tjsString.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSGlobalStringMap - hash map to keep constant strings shared
@@ -22,5 +23,5 @@ extern void TJSReleaseGlobalStringMap();
 TJS_EXP_FUNC_DEF(ttstr, TJSMapGlobalStringMap, (const ttstr &string));
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

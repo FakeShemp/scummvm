@@ -25,6 +25,7 @@
 #include "debugger.h"
 #endif // ENABLE_DEBUGGER
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // utility functions
@@ -3013,3 +3014,4 @@ tTJSInterCodeContext::Operation(tjs_uint32 flag, const tjs_char *membername,
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

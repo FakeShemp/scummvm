@@ -15,6 +15,7 @@
 #include "kirikiri2/core/tjs2/tjsNative.h"
 #include <time.h>
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 class tTJSNI_Date : public tTJSNativeInstance {
@@ -37,5 +38,5 @@ private:
 };
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

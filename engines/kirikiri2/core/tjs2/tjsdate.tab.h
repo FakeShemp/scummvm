@@ -1,3 +1,4 @@
+namespace KiriKiri2 {
 namespace TJS {
 
 /* A Bison parser, made by GNU Bison 2.4.1.  */
@@ -65,3 +66,4 @@ typedef union YYSTYPE {
 #endif
 
 } // namespace TJS
+}

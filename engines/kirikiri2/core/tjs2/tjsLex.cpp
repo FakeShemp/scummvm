@@ -21,6 +21,7 @@
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 #include "kirikiri2/lib/std/math.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 tjs_nchar tjsEnableDicFuncQuickHack_mark[] = " - 0 <- Put '1' to enable dicfunc quick-hack - ";
@@ -1797,3 +1798,4 @@ void tTJSLexicalAnalyzer::SetNextIsBareWord(void) {
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

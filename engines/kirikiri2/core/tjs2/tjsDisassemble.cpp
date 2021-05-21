@@ -15,6 +15,7 @@
 #include "kirikiri2/core/tjs2/tjsUtils.h"
 
 //---------------------------------------------------------------------------
+namespace KiriKiri2 {
 namespace TJS // following is in the namespace
 {
 //---------------------------------------------------------------------------
@@ -632,3 +633,4 @@ void tTJSInterCodeContext::DisassenbleSrcLine(tjs_int codepos) {
 }
 //---------------------------------------------------------------------------
 } // namespace TJS
+}

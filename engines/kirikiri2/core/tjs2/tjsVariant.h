@@ -22,6 +22,7 @@
 #include "kirikiri2/core/tjs2/tjsString.h"
 #include "kirikiri2/core/tjs2/tjsVariantString.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 TJS_EXP_FUNC_DEF(void, TJSThrowNullAccess, ());
 TJS_EXP_FUNC_DEF(void, TJSThrowDivideByZero, ());
@@ -1198,4 +1199,5 @@ public:
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+} // namespace KiriKiri2
 #endif

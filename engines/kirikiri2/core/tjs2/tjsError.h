@@ -20,6 +20,7 @@
 #include <stdexcept>
 #include <string>
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 extern ttstr TJSNonamedException;
@@ -340,5 +341,5 @@ TJS_MSG_DECL(TJSByteCodeBroken, TJS_W("Bytecode read error. File is broken or it
 
 } // namespace TJS
 //---------------------------------------------------------------------------
-
+}
 #endif // #ifndef tjsErrorH

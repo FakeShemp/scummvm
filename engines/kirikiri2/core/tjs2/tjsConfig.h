@@ -13,6 +13,7 @@
 #ifndef KIRIKIRI2_CORE_TJS2_TJS_CONFIG_H
 #define KIRIKIRI2_CORE_TJS2_TJS_CONFIG_H
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 
@@ -166,5 +167,5 @@ public:
 //---------------------------------------------------------------------------
 
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

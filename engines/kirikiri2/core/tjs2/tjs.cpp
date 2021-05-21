@@ -30,6 +30,7 @@
 #include "kirikiri2/lib/std/map.h"
 #include <assert.h>
 
+namespace KiriKiri2 {
 namespace TJS {
 #ifndef TJS_NO_REGEXP
 extern iTJSDispatch2 *TJSCreateRegExpClass();
@@ -630,3 +631,4 @@ tjs_uint16 tTJSBinaryStream::ReadI16LE() {
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

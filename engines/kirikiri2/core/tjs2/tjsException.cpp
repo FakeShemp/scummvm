@@ -12,6 +12,7 @@
 
 #include "kirikiri2/core/tjs2/tjsException.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 //---------------------------------------------------------------------------
@@ -50,3 +51,4 @@ tTJSNC_Exception::tTJSNC_Exception() : tTJSNativeClass(TJS_W("Exception")) {
 } // tTJSNC_Exception::tTJSNC_Exception()
 //---------------------------------------------------------------------------
 } // namespace TJS
+}

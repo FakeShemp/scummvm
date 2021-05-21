@@ -17,6 +17,7 @@
 #include "kirikiri2/core/tjs2/tjsObject.h"
 #include "kirikiri2/core/tjs2/tjsUtils.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 //---------------------------------------------------------------------------
@@ -1913,3 +1914,4 @@ iTJSDispatch2 *TJSCreateCustomObject() {
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

@@ -16,6 +16,7 @@
 #include "kirikiri2/core/tjs2/tjsNative.h"
 #include <time.h>
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 extern void (*TJSGetRandomBits128)(void *dest);
@@ -56,5 +57,5 @@ private:
 };
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

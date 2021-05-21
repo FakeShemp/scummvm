@@ -20,6 +20,7 @@
 
 // currently this object holds only anonymous, single-context expression.
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSScriptCache - a class to cache script blocks
@@ -211,3 +212,4 @@ void tTJSScriptCache::LoadByteCode(const tjs_uint8 *buff, size_t len, tTJSVarian
 }
 //---------------------------------------------------------------------------
 } // namespace TJS
+}

@@ -23,6 +23,7 @@
 extern HWND TVPGetApplicationWindowHandle();
 #endif // ENABLE_DEBUGGER
 
+namespace KiriKiri2 {
 namespace TJS {
 
 //---------------------------------------------------------------------------
@@ -1331,3 +1332,4 @@ void TJSDebuggerLog(const ttstr &line, bool impotant) {
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

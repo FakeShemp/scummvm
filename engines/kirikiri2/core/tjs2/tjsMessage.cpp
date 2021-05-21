@@ -13,6 +13,7 @@
 #include "kirikiri2/core/tjs2/tjsHashSearch.h"
 #include "kirikiri2/core/tjs2/tjsMessage.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 //---------------------------------------------------------------------------
@@ -130,3 +131,4 @@ ttstr TJSGetMessageMapMessage(const tjs_char *name) {
 }
 //---------------------------------------------------------------------------
 } // namespace TJS
+}

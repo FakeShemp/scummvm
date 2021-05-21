@@ -13,19 +13,19 @@
 
 #include "kirikiri2/core/tjs2/tjsNative.h"
 
-namespace TJS
-{
+namespace KiriKiri2 {
+namespace TJS {
 //---------------------------------------------------------------------------
 // tTJSNC_Exception
 //---------------------------------------------------------------------------
-class tTJSNC_Exception : public tTJSNativeClass
-{
+class tTJSNC_Exception : public tTJSNativeClass {
 public:
 	tTJSNC_Exception();
+
 private:
 	static tjs_uint32 ClassID;
 };
 //---------------------------------------------------------------------------
 } // namespace TJS
-
+} // namespace KiriKiri2
 #endif

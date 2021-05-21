@@ -102,6 +102,7 @@
 #define YYPARSE_PARAM pm
 #define YYLEX_PARAM pm
 
+namespace KiriKiri2 {
 namespace TJS {
 
 /* yylex/yyerror prototype decl */
@@ -1722,3 +1723,4 @@ yyreturn:
 #line 239 "tjsdate.y"
 
 } // namespace TJS
+}

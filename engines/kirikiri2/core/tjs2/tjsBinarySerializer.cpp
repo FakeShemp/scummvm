@@ -12,6 +12,7 @@
 #include "kirikiri2/core/tjs2/tjsArray.h"
 #include "kirikiri2/core/tjs2/tjsDictionary.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 
 const tjs_uint8 tTJSBinarySerializer::HEADER[tTJSBinarySerializer::HEADER_LENGTH] = {
@@ -352,3 +353,4 @@ tTJSVariant *tTJSBinarySerializer::Read(tTJSBinaryStream *stream) {
 }
 
 } // namespace TJS
+}

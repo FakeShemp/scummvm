@@ -15,6 +15,7 @@
 #include "kirikiri2/core/tjs2/tjsUtils.h"
 #include "kirikiri2/core/tjs2/tjsVariantString.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // throwing error functions
@@ -972,3 +973,4 @@ error:
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}

@@ -17,6 +17,7 @@
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 #include "kirikiri2/core/tjs2/tjspp.tab.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 
@@ -227,3 +228,4 @@ int pplex(YYSTYPE *yylex, void *pm) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 } // namespace TJS
+}

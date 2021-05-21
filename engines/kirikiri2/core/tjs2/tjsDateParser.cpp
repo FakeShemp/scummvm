@@ -17,6 +17,7 @@
 
 #include "kirikiri2/core/tjs2/tjsError.h"
 
+namespace KiriKiri2 {
 namespace TJS {
 //---------------------------------------------------------------------------
 // interface to bison generated parser
@@ -225,3 +226,4 @@ void tTJSDateParser::SetTimeZoneOffset(int v) {
 //---------------------------------------------------------------------------
 
 } // namespace TJS
+}
