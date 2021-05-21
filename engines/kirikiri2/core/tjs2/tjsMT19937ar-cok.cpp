@@ -49,7 +49,7 @@
 
 #include "kirikiri2/core/tjs2/tjsCommHead.h"
 
-#include <stdio.h>
+// #include <stdio.h>
 
 #include "kirikiri2/core/tjs2/tjsMT19937ar-cok.h"
 

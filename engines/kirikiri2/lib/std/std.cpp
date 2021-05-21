@@ -23,12 +23,14 @@
 // Dummy include of STD mockup headers so they'll appear in the Visual Studio project
 
 #include "kirikiri2/lib/std/algorithm.h"
+#include "kirikiri2/lib/std/deque.h"
 #include "kirikiri2/lib/std/functional.h"
 #include "kirikiri2/lib/std/limits.h"
 #include "kirikiri2/lib/std/list.h"
 #include "kirikiri2/lib/std/map.h"
 #include "kirikiri2/lib/std/math.h"
 #include "kirikiri2/lib/std/queue.h"
+#include "kirikiri2/lib/std/stack.h"
 #include "kirikiri2/lib/std/string.h"
 #include "kirikiri2/lib/std/utility.h"
 #include "kirikiri2/lib/std/vector.h"

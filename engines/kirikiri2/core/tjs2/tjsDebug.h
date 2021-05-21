@@ -15,7 +15,7 @@
 
 #ifdef ENABLE_DEBUGGER
 #include "kirikiri2/lib/std/list.h"
-#include <string>
+#include "kirikiri2/lib/std/string.h"
 #endif ENABLE_DEBUGGER
 
 namespace KiriKiri2 {
@@ -23,10 +23,10 @@ namespace TJS {
 
 #ifdef ENABLE_DEBUGGER
 struct ScopeKey {
-	int ClassIndex; //!< �N���X���C���f�b�N�X
-	int FuncIndex;  //!< �֐����C���f�b�N�X
-	int FileIndex;  //!< �t�@�C�����C���f�b�N�X
-	int CodeOffset; //!< VM �R�[�h�I�t�Z�b�g
+	int ClassIndex; //!< クラス名インデックス
+	int FuncIndex;  //!< 関数名インデックス
+	int FileIndex;  //!< ファイル名インデックス
+	int CodeOffset; //!< VM コードオフセット
 
 	ScopeKey()
 		: ClassIndex(-1), FuncIndex(-1), FileIndex(-1), CodeOffset(-1) {}
@@ -46,7 +46,7 @@ struct ScopeKey {
 		return (ClassIndex != rhs.ClassIndex || FuncIndex != rhs.FuncIndex || FileIndex != rhs.FileIndex || CodeOffset != rhs.CodeOffset);
 	}
 	bool operator<(const ScopeKey &rhs) const {
-		// �N���X�A�֐���
+		// クラス、関数名
 		if (ClassIndex == rhs.ClassIndex) {
 			if (FuncIndex == rhs.FuncIndex) {
 				if (FileIndex == rhs.FileIndex) {

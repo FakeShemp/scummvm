@@ -14,7 +14,7 @@
 #include "kirikiri2/core/tjs2/tjsConfig.h"
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 #include "kirikiri2/lib/std/vector.h"
-#include <deque>
+#include "kirikiri2/lib/std/deque.h"
 
 extern bool tjsEnableDicFuncQuickHack;
 // Defining this enables quick-hack, avoiding the dictionary/array parser

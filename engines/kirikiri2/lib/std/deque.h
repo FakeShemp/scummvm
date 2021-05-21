@@ -20,39 +20,27 @@
  *
  */
 
-#include "kirikiri2/lib/std/string.h"
-#include "common/algorithm.h"
+#ifndef KIRIKIRI2_STD_DEQUE_H
+#define KIRIKIRI2_STD_DEQUE_H
+
+#include "common/queue.h"
 
 namespace KiriKiri2 {
 namespace std {
 
-const char *const endl = "\n";
+template<class VAL>
+class deque : public Common::List<VAL> {
+public:
+	VAL operator[](uint index) {
+		for (typename Common::List<VAL>::iterator it = this->begin();
+			 it != this->end(); ++it, --index) {
+			if (index == 0)
+				return *it;
+		}
 
-Common::String to_uppercase(const Common::String &s) {
-	Common::String str = s;
-	Common::String::iterator X;
-	for (X = str.begin(); X != str.end(); ++X)
-		*X = toupper(*X);
-
-	return str;
-}
-
-string::string(size_t n, char c) : Common::String() {
-	ensureCapacity(n, false);
-	for (size_t idx = 0; idx < n; ++idx)
-		(*this) += c;
-}
-
-void string::resize(size_t count) {
-	if (count == 0)
-		clear();
-	else if (count < size())
-		*this = string(_str, _str + count);
-	else {
-		while (size() < count)
-			*this += ' ';
+		error("Invalid index");
 	}
-}
-
-} // End of namespace Std
+};
+} // namespace std
 } // namespace KiriKiri2
+#endif

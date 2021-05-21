@@ -91,8 +91,8 @@
 
 #include <malloc.h>
 
-#include "tjsDateParser.h"
-#include "tjsTypes.h"
+#include "kirikiri2/core/tjs2/tjsDateParser.h"
+#include "kirikiri2/core/tjs2/tjsTypes.h"
 
 #define YYMALLOC ::malloc
 #define YYREALLOC ::realloc

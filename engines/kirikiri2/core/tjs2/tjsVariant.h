@@ -11,11 +11,11 @@
 #ifndef KIRIKIRI2_CORE_TJS2_TJS_VARIANT_H
 #define KIRIKIRI2_CORE_TJS2_TJS_VARIANT_H
 
-#include <stdlib.h>
+// #include <stdlib.h>
 //#include <stdexcept>
 
 #ifdef TJS_SUPPORT_VCL
-#include <vcl.h>
+// #include <vcl.h>
 #endif
 
 #include "kirikiri2/core/tjs2/tjsInterface.h"

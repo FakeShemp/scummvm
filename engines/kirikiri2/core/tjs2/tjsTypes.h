@@ -89,7 +89,7 @@ typedef double tjs_real;
  #error "-DHAVE_CONFIG_H and config.h required."
 #endif
 */
-#include <stdint.h>
+// #include <stdint.h>
 #include <sys/types.h>
 
 #if defined(__linux__)

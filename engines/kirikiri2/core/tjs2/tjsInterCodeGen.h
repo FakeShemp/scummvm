@@ -18,7 +18,7 @@
 #include "kirikiri2/core/tjs2/tjsVariant.h"
 #include "kirikiri2/lib/std/list.h"
 #include "kirikiri2/lib/std/vector.h"
-#include <stack>
+#include "kirikiri2/lib/std/stack.h"
 
 #ifdef ENABLE_DEBUGGER
 #include "kirikiri2/core/tjs2/tjsDebug.h"

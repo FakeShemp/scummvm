@@ -17,8 +17,8 @@
 #include "kirikiri2/core/tjs2/tjsMessage.h"
 #include "kirikiri2/core/tjs2/tjsString.h"
 #include "kirikiri2/core/tjs2/tjsVariant.h"
-#include <stdexcept>
-#include <string>
+// #include <stdexcept>
+#include "kirikiri2/lib/std/string.h"
 
 namespace KiriKiri2 {
 namespace TJS {

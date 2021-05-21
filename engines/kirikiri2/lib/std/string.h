@@ -26,7 +26,7 @@
 #include "common/str.h"
 
 namespace KiriKiri2 {
-namespace Std {
+namespace std {
 
 class string : public Common::String {
 public:

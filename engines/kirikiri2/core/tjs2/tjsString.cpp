@@ -10,8 +10,8 @@
 //---------------------------------------------------------------------------
 #include "kirikiri2/core/tjs2/tjsCommHead.h"
 
-#include <stdarg.h>
-#include <stdio.h>
+// #include <stdarg.h>
+// #include <stdio.h>
 
 #include "kirikiri2/core/tjs2/tjsString.h"
 #include "kirikiri2/core/tjs2/tjsVariant.h"

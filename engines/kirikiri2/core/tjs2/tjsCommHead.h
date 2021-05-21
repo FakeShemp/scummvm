@@ -23,7 +23,7 @@
 #include <windows.h>
 #endif
 
-#include <string.h>
+#include "kirikiri2/lib/std/string.h"
 #ifndef __USE_UNIX98
 #define __USE_UNIX98
 #endif
@@ -34,14 +34,14 @@
 
 #include "kirikiri2/lib/std/vector.h"
 #include <stdexcept>
-#include <string>
+#include "kirikiri2/lib/std/string.h"
 
 #include "kirikiri2/core/tjs2/tjsConfig.h"
 
 #include "kirikiri2/core/tjs2/tjs.h"
 
-typedef std::basic_string<TJS::tjs_char> stdstring;
-typedef std::basic_string<TJS::tjs_nchar> stdnstring;
+typedef std::basic_string<KiriKiri2::TJS::tjs_char> stdstring;
+typedef std::basic_string<KiriKiri2::TJS::tjs_nchar> stdnstring;
 
 #ifdef TJS_SUPPORT_VCL
 #pragma intrinsic strcpy

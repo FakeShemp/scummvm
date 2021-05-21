@@ -13,7 +13,7 @@
 #define KIRIKIRI2_CORE_TJS2_TJS_ARRAY_H
 
 #include "kirikiri2/core/tjs2/tjsNative.h"
-#include <deque>
+#include "kirikiri2/lib/std/deque.h"
 
 // note: this TJS class cannot be inherited
 

@@ -30,7 +30,7 @@ namespace TJS {
 // TODO: autoconf integration
 
 #include "kirikiri2/core/tjs2/tjsTypes.h"
-#include "stdarg.h"
+// #include "stdarg.h"
 
 // #define TJS_NO_AVOID_ISWDIGIT
 // #define TJS_SUPPORT_VCL

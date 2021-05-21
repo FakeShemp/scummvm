@@ -14,7 +14,7 @@
 
 #include "kirikiri2/core/tjs2/tjsConfig.h"
 #ifdef TJS_SUPPORT_VCL
-#include <vcl.h>
+// #include <vcl.h>
 #endif
 #include "kirikiri2/core/tjs2/tjsVariantString.h"
 

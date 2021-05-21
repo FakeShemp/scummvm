@@ -13,7 +13,7 @@
 
 #include "kirikiri2/core/tjs2/tjsConfig.h"
 #include "kirikiri2/lib/std/string.h"
-#include <stdlib.h>
+// #include <stdlib.h>
 
 namespace KiriKiri2 {
 namespace TJS {

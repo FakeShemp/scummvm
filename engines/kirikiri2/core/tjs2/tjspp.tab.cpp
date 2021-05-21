@@ -91,8 +91,8 @@
 
 #include <malloc.h>
 
-#include "tjs.h"
-#include "tjsCompileControl.h"
+#include "kirikiri2/core/tjs2/tjs.h"
+#include "kirikiri2/core/tjs2/tjsCompileControl.h"
 
 #define YYMALLOC ::malloc
 #define YYREALLOC ::realloc
