@@ -21,6 +21,7 @@
  */
 
 #include "base/plugins.h"
+#include "common/system.h"
 #include "kirikiri2/detection.h"
 #include "kirikiri2/detection_tables.h"
 

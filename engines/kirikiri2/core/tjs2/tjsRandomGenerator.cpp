@@ -14,7 +14,8 @@
 #include "kirikiri2/core/tjs2/tjsError.h"
 #include "kirikiri2/core/tjs2/tjsLex.h"
 #include "kirikiri2/core/tjs2/tjsRandomGenerator.h"
-#include <time.h>
+#include "kirikiri2/kirikiri2.h"
+// #include <time.h>
 
 namespace KiriKiri2 {
 namespace TJS {
@@ -60,7 +61,7 @@ void tTJSNI_RandomGenerator::Randomize(tTJSVariant **param, tjs_int numparams) {
 
 			if (Generator)
 				delete Generator, Generator = NULL;
-			Generator = new tTJSMersenneTwister((unsigned long)time(&tm));
+			Generator = new tTJSMersenneTwister((unsigned long)g_vm->getTime(&tm));
 		}
 	} else if (numparams >= 1) {
 		if (param[0]->Type() == tvtObject) {

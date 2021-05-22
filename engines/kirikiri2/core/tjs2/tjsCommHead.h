@@ -27,13 +27,13 @@
 #ifndef __USE_UNIX98
 #define __USE_UNIX98
 #endif
-#include <malloc.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <wchar.h>
+// #include <malloc.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <wchar.h>
 
 #include "kirikiri2/lib/std/vector.h"
-#include <stdexcept>
+// #include <stdexcept>
 #include "kirikiri2/lib/std/string.h"
 
 #include "kirikiri2/core/tjs2/tjsConfig.h"

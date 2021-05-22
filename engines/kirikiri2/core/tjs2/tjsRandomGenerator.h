@@ -14,7 +14,7 @@
 
 #include "kirikiri2/core/tjs2/tjsMT19937ar-cok.h"
 #include "kirikiri2/core/tjs2/tjsNative.h"
-#include <time.h>
+// #include <time.h>
 
 namespace KiriKiri2 {
 namespace TJS {

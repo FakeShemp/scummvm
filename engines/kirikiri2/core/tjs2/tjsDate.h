@@ -13,7 +13,7 @@
 #define KIRIKIRI2_CORE_TJS2_TJS_DATE_H
 
 #include "kirikiri2/core/tjs2/tjsNative.h"
-#include <time.h>
+// #include <time.h>
 
 namespace KiriKiri2 {
 namespace TJS {

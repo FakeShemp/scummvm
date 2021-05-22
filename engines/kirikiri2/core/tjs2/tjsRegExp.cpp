@@ -13,7 +13,7 @@
 #include "kirikiri2/core/tjs2/tjsArray.h"
 #include "kirikiri2/core/tjs2/tjsRegExp.h"
 
-#include <function.h>
+// #include <function.h>
 
 using namespace boost;
 

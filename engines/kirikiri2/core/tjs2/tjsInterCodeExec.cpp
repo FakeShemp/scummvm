@@ -1361,7 +1361,7 @@ tjs_int tTJSInterCodeContext::ExecuteCode(tTJSVariant *ra_org, tjs_int startip,
 		DEBUGGER_EXCEPTION_HOOK;
 		DisplayExceptionGeneratedCode(codesave - CodeArea, ra_org);
 		TJS_eTJSScriptError(e.GetMessage(), this, codesave - CodeArea);
-	} catch (exception &e) {
+	} catch (std::exception &e) {
 		DEBUGGER_EXCEPTION_HOOK;
 		DisplayExceptionGeneratedCode(codesave - CodeArea, ra_org);
 		TJS_eTJSScriptError(e.what(), this, codesave - CodeArea);

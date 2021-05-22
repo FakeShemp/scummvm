@@ -14,6 +14,7 @@
 #include "kirikiri2/core/tjs2/tjsDate.h"
 #include "kirikiri2/core/tjs2/tjsDateParser.h"
 #include "kirikiri2/core/tjs2/tjsError.h"
+#include "kirikiri2/kirikiri2.h"
 
 /*
 note:
@@ -50,7 +51,7 @@ tTJSNC_Date::tTJSNC_Date() : tTJSNativeClass(TJS_W("Date")){
 																		   /*TJS class name*/ Date){
 											 if (numparams == 0){
 												 time_t curtime;
-_this->DateTime = time(&curtime); // GMT current date/time
+_this->DateTime = g_vm->getTime(&curtime); // GMT current date/time
 } // namespace TJS
 else if (numparams >= 1) {
 	if (param[0]->Type() == tvtString) {
@@ -77,7 +78,7 @@ else if (numparams >= 1) {
 		t.tm_hour = h;
 		t.tm_min = m;
 		t.tm_sec = s;
-		_this->DateTime = mktime(&t);
+		_this->DateTime = g_vm->getMkTime((TimeDate *)&t);
 		if (_this->DateTime == -1)
 			TJS_eTJSError(TJSInvalidValueForTimestamp);
 		//			_this->DateTime -= TJS_timezone;
@@ -94,11 +95,11 @@ TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ setYear) {
 	if (numparams < 1)
 		return TJS_E_BADPARAMCOUNT;
 
-	tm *te = localtime(&_this->DateTime);
+	tm *te = (tm *)g_vm->getLocalTime(&_this->DateTime);
 	tm t;
 	memcpy(&t, te, sizeof(tm));
 	t.tm_year = (tjs_int)param[0]->AsInteger() - 1900;
-	_this->DateTime = mktime(&t);
+	_this->DateTime = g_vm->getMkTime((TimeDate *)&t);
 	if (_this->DateTime == -1)
 		TJS_eTJSError(TJSInvalidValueForTimestamp);
 
@@ -112,11 +113,11 @@ TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ setMonth) {
 	if (numparams < 1)
 		return TJS_E_BADPARAMCOUNT;
 
-	tm *te = localtime(&_this->DateTime);
+	tm *te = (tm *)g_vm->getLocalTime(&_this->DateTime);
 	tm t;
 	memcpy(&t, te, sizeof(tm));
 	t.tm_mon = (tjs_int)param[0]->AsInteger();
-	_this->DateTime = mktime(&t);
+	_this->DateTime = g_vm->getMkTime((TimeDate *)&t);
 	if (_this->DateTime == -1)
 		TJS_eTJSError(TJSInvalidValueForTimestamp);
 
@@ -130,11 +131,11 @@ TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ setDate) {
 	if (numparams < 1)
 		return TJS_E_BADPARAMCOUNT;
 
-	tm *te = localtime(&_this->DateTime);
+	tm *te = (tm *)g_vm->getLocalTime(&_this->DateTime);
 	tm t;
 	memcpy(&t, te, sizeof(tm));
 	t.tm_mday = (tjs_int)param[0]->AsInteger();
-	_this->DateTime = mktime(&t);
+	_this->DateTime = g_vm->getMkTime((TimeDate *)&t);
 	if (_this->DateTime == -1)
 		TJS_eTJSError(TJSInvalidValueForTimestamp);
 
@@ -148,11 +149,11 @@ TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ setHours) {
 	if (numparams < 1)
 		return TJS_E_BADPARAMCOUNT;
 
-	tm *te = localtime(&_this->DateTime);
+	tm *te = (tm *)g_vm->getLocalTime(&_this->DateTime);
 	tm t;
 	memcpy(&t, te, sizeof(tm));
 	t.tm_hour = (tjs_int)param[0]->AsInteger();
-	_this->DateTime = mktime(&t);
+	_this->DateTime = g_vm->getMkTime((TimeDate *)&t);
 	if (_this->DateTime == -1)
 		TJS_eTJSError(TJSInvalidValueForTimestamp);
 
@@ -166,11 +167,11 @@ TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ setMinutes) {
 	if (numparams < 1)
 		return TJS_E_BADPARAMCOUNT;
 
-	tm *te = localtime(&_this->DateTime);
+	tm *te = (tm *)g_vm->getLocalTime(&_this->DateTime);
 	tm t;
 	memcpy(&t, te, sizeof(tm));
 	t.tm_min = (tjs_int)param[0]->AsInteger();
-	_this->DateTime = mktime(&t);
+	_this->DateTime = g_vm->getMkTime((TimeDate *)&t);
 	if (_this->DateTime == -1)
 		TJS_eTJSError(TJSInvalidValueForTimestamp);
 
@@ -184,11 +185,11 @@ TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ setSeconds) {
 	if (numparams < 1)
 		return TJS_E_BADPARAMCOUNT;
 
-	tm *te = localtime(&_this->DateTime);
+	tm *te = (tm *)g_vm->getLocalTime(&_this->DateTime);
 	tm t;
 	memcpy(&t, te, sizeof(tm));
 	t.tm_sec = (tjs_int)param[0]->AsInteger();
-	_this->DateTime = mktime(&t);
+	_this->DateTime = g_vm->getMkTime((TimeDate *)&t);
 	if (_this->DateTime == -1)
 		TJS_eTJSError(TJSInvalidValueForTimestamp);
 
@@ -211,7 +212,7 @@ TJS_END_NATIVE_METHOD_DECL(/*func. name*/ setTime)
 TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ getDate) {
 	TJS_GET_NATIVE_INSTANCE(/*var. name*/ _this, /*var. type*/ tTJSNI_Date);
 
-	tm *t = localtime(&_this->DateTime);
+	tm *t = (tm *)g_vm->getLocalTime(&_this->DateTime);
 
 	if (result)
 		result->CopyRef(tTJSVariant(t->tm_mday));
@@ -223,7 +224,7 @@ TJS_END_NATIVE_METHOD_DECL(/*func. name*/ getDate)
 TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ getDay) {
 	TJS_GET_NATIVE_INSTANCE(/*var. name*/ _this, /*var. type*/ tTJSNI_Date);
 
-	tm *t = localtime(&_this->DateTime);
+	tm *t = (tm *)g_vm->getLocalTime(&_this->DateTime);
 
 	if (result)
 		result->CopyRef(tTJSVariant(t->tm_wday));
@@ -235,7 +236,7 @@ TJS_END_NATIVE_METHOD_DECL(/*func. name*/ getDay)
 TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ getHours) {
 	TJS_GET_NATIVE_INSTANCE(/*var. name*/ _this, /*var. type*/ tTJSNI_Date);
 
-	tm *t = localtime(&_this->DateTime);
+	tm *t = (tm *)g_vm->getLocalTime(&_this->DateTime);
 
 	if (result)
 		result->CopyRef(tTJSVariant(t->tm_hour));
@@ -247,7 +248,7 @@ TJS_END_NATIVE_METHOD_DECL(/*func. name*/ getHours)
 TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ getMinutes) {
 	TJS_GET_NATIVE_INSTANCE(/*var. name*/ _this, /*var. type*/ tTJSNI_Date);
 
-	tm *t = localtime(&_this->DateTime);
+	tm *t = (tm *)g_vm->getLocalTime(&_this->DateTime);
 
 	if (result)
 		result->CopyRef(tTJSVariant(t->tm_min));
@@ -259,7 +260,7 @@ TJS_END_NATIVE_METHOD_DECL(/*func. name*/ getMinutes)
 TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ getMonth) {
 	TJS_GET_NATIVE_INSTANCE(/*var. name*/ _this, /*var. type*/ tTJSNI_Date);
 
-	tm *t = localtime(&_this->DateTime);
+	tm *t = (tm *)g_vm->getLocalTime(&_this->DateTime);
 
 	if (result)
 		result->CopyRef(tTJSVariant(t->tm_mon));
@@ -271,7 +272,7 @@ TJS_END_NATIVE_METHOD_DECL(/*func. name*/ getMonth)
 TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ getSeconds) {
 	TJS_GET_NATIVE_INSTANCE(/*var. name*/ _this, /*var. type*/ tTJSNI_Date);
 
-	tm *t = localtime(&_this->DateTime);
+	tm *t = (tm *)g_vm->getLocalTime(&_this->DateTime);
 
 	if (result)
 		result->CopyRef(tTJSVariant(t->tm_sec));
@@ -303,7 +304,7 @@ TJS_END_NATIVE_METHOD_DECL(/*func. name*/ getTimezoneOffset)
 TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ getYear) {
 	TJS_GET_NATIVE_INSTANCE(/*var. name*/ _this, /*var. type*/ tTJSNI_Date);
 
-	tm *t = localtime(&_this->DateTime);
+	tm *t = (tm *)g_vm->getLocalTime(&_this->DateTime);
 
 	if (result)
 		result->CopyRef(tTJSVariant(t->tm_year + 1900));

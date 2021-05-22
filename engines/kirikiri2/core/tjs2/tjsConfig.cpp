@@ -10,6 +10,7 @@
 //---------------------------------------------------------------------------
 
 #include "kirikiri2/core/tjs2/tjsCommHead.h"
+#include "kirikiri2/kirikiri2.h"
 
 #ifdef TJS_DEBUG_PROFILE_TIME
 #include <windows.h>
@@ -181,7 +182,7 @@ tjs_int TJS_sprintf(tjs_char *s, const tjs_char *format, ...) {
 	tjs_int r;
 	va_list param;
 	va_start(param, format);
-	r = TJS_vsnprintf(s, INT_MAX, format, param);
+	r = TJS_vsnprintf(s, g_vm->INT_MAX, format, param);
 	va_end(param);
 	return r;
 }
@@ -191,7 +192,7 @@ tjs_int TJS_sprintf(tjs_char *s, const tjs_char *format, ...) {
 void TJS_cdecl TJS_debug_out(const tjs_char *format, ...) {
 	va_list param;
 	va_start(param, format);
-	TJS_vfprintf(stderr, format, param);
+	// TJS_vfprintf(stderr, format, param);
 	va_end(param);
 }
 //---------------------------------------------------------------------------

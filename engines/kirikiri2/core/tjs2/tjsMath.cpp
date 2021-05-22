@@ -11,8 +11,9 @@
 #include "kirikiri2/core/tjs2/tjsCommHead.h"
 
 #include "kirikiri2/core/tjs2/tjsMath.h"
+#include "kirikiri2/kirikiri2.h"
 #include "kirikiri2/lib/std/math.h"
-#include <time.h>
+// #include <time.h>
 
 #ifdef __WIN32__
 #ifndef TJS_NO_MASK_MATHERR
@@ -46,8 +47,8 @@ tjs_uint32 tTJSNC_Math::ClassID = (tjs_uint32)-1;
 tTJSNC_Math::tTJSNC_Math() : tTJSNativeClass(TJS_W("Math")) {
 	// constructor
 	time_t time_num;
-	time(&time_num);
-	srand(time_num);
+	g_vm->getTime(&time_num);
+	g_vm->setRandomNumberSeed(time_num);
 
 	/*
 		TJS2 cannot promise that the sequence of generated random numbers are
@@ -269,7 +270,7 @@ tTJSNC_Math::tTJSNC_Math() : tTJSNativeClass(TJS_W("Math")) {
 	TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/ random) {
 		if (result) {
 			TJSSetFPUE();
-			*result = ((tTVReal)((tTVReal)TJS_rand() / (tTVReal)(TJS_RAND_MAX)));
+			*result = ((tTVReal)((tTVReal)g_vm->getRandomNumber(TJS_RAND_MAX) / (tTVReal)(TJS_RAND_MAX)));
 		}
 		return TJS_S_OK;
 	}

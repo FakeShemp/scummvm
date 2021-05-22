@@ -59,6 +59,8 @@ public:
 	virtual ~KiriKiri2Engine();
 	void GUIError(const Common::String &msg);
 
+	const int INT_MAX = 2147483647;
+
 	void set_window_title(const char *str) {
 		// No implementation
 	}
@@ -82,6 +84,29 @@ public:
 	 */
 	void setRandomNumberSeed(uint32 seed) {
 		_randomSource.setSeed(seed);
+	}
+
+	time_t getTime() {
+		// No implementation
+		return g_system->getMillis();
+	}
+
+	time_t getTime(time_t *timer) {
+		// No implementation
+		*timer = g_system->getMillis();
+		return *timer;
+	}
+
+	time_t getMkTime(struct TimeDate *timeptr) {
+		// No implementation
+		return getTime();
+	}
+
+	struct TimeDate *getLocalTime(const time_t *timer) {
+		// No implementation
+		struct TimeDate td;
+		g_system->getTimeAndDate(td);
+		return &td;
 	}
 };
 

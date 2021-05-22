@@ -28,7 +28,7 @@
 #include "kirikiri2/core/tjs2/tjsScriptBlock.h"
 #include "kirikiri2/core/tjs2/tjsScriptCache.h"
 #include "kirikiri2/lib/std/map.h"
-#include <assert.h>
+// #include <assert.h>
 
 namespace KiriKiri2 {
 namespace TJS {

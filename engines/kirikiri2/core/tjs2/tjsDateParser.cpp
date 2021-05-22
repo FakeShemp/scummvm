@@ -10,12 +10,13 @@
 //---------------------------------------------------------------------------
 #include "kirikiri2/core/tjs2/tjsCommHead.h"
 
-#include <time.h>
+// #include <time.h>
 
 #include "kirikiri2/core/tjs2/tjsDateParser.h"
 #include "kirikiri2/core/tjs2/tjsdate.tab.h"
 
 #include "kirikiri2/core/tjs2/tjsError.h"
+#include "kirikiri2/kirikiri2.h"
 
 namespace KiriKiri2 {
 namespace TJS {
@@ -113,7 +114,7 @@ tTJSDateParser::tTJSDateParser(const tjs_char *in) {
 	stm.tm_min = Min;
 	stm.tm_sec = Sec;
 
-	time_t tmv = mktime(&stm);
+	time_t tmv = g_vm->getMkTime((TimeDate *)&stm);
 	if (tmv == -1)
 		TJS_eTJSError(TJSInvalidValueForTimestamp);
 
